@@ -1,0 +1,28 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.emitrom.lienzo</groupId>
+	<artifactId>lienzo</artifactId>
+	<packaging>jar</packaging>
+	<name>Lienzo</name>
+	<version>1.0.0</version>
+	<description>Lienzo by Emitrom</description>
+	<url>http://www.emitrom.com/lienzo</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://emitrom.atlassian.net/svn/LIENZO/trunk/</url>
+		<connection>scm:svn:https://emitrom.atlassian.net/svn/LIENZO/trunk/</connection>
+	</scm>
+	<developers>
+		<developer>
+			<id>lienzo-dev</id>
+			<name>Lienzo Devs</name>
+			<email>lienzo-dev@emitrom.com</email>
+		</developer>
+	</developers>
+</project>

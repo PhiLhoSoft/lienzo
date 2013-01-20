@@ -1,0 +1,34 @@
+This is a list of things that didn't make it into this release (and may never make it in)
+The order of this list is arbitrary.
+
+* DragConstraintEnforcer
+  - should be able to set it on a node (rather than override getDragConstraintsEnforcer() method)
+  - add more built-in functionality, e.g. snap-to-grid 
+  - can we (de)serialize these?
+
+* Math
+  - Transform: more operations e.g. rotate about point etc.
+  - Add classes for working with lines, line segments, intersections
+  - Bounding box (a.k.a. extents) support, hit detection
+  - Clipping during draws
+  - PolyLines/Polygons with arc/curve segments
+
+* Animation
+  - More building blocks
+  - Support for pausing/unpausing
+
+* (De)Serialization to other formats
+  - XML
+  - SVG
+
+* More support for dragging
+  - Rotate around control point
+  - Stretching / Scaling
+  - Shearing
+  - Other building blocks for shape editors
+  
+* Support for zoom, pinch etc.
+  - E.g. invoke one method and it installs the appropriate listeners (for Mouse vs. Touch)
+    for basic zooming/pinching etc.
+  - Zoom full screen to bounding box of all shapes (needs bounding box support)
+  

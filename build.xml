@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (c) 2012 Emitrom LLC. All rights reserved. For licensing questions, please contact us at licensing@emitrom.com
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<project basedir="." name="lienzo" default="jar">
+	<!-- Handy for nightly builds -->
+	<tstamp>
+		<format property="timestamp" pattern="yyyyMMddHHmm" locale="en" />
+	</tstamp>
+
+	<!-- Define the basedir explicitly if we want to import this file -->
+	<dirname property="base.dir" file="${ant.file}" />
+
+	<!-- Load build.properties and overwrite any properties set above -->
+	<property file="${base.dir}/build.properties" />
+
+	<!-- Miscelaneous properties -->
+	<property name="src.dir" value="${base.dir}/src" />
+	<property name="lib.dir" value="${base.dir}/lib" />
+	<property name="yworks.dir" value="${lib.dir}/com/yworks/doclet/3.0_02"/>
+	<property name="javadoc.dir" value="${base.dir}/javadoc" />
+	<property name="build.dir" value="${base.dir}/build" />
+	<property name="release.dir" value="${base.dir}/release" />
+	<property name="stage.dir" value="${base.dir}/stage" />
+	<property name="license.file" value="${base.dir}/LICENSE.txt" />
+
+	<!-- Classpath -->
+	<path id="lienzo.classpath">
+		<pathelement location="${src.dir}" />
+		<pathelement location="${build.dir}" />
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+
+	<!-- Clean -->
+	<target name="clean" description="Deletes the build and stage directories">
+		<delete dir="${build.dir}" />
+		<delete dir="${stage.dir}" />
+		<delete dir="${release.dir}" />
+		<delete dir="${javadoc.dir}" />
+	</target>
+
+	<!-- Prepare -->
+	<target name="prepare">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${stage.dir}" />
+		<mkdir dir="${release.dir}" />
+		<mkdir dir="${javadoc.dir}" />
+	</target>
+
+	<!-- JavaDocs -->
+	<target name="javadocs" depends="javac" description="Generate lienzo Java Docs">
+		<property name="ps" value="${path.separator}"/>
+		
+		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="Lienzo ${version}" classpath="${build.dir}" defaultexcludes="yes">
+			<fileset dir="${src.dir}/com/emitrom/lienzo" >
+				<include name="**/*.java" />
+			</fileset>
+			<doctitle><![CDATA[<h1>Lienzo ${version}</h1>]]></doctitle>
+			<bottom><![CDATA[<i>Copyright &#169; 2012 Emitrom LLC. All Rights Reserved.</i>]]></bottom>
+			<tag name="todo" scope="all" description="To do:" />
+			<group title="Lienzo Framework" packages="com.emitrom.lienzo" />
+			<link offline="true" href="http://download.oracle.com/javase/7/docs/api/" packagelistLoc="javadoc/packagelist" />
+			<link href="http://developer.java.sun.com/developer/products/xml/docs/api/" />
+			
+			<!-- 
+			<doclet name="ydoc.doclets.YStandard"
+    			path="${yworks.dir}/lib/ydoc.jar${ps}${yworks.dir}/resources${ps}${yworks.dir}/doc"
+    			pathref="lienzo.classpath">
+    			<param name="-umlautogen" />
+			</doclet>
+			-->
+		</javadoc>
+	</target>
+	
+	<!-- Compile -->
+	<target name="javac" depends="prepare" description="Compile Java source">
+		<javac srcdir="${src.dir}" includes="**/*.java" encoding="utf-8" destdir="${build.dir}" source="1.6" target="1.6" nowarn="true" debug="true" debuglevel="lines,vars,source">
+			<classpath refid="lienzo.classpath" />
+		</javac>
+	
+		<!-- We need to copy the source files, if not GWT will complain -->
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}" includes="**/*.xml" />
+			<fileset dir="${src.dir}" includes="**/*.java" />
+			<fileset dir="${src.dir}" includes="**/*.properties" />
+		</copy>
+		<!-- Copy the license file -->
+		<copy todir="${build.dir}" file="${license.file}" />
+	</target>
+	
+	<!-- Build Jar -->
+	<target name="jar" depends="javac" description="Creates the lienzo-x.jar file">
+		<jar destfile="${stage.dir}/${ant.project.name}-${version}-${timestamp}.jar" update="true">
+			<fileset dir="${build.dir}" includes="**/*.*" />
+		</jar>
+	</target>
+	
+	<!-- Release -->
+	<target name="release" depends="clean, jar, javadocs" description="Creates the lienzo .zip file that can be released.">
+		<copy file="${stage.dir}/${ant.project.name}-${version}-${timestamp}.jar" tofile="${release.dir}/${ant.project.name}-${version}.jar" />
+		<copy file="${license.file}" todir="${release.dir}" />
+		<copy todir="${release.dir}/javadoc">
+	        <fileset dir="${javadoc.dir}" includes="**/*.*" />
+	    </copy>
+	</target>
+
+	<!-- Zip everything up -->
+	<target name="distribute" depends="release" description="Creates a file ready to be distributed">
+	    <zip basedir="${release.dir}" destfile="${release.dir}/${ant.project.name}-${version}.zip" />
+    </target>
+
+</project>

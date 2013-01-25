@@ -352,7 +352,8 @@ public class TestSerialization extends LienzoTestCase
     
     public void testPatternGradient()
     {
-        Circle c = new Circle(5);
+        @SuppressWarnings("unused")
+		Circle c = new Circle(5);
 //        PatternGradient pattern = new PatternGradient(1,2,3,4);
 //        c.setFillGradient(pattern);
         //TODO ......

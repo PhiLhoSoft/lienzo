@@ -1,10 +1,10 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.emitrom.lienzo</groupId>
+	<groupId>com.emitrom</groupId>
 	<artifactId>lienzo</artifactId>
 	<packaging>jar</packaging>
 	<name>Lienzo</name>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<description>Lienzo by Emitrom</description>
 	<url>http://www.emitrom.com/lienzo</url>
 	<licenses>
@@ -15,8 +15,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<url>https://emitrom.atlassian.net/svn/LIENZO/trunk/</url>
-		<connection>scm:svn:https://emitrom.atlassian.net/svn/LIENZO/trunk/</connection>
+		<connection>scm:git:emitrom@bitbucket.org/emitrom/lienzo.git</connection>
+		<developerConnection>scm:git:emitrom@bitbucket.org/emitrom/lienzo.git</developerConnection>
+		<url>emitrom@bitbucket.org/emitrom/lienzo.git</url>
 	</scm>
 	<developers>
 		<developer>

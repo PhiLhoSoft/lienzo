@@ -1,7 +1,8 @@
-/**
-   Copyright (c) 2012 Emitrom LLC. All rights reserved. For licensing questions, please contact us at licensing@emitrom.com
+/*
+   Copyright (c) 2012 Emitrom LLC. All rights reserved.
+   For licensing questions, please contact us at licensing@emitrom.com
 
-   Licensed under the Apache License, Version 2.0 (the "License", "", "", AttributeType.UNKNOWN_TYPE);
+   Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 

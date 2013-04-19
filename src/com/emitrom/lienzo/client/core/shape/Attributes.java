@@ -244,7 +244,7 @@ public class Attributes extends JavaScriptObject
     public final double getStrokeWidth()
     {
         double w = getDouble(Attribute.STROKE_WIDTH.getProperty());
-        
+
         return w == 0 ? 1 : w; // default strokeWidth to 1 if not set
     }
 
@@ -1133,6 +1133,84 @@ public class Attributes extends JavaScriptObject
         return 0.0;
     }
 
+    public final double getCurveFactor()
+    {
+        if (isDefined(Attribute.CURVE_FACTOR))
+        {
+            double factor = getDouble(Attribute.CURVE_FACTOR.getProperty());
+
+            if (factor <= 0)
+            {
+                return 0.5;
+            }
+            if (factor > 1)
+            {
+                return 1;
+            }
+            return factor;
+        }
+        return 0.5;
+    }
+
+    public final void setCurveFactor(double factor)
+    {
+        if (factor <= 0)
+        {
+            factor = 0.5;
+        }
+        else if (factor > 1)
+        {
+            factor = 1;
+        }
+        put(Attribute.CURVE_FACTOR.getProperty(), factor);
+    }
+
+    public final double getAngleFactor()
+    {
+        if (isDefined(Attribute.ANGLE_FACTOR))
+        {
+            double factor = getDouble(Attribute.ANGLE_FACTOR.getProperty());
+
+            if (factor < 0)
+            {
+                return 0;
+            }
+            if (factor > 1)
+            {
+                return 1;
+            }
+            return factor;
+        }
+        return 0;
+    }
+    
+    public final boolean getLineFlatten()
+    {
+        if (isDefined(Attribute.LINE_FLATTEN))
+        {
+            return getBoolean(Attribute.LINE_FLATTEN.getProperty());
+        }
+        return false;
+    }
+    
+    public final void setLineFlatten(boolean flat)
+    {
+        put(Attribute.LINE_FLATTEN.getProperty(), flat);
+    }
+
+    public final void setAngleFactor(double factor)
+    {
+        if (factor < 0)
+        {
+            factor = 0;
+        }
+        else if (factor > 1)
+        {
+            factor = 1;
+        }
+        put(Attribute.ANGLE_FACTOR.getProperty(), factor);
+    }
+
     public final void put(String name, String value)
     {
         if (null != value)
@@ -1396,4 +1474,5 @@ public class Attributes extends JavaScriptObject
     /*-{
 		return obj[name];
     }-*/;
+
 }

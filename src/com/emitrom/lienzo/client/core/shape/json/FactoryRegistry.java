@@ -37,6 +37,7 @@ import com.emitrom.lienzo.client.core.shape.Rectangle;
 import com.emitrom.lienzo.client.core.shape.RegularPolygon;
 import com.emitrom.lienzo.client.core.shape.Scene;
 import com.emitrom.lienzo.client.core.shape.Slice;
+import com.emitrom.lienzo.client.core.shape.Spline;
 import com.emitrom.lienzo.client.core.shape.Star;
 import com.emitrom.lienzo.client.core.shape.Text;
 import com.emitrom.lienzo.client.core.shape.Triangle;
@@ -51,7 +52,7 @@ import com.emitrom.lienzo.client.core.util.Console;
  */
 public final class FactoryRegistry
 {
-    private static final FactoryRegistry       s_instance   = createRegistry();
+    private static final FactoryRegistry     s_instance   = createRegistry();
 
     private final FastStringMap<IFactory<?>> m_factoryMap = new FastStringMap<IFactory<?>>();
 
@@ -72,7 +73,7 @@ public final class FactoryRegistry
     public final FactoryRegistry registerFactory(IFactory<?> factory)
     {
         String type = factory.getTypeName();
-        
+
         if (null == m_factoryMap.get(type))
         {
             m_factoryMap.put(type, factory);
@@ -106,9 +107,9 @@ public final class FactoryRegistry
 
     private static final FactoryRegistry createRegistry()
     {
-        // Make sure we register the built-in Lienzo types first, 
-        // so that toolkit users can't override them. 
-        
+        // Make sure we register the built-in Lienzo types first,
+        // so that toolkit users can't override them.
+
         FactoryRegistry registry = new FactoryRegistry();
 
         // Primitive types
@@ -149,6 +150,8 @@ public final class FactoryRegistry
 
         registry.registerFactory(new Triangle.TriangleFactory());
 
+        registry.registerFactory(new Spline.SplineFactory());
+
         // Container Types
 
         registry.registerFactory(new Group.GroupFactory());
@@ -156,7 +159,7 @@ public final class FactoryRegistry
         registry.registerFactory(new Layer.LayerFactory());
 
         registry.registerFactory(new GridLayer.GridLayerFactory());
-        
+
         registry.registerFactory(new Scene.SceneFactory());
 
         registry.registerFactory(new Viewport.ViewportFactory());

@@ -154,6 +154,12 @@ public class Attribute
 
     public static final Attribute         MITER_LIMIT                      = new Attribute("miterLimit", M.miterLimitTypeLabel(), M.miterLimitTypeDescription(), AttributeType.NUMBER_TYPE);
 
+    public static final Attribute         CURVE_FACTOR                     = new Attribute("curveFactor", M.curveFactorTypeLabel(), M.curveFactorTypeDescription(), AttributeType.NUMBER_TYPE);
+
+    public static final Attribute         ANGLE_FACTOR                     = new Attribute("angleFactor", M.angleFactorTypeLabel(), M.angleFactorTypeDescription(), AttributeType.NUMBER_TYPE);
+
+    public static final Attribute         LINE_FLATTEN                     = new Attribute("lineFlatten", M.lineFlattenTypeLabel(), M.lineFlattenTypeDescription(), AttributeType.BOOLEAN_TYPE);
+
     private final String                  m_property;
 
     private final String                  m_label;

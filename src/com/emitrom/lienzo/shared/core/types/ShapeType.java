@@ -58,6 +58,8 @@ public class ShapeType
 
     public static final ShapeType TRIANGLE        = new ShapeType("Triangle");
 
+    public static final ShapeType SPLINE          = new ShapeType("Spline");
+
     private final String          m_value;
 
     public ShapeType(String value)

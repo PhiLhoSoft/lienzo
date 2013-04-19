@@ -62,6 +62,31 @@ public final class FastStringMap<V>
         m_jso.remove(key);
     }
 
+    /**
+     * Returns true if the map has a value for the specified key
+     * @param key
+     */
+    public final boolean containsKey(String key)
+    {
+        return m_jso.containsKey(key);
+    }
+
+    /**
+     * Returns the number of key-value mappings in this map
+     */
+    public final int size()
+    {
+        return m_jso.size();
+    }
+
+    /**
+     * Returns true if this map contains no key-value mappings
+     */
+    public final boolean isEmpty()
+    {
+        return (m_jso.size() == 0);
+    }
+
     private static final class FastStringMapJSO<V> extends JavaScriptObject
     {
         protected FastStringMapJSO()
@@ -87,6 +112,25 @@ public final class FastStringMap<V>
         public final native void remove(String key)
         /*-{
 			delete this[key];
+        }-*/;
+
+        public final native boolean containsKey(String key)
+        /*-{
+			return this.hasOwnProperty(String(name));
+        }-*/;
+
+        public final native int size()
+        /*-{
+			var i = 0;
+
+			var self = this;
+
+			for ( var name in self) {
+				if (self.hasOwnProperty(String(name))) {
+					++i;
+				}
+			}
+			return i;
         }-*/;
     }
 }

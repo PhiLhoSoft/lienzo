@@ -91,6 +91,15 @@ public final class FastArrayList<M>
     }
 
     /**
+     * Add a value to the List
+     * @param value
+     */
+    public final void add(int i, M value)
+    {
+        m_jso.add(i, value);
+    }
+
+    /**
      * Return true if the List contains the passed in value.
      * 
      * @param value
@@ -229,6 +238,11 @@ public final class FastArrayList<M>
         public final native void add(M value)
         /*-{
 			this[this.length] = value;
+        }-*/;
+
+        public final native void add(int i, M value)
+        /*-{
+			this[i] = value;
         }-*/;
 
         public final native boolean contains(M value)

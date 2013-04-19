@@ -453,4 +453,22 @@ public interface MessageConstants extends Constants
 
     @DefaultStringValue("The pixel limit Miter LineJoins extend.")
     public String miterLimitTypeDescription();
+
+    @DefaultStringValue("Curve Factor")
+    public String curveFactorTypeLabel();
+
+    @DefaultStringValue("The curvyness factor applied to curves on a spline.")
+    public String curveFactorTypeDescription();
+
+    @DefaultStringValue("Angle Factor")
+    public String angleFactorTypeLabel();
+
+    @DefaultStringValue("The angle factor applied to curves on a spline.")
+    public String angleFactorTypeDescription();
+
+    @DefaultStringValue("Line Flatten")
+    public String lineFlattenTypeLabel();
+
+    @DefaultStringValue("If we flatten 3 co-linear points on a spline.")
+    public String lineFlattenTypeDescription();
 }

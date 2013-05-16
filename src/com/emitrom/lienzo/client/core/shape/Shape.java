@@ -20,6 +20,7 @@ package com.emitrom.lienzo.client.core.shape;
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
 import com.emitrom.lienzo.client.core.Context2D.GradientJSO;
+import com.emitrom.lienzo.client.core.LienzoGlobals;
 import com.emitrom.lienzo.client.core.animation.AnimationProperties;
 import com.emitrom.lienzo.client.core.animation.AnimationTweener;
 import com.emitrom.lienzo.client.core.animation.IAnimationCallback;
@@ -40,7 +41,6 @@ import com.emitrom.lienzo.client.core.types.Shadow;
 import com.emitrom.lienzo.client.widget.DefaultDragConstraintEnforcer;
 import com.emitrom.lienzo.client.widget.DragConstraintEnforcer;
 import com.emitrom.lienzo.shared.core.types.Color;
-import com.emitrom.lienzo.shared.core.types.ColorName;
 import com.emitrom.lienzo.shared.core.types.DragConstraint;
 import com.emitrom.lienzo.shared.core.types.IColor;
 import com.emitrom.lienzo.shared.core.types.LineCap;
@@ -148,15 +148,21 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
      */
     protected void drawWithoutTransforms(Context2D context)
     {
-        Attributes attr = getAttributes();
+        double alpha = getGlobalAlpha();
 
+        if (alpha <= 0)
+        {
+            return;
+        }
         m_apsh = false;
+
+        Attributes attr = getAttributes();
 
         draw(context);
 
-        fill(context, attr);
+        fill(context, attr, alpha);
 
-        stroke(context, attr);
+        stroke(context, attr, alpha);
     }
 
     protected abstract void draw(Context2D context);
@@ -168,10 +174,8 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
      * @param context
      * @param attr
      */
-    protected void fill(Context2D context, Attributes attr)
+    protected void fill(Context2D context, Attributes attr, double alpha)
     {
-        boolean apsh = false;
-
         if (context.isSelection())
         {
             context.save();
@@ -190,31 +194,15 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         {
             context.save();
 
-            if ((attr.isDefined(Attribute.SHADOW)) && (m_apsh == false))
+            if ((m_apsh == false) && (attr.isDefined(Attribute.SHADOW)))
             {
-                apsh = m_apsh = doApplyShadow(context, attr);
+                m_apsh = doApplyShadow(context, attr);
             }
-            double alpha = getGlobalAlpha();
+            context.setGlobalAlpha(getGlobalAlpha());
 
-            if (alpha != 1)
-            {
-                context.setGlobalAlpha(alpha);
-            }
             String fill = attr.getFillColor();
 
-            if (apsh)
-            {
-                if (null != fill)
-                {
-                    context.setFillColor(fill);
-                }
-                else
-                {
-                    context.setFillColor(ColorName.WHITE);
-                }
-                context.fill();
-            }
-            else if (null != fill)
+            if (null != fill)
             {
                 context.setFillColor(fill);
 
@@ -249,11 +237,6 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
                 }
             }
             context.restore();
-
-            if (apsh)
-            {
-                fill(context, attr);
-            }
         }
     }
 
@@ -264,37 +247,36 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
      * @param attr
      * @return boolean
      */
-    protected boolean setStrokeParams(Context2D context, Attributes attr)
+    protected boolean setStrokeParams(Context2D context, Attributes attr, double alpha)
     {
+        double width = attr.getStrokeWidth();
+
         String color = attr.getStrokeColor();
 
+        if (null == color)
+        {
+            if (width > 0)
+            {
+                color = LienzoGlobals.getInstance().getDefaultStrokeColor();
+            }
+        }
+        else if (width == 0)
+        {
+            width = LienzoGlobals.getInstance().getDefaultStrokeWidth();
+        }
         if (null != color)
         {
-            boolean selection = context.isSelection();
-
-            if (attr.isDefined(Attribute.FILL) == false)
-            {
-                if (false == selection)
-                {
-                    double alpha = getGlobalAlpha();
-
-                    if (alpha != 1)
-                    {
-                        context.setGlobalAlpha(alpha);
-                    }
-                }
-            }
-            else if (false == selection)
-            {
-                context.setGlobalAlpha(1);
-            }
-            if (selection)
+            if (context.isSelection())
             {
                 color = getColorKey();
+
+                context.setGlobalAlpha(1);
+            }
+            else
+            {
+                context.setGlobalAlpha(alpha);
             }
             context.setStrokeColor(color);
-
-            double width = attr.getStrokeWidth();
 
             context.setStrokeWidth(width);
 
@@ -321,36 +303,27 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
      * @param context
      * @param attr
      */
-    protected void stroke(Context2D context, Attributes attr)
+    protected void stroke(Context2D context, Attributes attr, double alpha)
     {
-        if (setStrokeParams(context, attr))
+        context.save();
+
+        if (setStrokeParams(context, attr, alpha))
         {
             if (context.isSelection())
             {
-                context.save();
-
                 context.stroke();
 
                 context.restore();
 
                 return;
             }
-            boolean apsh = false;
-
-            context.save();
-
-            if ((attr.isDefined(Attribute.SHADOW)) && (m_apsh == false))
+            if ((m_apsh == false) && (attr.isDefined(Attribute.SHADOW)))
             {
-                apsh = m_apsh = doApplyShadow(context, attr);
+                m_apsh = doApplyShadow(context, attr);
             }
             context.stroke();
 
             context.restore();
-
-            if (apsh)
-            {
-                stroke(context, attr);
-            }
         }
     }
 

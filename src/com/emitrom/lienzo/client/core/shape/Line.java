@@ -44,7 +44,7 @@ public class Line extends Shape<Line>
     {
         this(0, 0, 0, 0);
     }
-    
+
     /**
      * Constructor. Creates an instance of a line.
      * 
@@ -73,6 +73,8 @@ public class Line extends Shape<Line>
     @Override
     public void draw(Context2D context)
     {
+        double alpha = getGlobalAlpha();
+
         Attributes attr = getAttributes();
 
         Point2DArray list = attr.getPoints();
@@ -89,7 +91,7 @@ public class Line extends Shape<Line>
 
                     if (data.length > 0)
                     {
-                        if (setStrokeParams(context, attr))
+                        if (setStrokeParams(context, attr, alpha))
                         {
                             Point2D p0 = list.getPoint(0);
 
@@ -180,7 +182,7 @@ public class Line extends Shape<Line>
      * Empty implementation since we multi-purpose this class for regular and dashed lines.
      */
     @Override
-    public void fill(Context2D context, Attributes attr)
+    public void fill(Context2D context, Attributes attr, double alpha)
     {
 
     }

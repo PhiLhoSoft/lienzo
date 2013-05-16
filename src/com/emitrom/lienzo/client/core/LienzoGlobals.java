@@ -17,6 +17,7 @@
 
 package com.emitrom.lienzo.client.core;
 
+import com.emitrom.lienzo.shared.core.types.IColor;
 import com.google.gwt.canvas.client.Canvas;
 
 /**
@@ -32,7 +33,13 @@ public final class LienzoGlobals
 
     private static final LienzoGlobals s_instance          = new LienzoGlobals();
 
-    private static final boolean       s_canvasSupported   = Canvas.isSupported();
+    private double                     m_strokeWidth       = 1;
+
+    private String                     m_strokeColor       = "black";
+
+    private final boolean              m_lineDashSupport   = false;
+
+    private final boolean              m_canvasSupported   = Canvas.isSupported();
 
     private LienzoGlobals()
     {
@@ -43,13 +50,52 @@ public final class LienzoGlobals
         return s_instance;
     }
 
+    public final void setDefaultStrokeWidth(double width)
+    {
+        if (width > 0)
+        {
+            m_strokeWidth = width;
+        }
+        else
+        {
+            m_strokeWidth = 1;
+        }
+    }
+
+    public final double getDefaultStrokeWidth()
+    {
+        return m_strokeWidth;
+    }
+
+    public final void setDefaultStrokeColor(IColor color)
+    {
+        if (color != null)
+        {
+            m_strokeColor = color.getColorString();
+        }
+        else
+        {
+            m_strokeColor = "black";
+        }
+    }
+
+    public final String getDefaultStrokeColor()
+    {
+        return m_strokeColor;
+    }
+
     /**
      * Returns true if the Canvas element is supported.
      * @return
      */
     public final boolean isCanvasSupported()
     {
-        return s_canvasSupported;
+        return m_canvasSupported;
+    }
+
+    public final boolean isLineDashSupported()
+    {
+        return m_lineDashSupport;
     }
 
     public final double getDefaultFontSize()

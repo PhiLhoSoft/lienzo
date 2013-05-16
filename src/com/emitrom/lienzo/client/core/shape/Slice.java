@@ -82,7 +82,6 @@ public class Slice extends Shape<Slice>
         {
             return; // zero degrees - nothing to draw
         }
-
         boolean drawPacman = true;
 
         if ((Math.abs(start - end) % (Math.PI * 2)) == 0)
@@ -90,7 +89,6 @@ public class Slice extends Shape<Slice>
             // full circle
             drawPacman = false;
         }
-
         context.beginPath();
 
         context.arc(0, 0, getRadius(), start, end, isCounterClockwise());
@@ -99,7 +97,6 @@ public class Slice extends Shape<Slice>
         {
             context.lineTo(0, 0);
         }
-
         context.closePath();
     }
 

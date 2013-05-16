@@ -59,6 +59,8 @@ public class PolyLine extends Shape<PolyLine>
     @Override
     public void draw(Context2D context)
     {
+        double alpha = getGlobalAlpha();
+
         Attributes attr = getAttributes();
 
         Point2DArray list = attr.getPoints();
@@ -87,7 +89,7 @@ public class PolyLine extends Shape<PolyLine>
                     {
                         final double plus = attr.getStrokeWidth();
 
-                        if (setStrokeParams(context, attr))
+                        if (setStrokeParams(context, attr, alpha))
                         {
                             LastState state = new LastState();
 
@@ -124,7 +126,7 @@ public class PolyLine extends Shape<PolyLine>
     }
 
     @Override
-    public void fill(Context2D context, Attributes attr)
+    public void fill(Context2D context, Attributes attr, double alpha)
     {
         // there is no fill on a line.
         // this method intentionally empty.

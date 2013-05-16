@@ -123,11 +123,11 @@ public class Spline extends Shape<Spline>
     }
 
     @Override
-    public void fill(Context2D context, Attributes attr)
+    public void fill(Context2D context, Attributes attr, double alpha)
     {
         if (m_closed)
         {
-            super.fill(context, attr);
+            super.fill(context, attr, alpha);
         }
     }
 

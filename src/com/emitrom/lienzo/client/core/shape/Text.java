@@ -147,7 +147,7 @@ public class Text extends Shape<Text>
     }
 
     @Override
-    protected void fill(Context2D context, Attributes attr)
+    protected void fill(Context2D context, Attributes attr, double alpha)
     {
         if (context.isSelection())
         {
@@ -167,19 +167,19 @@ public class Text extends Shape<Text>
         }
         if (attr.isDefined(Attribute.FILL))
         {
-            boolean apsh = false;
-
             context.save();
 
             context.beginPath();
 
             if ((attr.isDefined(Attribute.SHADOW)) && (m_apsh == false))
             {
-                apsh = m_apsh = doApplyShadow(context, attr);
+                m_apsh = doApplyShadow(context, attr);
             }
+            context.setGlobalAlpha(alpha);
+
             String fill = attr.getFillColor();
 
-            if (apsh)
+            if (m_apsh)
             {
                 if (null != fill)
                 {
@@ -198,57 +198,35 @@ public class Text extends Shape<Text>
                 context.fillText(attr.getText(), 0, 0);
             }
             context.restore();
-
-            if (apsh)
-            {
-                fill(context, attr);
-            }
         }
     }
 
     @Override
-    protected void stroke(Context2D context, Attributes attr)
+    protected void stroke(Context2D context, Attributes attr, double alpha)
     {
-        String color = attr.getStrokeColor();
+        context.save();
 
-        if (null != color)
+        if (setStrokeParams(context, attr, alpha))
         {
-            boolean apsh = false;
-
-            boolean selection = context.isSelection();
-
-            if (selection)
+            if (context.isSelection())
             {
-                color = getColorKey();
+                context.beginPath();
 
-                apsh = false;
+                context.strokeText(attr.getText(), 0, 0);
+
+                context.restore();
+
+                return;
             }
-            context.save();
-
+            if ((m_apsh == false) && (attr.isDefined(Attribute.SHADOW)))
+            {
+                m_apsh = doApplyShadow(context, attr);
+            }
             context.beginPath();
-
-            if ((false == selection) && (attr.isDefined(Attribute.SHADOW)) && (m_apsh == false))
-            {
-                apsh = m_apsh = doApplyShadow(context, attr);
-            }
-            context.setStrokeColor(color);
-
-            double width = attr.getStrokeWidth();
-
-            if (width == 0)
-            {
-                width = 1;
-            }
-            context.setStrokeWidth(width);
 
             context.strokeText(attr.getText(), 0, 0);
 
             context.restore();
-
-            if (apsh)
-            {
-                stroke(context, attr);
-            }
         }
     }
 

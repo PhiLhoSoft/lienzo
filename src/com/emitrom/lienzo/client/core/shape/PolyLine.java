@@ -128,8 +128,7 @@ public class PolyLine extends Shape<PolyLine>
     @Override
     public void fill(Context2D context, Attributes attr, double alpha)
     {
-        // there is no fill on a line.
-        // this method intentionally empty.
+
     }
 
     /**

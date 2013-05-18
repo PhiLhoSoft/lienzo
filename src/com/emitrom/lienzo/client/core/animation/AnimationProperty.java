@@ -38,9 +38,9 @@ public interface AnimationProperty
 {
     public static final double SIZE_MAX = 65536;
 
-    public AnimationProperty init(Node<?> node);
+    public void init(Node<?> node);
 
-    public AnimationProperty apply(Node<?> node, double percent);
+    public void apply(Node<?> node, double percent);
 
     /**
      * Properties provides convenience methods for defining which attributes of an IPrimitive node 
@@ -186,7 +186,7 @@ public interface AnimationProperty
             return new PositionAnimationProperty(calc);
         }
 
-        private static class PositionAnimationProperty implements AnimationProperty
+        private static final class PositionAnimationProperty implements AnimationProperty
         {
             private final IPositionCalculator m_calc;
 
@@ -196,13 +196,13 @@ public interface AnimationProperty
             }
 
             @Override
-            public AnimationProperty init(Node<?> node)
+            public void init(Node<?> node)
             {
-                return this;
+
             }
 
             @Override
-            public AnimationProperty apply(Node<?> node, double percent)
+            public void apply(Node<?> node, double percent)
             {
                 if ((node != null) && (m_calc != null))
                 {
@@ -215,11 +215,10 @@ public interface AnimationProperty
                         node.getAttributes().putDouble(Attribute.Y.getProperty(), posn.getY());
                     }
                 }
-                return this;
             }
         }
 
-        private static class DoubleRangeAnimationProperty implements AnimationProperty
+        private static final class DoubleRangeAnimationProperty implements AnimationProperty
         {
             private double    m_target;
 
@@ -237,27 +236,25 @@ public interface AnimationProperty
             }
 
             @Override
-            public AnimationProperty init(Node<?> node)
+            public void init(Node<?> node)
             {
                 if (node != null)
                 {
                     node.getAttributes().putDouble(m_attribute.getProperty(), m_origin);
                 }
-                return this;
             }
 
             @Override
-            public AnimationProperty apply(Node<?> node, double percent)
+            public void apply(Node<?> node, double percent)
             {
                 if (node != null)
                 {
                     node.getAttributes().putDouble(m_attribute.getProperty(), (m_origin + ((m_target - m_origin) * percent)));
                 }
-                return this;
             }
         }
 
-        private static class DoubleAnimationProperty implements AnimationProperty
+        private static final class DoubleAnimationProperty implements AnimationProperty
         {
             private double    m_target;
 
@@ -273,27 +270,25 @@ public interface AnimationProperty
             }
 
             @Override
-            public AnimationProperty init(Node<?> node)
+            public void init(Node<?> node)
             {
                 if (node != null)
                 {
                     m_origin = node.getAttributes().getDouble(m_attribute.getProperty());
                 }
-                return this;
             }
 
             @Override
-            public AnimationProperty apply(Node<?> node, double percent)
+            public void apply(Node<?> node, double percent)
             {
                 if (node != null)
                 {
                     node.getAttributes().putDouble(m_attribute.getProperty(), (m_origin + ((m_target - m_origin) * percent)));
                 }
-                return this;
             }
         }
 
-        private static class DoubleRangeAnimationPropertyConstrained implements AnimationProperty
+        private static final class DoubleRangeAnimationPropertyConstrained implements AnimationProperty
         {
             private double          m_origin;
 
@@ -319,7 +314,7 @@ public interface AnimationProperty
             }
 
             @Override
-            public AnimationProperty init(Node<?> node)
+            public void init(Node<?> node)
             {
                 if ((null != node) && (null != m_attribute))
                 {
@@ -341,11 +336,10 @@ public interface AnimationProperty
                     }
                     node.getAttributes().putDouble(m_attribute.getProperty(), m_origin);
                 }
-                return this;
             }
 
             @Override
-            public AnimationProperty apply(Node<?> node, double percent)
+            public void apply(Node<?> node, double percent)
             {
                 if ((null != node) && (null != m_attribute))
                 {
@@ -361,11 +355,10 @@ public interface AnimationProperty
                     }
                     node.getAttributes().putDouble(m_attribute.getProperty(), value);
                 }
-                return this;
             }
         }
 
-        private static class DoubleAnimationPropertyConstrained implements AnimationProperty
+        private static final class DoubleAnimationPropertyConstrained implements AnimationProperty
         {
             private double          m_origin;
 
@@ -389,7 +382,7 @@ public interface AnimationProperty
             }
 
             @Override
-            public AnimationProperty init(Node<?> node)
+            public void init(Node<?> node)
             {
                 if ((null != node) && (null != m_attribute))
                 {
@@ -412,11 +405,10 @@ public interface AnimationProperty
                         m_target = m_maxval;
                     }
                 }
-                return this;
             }
 
             @Override
-            public AnimationProperty apply(Node<?> node, double percent)
+            public void apply(Node<?> node, double percent)
             {
                 if ((null != node) && (null != m_attribute))
                 {
@@ -432,11 +424,10 @@ public interface AnimationProperty
                     }
                     node.getAttributes().putDouble(m_attribute.getProperty(), value);
                 }
-                return this;
             }
         }
 
-        private static class Point2DAnimationProperty_0 implements AnimationProperty
+        private static final class Point2DAnimationProperty_0 implements AnimationProperty
         {
             private Point2D   m_target;
 
@@ -452,7 +443,7 @@ public interface AnimationProperty
             }
 
             @Override
-            public AnimationProperty init(Node<?> node)
+            public void init(Node<?> node)
             {
                 if ((null != node) && (null != m_attribute))
                 {
@@ -463,11 +454,10 @@ public interface AnimationProperty
                         m_origin = new Point2D(0, 0);
                     }
                 }
-                return this;
             }
 
             @Override
-            public AnimationProperty apply(Node<?> node, double percent)
+            public void apply(Node<?> node, double percent)
             {
                 if ((null != node) && (null != m_attribute))
                 {
@@ -477,11 +467,10 @@ public interface AnimationProperty
 
                     node.getAttributes().putPoint2D(m_attribute.getProperty(), new Point2D(x, y));
                 }
-                return this;
             }
         }
 
-        private static class Point2DAnimationProperty_1 implements AnimationProperty
+        private static final class Point2DAnimationProperty_1 implements AnimationProperty
         {
             private Point2D   m_target;
 
@@ -497,7 +486,7 @@ public interface AnimationProperty
             }
 
             @Override
-            public AnimationProperty init(Node<?> node)
+            public void init(Node<?> node)
             {
                 if ((null != node) && (null != m_attribute))
                 {
@@ -508,11 +497,10 @@ public interface AnimationProperty
                         m_origin = new Point2D(1, 1);
                     }
                 }
-                return this;
             }
 
             @Override
-            public AnimationProperty apply(Node<?> node, double percent)
+            public void apply(Node<?> node, double percent)
             {
                 if ((null != node) && (null != m_attribute))
                 {
@@ -522,7 +510,6 @@ public interface AnimationProperty
 
                     node.getAttributes().putPoint2D(m_attribute.getProperty(), new Point2D(x, y));
                 }
-                return this;
             }
         }
     }

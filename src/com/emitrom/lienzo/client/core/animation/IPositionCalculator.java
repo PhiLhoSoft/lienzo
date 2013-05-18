@@ -21,5 +21,5 @@ import com.emitrom.lienzo.client.core.types.Point2D;
 
 public interface IPositionCalculator
 {
-    Point2D calculate(double percent);
+    public Point2D calculate(double percent);
 }

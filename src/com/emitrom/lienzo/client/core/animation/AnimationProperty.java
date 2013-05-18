@@ -36,6 +36,8 @@ import com.emitrom.lienzo.client.core.types.Point2D;
  */
 public interface AnimationProperty
 {
+    public static final double SIZE_MAX = 65536;
+
     public Attribute getAttribute();
 
     public AnimationProperty init(Node<?> node);
@@ -61,9 +63,19 @@ public interface AnimationProperty
             return new DoubleAnimationProperty(x, Attribute.X);
         }
 
+        public static final AnimationProperty X(double origin, double target)
+        {
+            return new DoubleRangeAnimationProperty(origin, target, Attribute.X);
+        }
+
         public static final AnimationProperty Y(double y)
         {
             return new DoubleAnimationProperty(y, Attribute.Y);
+        }
+
+        public static final AnimationProperty Y(double origin, double target)
+        {
+            return new DoubleRangeAnimationProperty(origin, target, Attribute.Y);
         }
 
         public static final AnimationProperty WIDTH(double wide)
@@ -71,14 +83,29 @@ public interface AnimationProperty
             return new DoubleAnimationProperty(wide, Attribute.WIDTH);
         }
 
+        public static final AnimationProperty WIDTH(double origin, double target)
+        {
+            return new DoubleRangeAnimationProperty(origin, target, Attribute.WIDTH);
+        }
+
         public static final AnimationProperty HEIGHT(double high)
         {
             return new DoubleAnimationProperty(high, Attribute.HEIGHT);
         }
 
-        public static final DoubleAnimationPropertyConstrained ALPHA(double alpha)
+        public static final AnimationProperty HEIGHT(double origin, double target)
+        {
+            return new DoubleRangeAnimationProperty(origin, target, Attribute.HEIGHT);
+        }
+
+        public static final AnimationProperty ALPHA(double alpha)
         {
             return new DoubleAnimationPropertyConstrained(alpha, Attribute.ALPHA, 0.0, 1.0);
+        }
+
+        public static final AnimationProperty ALPHA(double origin, double target)
+        {
+            return new DoubleRangeAnimationPropertyConstrained(origin, target, Attribute.ALPHA, 0.0, 1.0);
         }
 
         public static final AnimationProperty ROTATION(double rotation)
@@ -86,9 +113,19 @@ public interface AnimationProperty
             return new DoubleAnimationProperty(rotation, Attribute.ROTATION);
         }
 
-        public static final DoubleAnimationPropertyConstrained RADIUS(double radius)
+        public static final AnimationProperty ROTATION(double origin, double target)
         {
-            return new DoubleAnimationPropertyConstrained(radius, Attribute.RADIUS, 0.0, Double.MAX_VALUE);
+            return new DoubleRangeAnimationProperty(origin, target, Attribute.ROTATION);
+        }
+
+        public static final AnimationProperty RADIUS(double radius)
+        {
+            return new DoubleAnimationPropertyConstrained(radius, Attribute.RADIUS, 0.0, SIZE_MAX);
+        }
+
+        public static final AnimationProperty RADIUS(double origin, double target)
+        {
+            return new DoubleRangeAnimationPropertyConstrained(origin, target, Attribute.RADIUS, 0.0, SIZE_MAX);
         }
 
         public static final AnimationProperty ROTATION_DEGREES(double degrees)
@@ -96,9 +133,9 @@ public interface AnimationProperty
             return new DoubleAnimationProperty(degrees * Math.PI / 180, Attribute.ROTATION);
         }
 
-        public static final DoubleAnimationPropertyConstrained STROKE_WIDTH(double stroke)
+        public static final AnimationProperty STROKE_WIDTH(double stroke)
         {
-            return new DoubleAnimationPropertyConstrained(stroke, Attribute.STROKE_WIDTH, 0.0, Double.MAX_VALUE);
+            return new DoubleAnimationPropertyConstrained(stroke, Attribute.STROKE_WIDTH, 0.0, SIZE_MAX);
         }
 
         public static final AnimationProperty SCALE(Point2D scale)
@@ -146,6 +183,51 @@ public interface AnimationProperty
             return new Point2DAnimationProperty_0(new Point2D(x, y), Attribute.SHEAR);
         }
 
+        private static class DoubleRangeAnimationProperty implements AnimationProperty
+        {
+            private double    m_target;
+
+            private double    m_origin;
+
+            private Attribute m_attribute;
+
+            public DoubleRangeAnimationProperty(double origin, double target, Attribute attribute)
+            {
+                m_origin = origin;
+
+                m_target = target;
+
+                m_attribute = attribute;
+            }
+
+            @Override
+            public AnimationProperty init(Node<?> node)
+            {
+                if (node != null)
+                {
+                    node.getAttributes().putDouble(m_attribute.getProperty(), m_origin);
+                }
+                return this;
+            }
+
+            @Override
+            public AnimationProperty apply(Node<?> node, double percent)
+            {
+                if (node != null)
+                {
+                    node.getAttributes().putDouble(m_attribute.getProperty(), (m_origin + ((m_target - m_origin) * percent)));
+                }
+
+                return this;
+            }
+
+            @Override
+            public Attribute getAttribute()
+            {
+                return m_attribute;
+            }
+        }
+
         private static class DoubleAnimationProperty implements AnimationProperty
         {
             private double    m_target;
@@ -179,6 +261,84 @@ public interface AnimationProperty
                     node.getAttributes().putDouble(m_attribute.getProperty(), (m_origin + ((m_target - m_origin) * percent)));
                 }
 
+                return this;
+            }
+
+            @Override
+            public Attribute getAttribute()
+            {
+                return m_attribute;
+            }
+        }
+
+        private static class DoubleRangeAnimationPropertyConstrained implements AnimationProperty
+        {
+            private double          m_origin;
+
+            private double          m_target;
+
+            private final double    m_minval;
+
+            private final double    m_maxval;
+
+            private final Attribute m_attribute;
+
+            public DoubleRangeAnimationPropertyConstrained(double origin, double target, Attribute attribute, double minval, double maxval)
+            {
+                m_origin = origin;
+
+                m_target = target;
+
+                m_minval = minval;
+
+                m_maxval = maxval;
+
+                m_attribute = attribute;
+            }
+
+            @Override
+            public AnimationProperty init(Node<?> node)
+            {
+                if ((null != node) && (null != m_attribute))
+                {
+                    if (m_origin < m_minval)
+                    {
+                        m_origin = m_minval;
+                    }
+                    if (m_origin > m_maxval)
+                    {
+                        m_origin = m_maxval;
+                    }
+                    if (m_target < m_minval)
+                    {
+                        m_target = m_minval;
+                    }
+                    if (m_target > m_maxval)
+                    {
+                        m_target = m_maxval;
+                    }
+                    node.getAttributes().putDouble(m_attribute.getProperty(), m_origin);
+                }
+                return this;
+            }
+
+            @Override
+            public AnimationProperty apply(Node<?> node, double percent)
+            {
+                if ((null != node) && (null != m_attribute))
+                {
+                    double value = (m_origin + ((m_target - m_origin) * percent));
+
+                    if (value < m_minval)
+                    {
+                        value = m_minval;
+                    }
+                    if (value > m_maxval)
+                    {
+                        value = m_maxval;
+                    }
+                    node.getAttributes().putDouble(m_attribute.getProperty(), value);
+                }
                 return this;
             }
 

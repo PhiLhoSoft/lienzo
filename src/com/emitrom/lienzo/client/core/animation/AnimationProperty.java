@@ -36,8 +36,6 @@ import com.emitrom.lienzo.client.core.types.Point2D;
  */
 public interface AnimationProperty
 {
-    public static final double SIZE_MAX = 65536;
-
     public void init(Node<?> node);
 
     public void apply(Node<?> node, double percent);
@@ -118,12 +116,12 @@ public interface AnimationProperty
 
         public static final AnimationProperty RADIUS(double radius)
         {
-            return new DoubleAnimationPropertyConstrained(radius, Attribute.RADIUS, 0.0, SIZE_MAX);
+            return new DoubleAnimationPropertyConstrained(radius, Attribute.RADIUS, 0.0, Float.MAX_VALUE);
         }
 
         public static final AnimationProperty RADIUS(double origin, double target)
         {
-            return new DoubleRangeAnimationPropertyConstrained(origin, target, Attribute.RADIUS, 0.0, SIZE_MAX);
+            return new DoubleRangeAnimationPropertyConstrained(origin, target, Attribute.RADIUS, 0.0, Float.MAX_VALUE);
         }
 
         public static final AnimationProperty ROTATION_DEGREES(double degrees)
@@ -133,7 +131,7 @@ public interface AnimationProperty
 
         public static final AnimationProperty STROKE_WIDTH(double stroke)
         {
-            return new DoubleAnimationPropertyConstrained(stroke, Attribute.STROKE_WIDTH, 0.0, SIZE_MAX);
+            return new DoubleAnimationPropertyConstrained(stroke, Attribute.STROKE_WIDTH, 0.0, Float.MAX_VALUE);
         }
 
         public static final AnimationProperty SCALE(Point2D scale)

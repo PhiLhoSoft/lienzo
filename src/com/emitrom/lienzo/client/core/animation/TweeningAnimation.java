@@ -28,6 +28,8 @@ public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAn
 
     private final AnimationProperties m_properties;
 
+    private final AnimationProperties m_workingset = new AnimationProperties();
+
     public TweeningAnimation(Node<?> node, AnimationTweener tweener, AnimationProperties properties, double duration, IAnimationCallback callback)
     {
         super(duration, callback);
@@ -42,9 +44,15 @@ public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAn
     @Override
     public IAnimation doStart()
     {
-        for (AnimationProperty property : m_properties.getProperties())
+        if (null != m_properties)
         {
-            property.init(getNode());
+            for (AnimationProperty property : m_properties.getProperties())
+            {
+                if (property.init(getNode()))
+                {
+                    m_workingset.push(property);
+                }
+            }
         }
         apply(0.0);
 
@@ -73,22 +81,24 @@ public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAn
         {
             percent = m_tweener.tween(percent);
         }
-        if (null != m_properties)
+        List<AnimationProperty> list = m_workingset.getProperties();
+
+        if (null != list)
         {
-            List<AnimationProperty> list = m_properties.getProperties();
+            int size = list.size();
 
-            if (null != list)
+            if (size > 0)
             {
-                int size = list.size();
+                boolean draw = false;
 
-                if (size > 0)
+                Node<?> node = getNode();
+
+                for (int i = 0; i < size; i++)
                 {
-                    Node<?> node = getNode();
-
-                    for (int i = 0; i < size; i++)
-                    {
-                        list.get(i).apply(node, percent);
-                    }
+                    draw = ((draw) || (list.get(i).apply(node, percent)));
+                }
+                if (draw)
+                {
                     scheduleBatchedRedraw(node.getLayer());
                 }
             }

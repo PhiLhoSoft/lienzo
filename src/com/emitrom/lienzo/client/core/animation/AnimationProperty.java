@@ -36,9 +36,9 @@ import com.emitrom.lienzo.client.core.types.Point2D;
  */
 public interface AnimationProperty
 {
-    public void init(Node<?> node);
+    public boolean init(Node<?> node);
 
-    public void apply(Node<?> node, double percent);
+    public boolean apply(Node<?> node, double percent);
 
     /**
      * Properties provides convenience methods for defining which attributes of an IPrimitive node 
@@ -194,26 +194,31 @@ public interface AnimationProperty
             }
 
             @Override
-            public void init(Node<?> node)
-            {
-
-            }
-
-            @Override
-            public void apply(Node<?> node, double percent)
+            public boolean init(Node<?> node)
             {
                 if ((node != null) && (m_calc != null))
                 {
-                    Point2D posn = m_calc.calculate(percent);
-
-                    if (posn != null)
-                    {
-                        node.getAttributes().putDouble(Attribute.X.getProperty(), posn.getX());
-
-                        node.getAttributes().putDouble(Attribute.Y.getProperty(), posn.getY());
-                    }
+                    return true;
                 }
+                return false;
             }
+
+            @Override
+            public boolean apply(Node<?> node, double percent)
+            {
+                Point2D posn = m_calc.calculate(percent);
+
+                if (posn != null)
+                {
+                    node.getAttributes().putDouble(Attribute.X.getProperty(), posn.getX());
+
+                    node.getAttributes().putDouble(Attribute.Y.getProperty(), posn.getY());
+
+                    return true;
+                }
+                return false;
+            }
+
         }
 
         private static final class DoubleRangeAnimationProperty implements AnimationProperty
@@ -234,21 +239,21 @@ public interface AnimationProperty
             }
 
             @Override
-            public void init(Node<?> node)
+            public boolean init(Node<?> node)
             {
-                if (node != null)
+                if ((node != null) && (m_attribute != null) && (node.getAttributeSheet().contains(m_attribute)))
                 {
-                    node.getAttributes().putDouble(m_attribute.getProperty(), m_origin);
+                    return true;
                 }
+                return false;
             }
 
             @Override
-            public void apply(Node<?> node, double percent)
+            public boolean apply(Node<?> node, double percent)
             {
-                if (node != null)
-                {
-                    node.getAttributes().putDouble(m_attribute.getProperty(), (m_origin + ((m_target - m_origin) * percent)));
-                }
+                node.getAttributes().putDouble(m_attribute.getProperty(), (m_origin + ((m_target - m_origin) * percent)));
+
+                return true;
             }
         }
 
@@ -268,21 +273,23 @@ public interface AnimationProperty
             }
 
             @Override
-            public void init(Node<?> node)
+            public boolean init(Node<?> node)
             {
-                if (node != null)
+                if ((node != null) && (m_attribute != null) && (node.getAttributeSheet().contains(m_attribute)))
                 {
                     m_origin = node.getAttributes().getDouble(m_attribute.getProperty());
+
+                    return true;
                 }
+                return false;
             }
 
             @Override
-            public void apply(Node<?> node, double percent)
+            public boolean apply(Node<?> node, double percent)
             {
-                if (node != null)
-                {
-                    node.getAttributes().putDouble(m_attribute.getProperty(), (m_origin + ((m_target - m_origin) * percent)));
-                }
+                node.getAttributes().putDouble(m_attribute.getProperty(), (m_origin + ((m_target - m_origin) * percent)));
+
+                return true;
             }
         }
 
@@ -312,9 +319,9 @@ public interface AnimationProperty
             }
 
             @Override
-            public void init(Node<?> node)
+            public boolean init(Node<?> node)
             {
-                if ((null != node) && (null != m_attribute))
+                if ((node != null) && (m_attribute != null) && (node.getAttributeSheet().contains(m_attribute)))
                 {
                     if (m_origin < m_minval)
                     {
@@ -332,27 +339,27 @@ public interface AnimationProperty
                     {
                         m_target = m_maxval;
                     }
-                    node.getAttributes().putDouble(m_attribute.getProperty(), m_origin);
+                    return true;
                 }
+                return false;
             }
 
             @Override
-            public void apply(Node<?> node, double percent)
+            public boolean apply(Node<?> node, double percent)
             {
-                if ((null != node) && (null != m_attribute))
-                {
-                    double value = (m_origin + ((m_target - m_origin) * percent));
+                double value = (m_origin + ((m_target - m_origin) * percent));
 
-                    if (value < m_minval)
-                    {
-                        value = m_minval;
-                    }
-                    if (value > m_maxval)
-                    {
-                        value = m_maxval;
-                    }
-                    node.getAttributes().putDouble(m_attribute.getProperty(), value);
+                if (value < m_minval)
+                {
+                    value = m_minval;
                 }
+                if (value > m_maxval)
+                {
+                    value = m_maxval;
+                }
+                node.getAttributes().putDouble(m_attribute.getProperty(), value);
+
+                return true;
             }
         }
 
@@ -372,17 +379,17 @@ public interface AnimationProperty
             {
                 m_target = target;
 
-                m_attribute = attribute;
-
                 m_minval = minval;
 
                 m_maxval = maxval;
+
+                m_attribute = attribute;
             }
 
             @Override
-            public void init(Node<?> node)
+            public boolean init(Node<?> node)
             {
-                if ((null != node) && (null != m_attribute))
+                if ((node != null) && (m_attribute != null) && (node.getAttributeSheet().contains(m_attribute)))
                 {
                     m_origin = node.getAttributes().getDouble(m_attribute.getProperty());
 
@@ -402,26 +409,27 @@ public interface AnimationProperty
                     {
                         m_target = m_maxval;
                     }
+                    return true;
                 }
+                return false;
             }
 
             @Override
-            public void apply(Node<?> node, double percent)
+            public boolean apply(Node<?> node, double percent)
             {
-                if ((null != node) && (null != m_attribute))
-                {
-                    double value = (m_origin + ((m_target - m_origin) * percent));
+                double value = (m_origin + ((m_target - m_origin) * percent));
 
-                    if (value < m_minval)
-                    {
-                        value = m_minval;
-                    }
-                    if (value > m_maxval)
-                    {
-                        value = m_maxval;
-                    }
-                    node.getAttributes().putDouble(m_attribute.getProperty(), value);
+                if (value < m_minval)
+                {
+                    value = m_minval;
                 }
+                if (value > m_maxval)
+                {
+                    value = m_maxval;
+                }
+                node.getAttributes().putDouble(m_attribute.getProperty(), value);
+
+                return true;
             }
         }
 
@@ -441,9 +449,9 @@ public interface AnimationProperty
             }
 
             @Override
-            public void init(Node<?> node)
+            public boolean init(Node<?> node)
             {
-                if ((null != node) && (null != m_attribute))
+                if ((node != null) && (m_attribute != null) && (node.getAttributeSheet().contains(m_attribute)))
                 {
                     m_origin = node.getAttributes().getPoint2D(m_attribute.getProperty());
 
@@ -451,20 +459,21 @@ public interface AnimationProperty
                     {
                         m_origin = new Point2D(0, 0);
                     }
+                    return true;
                 }
+                return false;
             }
 
             @Override
-            public void apply(Node<?> node, double percent)
+            public boolean apply(Node<?> node, double percent)
             {
-                if ((null != node) && (null != m_attribute))
-                {
-                    double x = m_origin.getX() + ((m_target.getX() - m_origin.getX()) * percent);
+                double x = m_origin.getX() + ((m_target.getX() - m_origin.getX()) * percent);
 
-                    double y = m_origin.getY() + ((m_target.getY() - m_origin.getY()) * percent);
+                double y = m_origin.getY() + ((m_target.getY() - m_origin.getY()) * percent);
 
-                    node.getAttributes().putPoint2D(m_attribute.getProperty(), new Point2D(x, y));
-                }
+                node.getAttributes().putPoint2D(m_attribute.getProperty(), new Point2D(x, y));
+
+                return true;
             }
         }
 
@@ -484,9 +493,9 @@ public interface AnimationProperty
             }
 
             @Override
-            public void init(Node<?> node)
+            public boolean init(Node<?> node)
             {
-                if ((null != node) && (null != m_attribute))
+                if ((node != null) && (m_attribute != null) && (node.getAttributeSheet().contains(m_attribute)))
                 {
                     m_origin = node.getAttributes().getPoint2D(m_attribute.getProperty());
 
@@ -494,20 +503,21 @@ public interface AnimationProperty
                     {
                         m_origin = new Point2D(1, 1);
                     }
+                    return true;
                 }
+                return false;
             }
 
             @Override
-            public void apply(Node<?> node, double percent)
+            public boolean apply(Node<?> node, double percent)
             {
-                if ((null != node) && (null != m_attribute))
-                {
-                    double x = m_origin.getX() + ((m_target.getX() - m_origin.getX()) * percent);
+                double x = m_origin.getX() + ((m_target.getX() - m_origin.getX()) * percent);
 
-                    double y = m_origin.getY() + ((m_target.getY() - m_origin.getY()) * percent);
+                double y = m_origin.getY() + ((m_target.getY() - m_origin.getY()) * percent);
 
-                    node.getAttributes().putPoint2D(m_attribute.getProperty(), new Point2D(x, y));
-                }
+                node.getAttributes().putPoint2D(m_attribute.getProperty(), new Point2D(x, y));
+
+                return true;
             }
         }
     }

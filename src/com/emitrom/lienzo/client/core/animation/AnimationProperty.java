@@ -218,7 +218,6 @@ public interface AnimationProperty
                 }
                 return false;
             }
-
         }
 
         private static final class DoubleRangeAnimationProperty implements AnimationProperty

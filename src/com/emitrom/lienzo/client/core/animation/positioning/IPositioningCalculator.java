@@ -15,11 +15,11 @@
    limitations under the License.
  */
 
-package com.emitrom.lienzo.client.core.animation;
+package com.emitrom.lienzo.client.core.animation.positioning;
 
 import com.emitrom.lienzo.client.core.types.Point2D;
 
-public interface IPositionCalculator
+public interface IPositioningCalculator
 {
     public Point2D calculate(double percent);
 }

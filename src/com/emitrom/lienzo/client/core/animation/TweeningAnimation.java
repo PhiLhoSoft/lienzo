@@ -17,18 +17,18 @@
 
 package com.emitrom.lienzo.client.core.animation;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.emitrom.lienzo.client.core.shape.Layer;
 import com.emitrom.lienzo.client.core.shape.Node;
 
 public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAnimation
 {
-    private final AnimationTweener    m_tweener;
+    private final AnimationTweener       m_tweener;
 
-    private final AnimationProperties m_properties;
+    private final AnimationProperties    m_properties;
 
-    private final AnimationProperties m_workingset = new AnimationProperties();
+    private ArrayList<AnimationProperty> m_workingset;
 
     public TweeningAnimation(Node<?> node, AnimationTweener tweener, AnimationProperties properties, double duration, IAnimationCallback callback)
     {
@@ -46,11 +46,13 @@ public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAn
     {
         if (null != m_properties)
         {
+            m_workingset = new ArrayList<AnimationProperty>();
+
             for (AnimationProperty property : m_properties.getProperties())
             {
                 if (property.init(getNode()))
                 {
-                    m_workingset.push(property);
+                    m_workingset.add(property);
                 }
             }
         }
@@ -72,6 +74,8 @@ public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAn
     {
         apply(1.0);
 
+        m_workingset = null;
+
         return super.doClose();
     }
 
@@ -81,21 +85,21 @@ public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAn
         {
             percent = m_tweener.tween(percent);
         }
-        List<AnimationProperty> list = m_workingset.getProperties();
-
-        if (null != list)
+        if (null != m_workingset)
         {
-            int size = list.size();
+            final int size = m_workingset.size();
 
             if (size > 0)
             {
                 boolean draw = false;
 
-                Node<?> node = getNode();
+                final Node<?> node = getNode();
 
                 for (int i = 0; i < size; i++)
                 {
-                    draw = ((draw) || (list.get(i).apply(node, percent)));
+                    boolean good = m_workingset.get(i).apply(node, percent);
+
+                    draw = (draw || good);
                 }
                 if (draw)
                 {

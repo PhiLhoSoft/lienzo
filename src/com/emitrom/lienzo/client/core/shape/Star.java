@@ -159,13 +159,13 @@ public class Star extends Shape<Star>
     {
         return new StarFactory();
     }
-    
+
     public static class StarFactory extends ShapeFactory<Star>
     {
         public StarFactory()
         {
             super(ShapeType.STAR);
-            
+
             addAttribute(Attribute.STAR_POINTS);
 
             addAttribute(Attribute.INNER_RADIUS);

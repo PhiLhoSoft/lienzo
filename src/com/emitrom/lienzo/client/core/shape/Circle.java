@@ -97,7 +97,7 @@ public class Circle extends Shape<Circle>
         public CircleFactory()
         {
             super(ShapeType.CIRCLE);
-            
+
             addAttribute(Attribute.RADIUS, true);
         }
 

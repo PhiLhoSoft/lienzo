@@ -18,6 +18,7 @@
 package com.emitrom.lienzo.client.core.animation;
 
 import com.emitrom.lienzo.client.core.Attribute;
+import com.emitrom.lienzo.client.core.animation.positioning.IPositioningCalculator;
 import com.emitrom.lienzo.client.core.shape.IPrimitive;
 import com.emitrom.lienzo.client.core.shape.Node;
 import com.emitrom.lienzo.client.core.types.Point2D;
@@ -124,6 +125,26 @@ public interface AnimationProperty
             return new DoubleRangeAnimationPropertyConstrained(origin, target, Attribute.RADIUS, 0.0, Float.MAX_VALUE);
         }
 
+        public static final AnimationProperty OUTER_RADIUS(double radius)
+        {
+            return new DoubleAnimationPropertyConstrained(radius, Attribute.OUTER_RADIUS, 0.0, Float.MAX_VALUE);
+        }
+
+        public static final AnimationProperty OUTER_RADIUS(double origin, double target)
+        {
+            return new DoubleRangeAnimationPropertyConstrained(origin, target, Attribute.OUTER_RADIUS, 0.0, Float.MAX_VALUE);
+        }
+
+        public static final AnimationProperty INNER_RADIUS(double radius)
+        {
+            return new DoubleAnimationPropertyConstrained(radius, Attribute.INNER_RADIUS, 0.0, Float.MAX_VALUE);
+        }
+
+        public static final AnimationProperty INNER_RADIUS(double origin, double target)
+        {
+            return new DoubleRangeAnimationPropertyConstrained(origin, target, Attribute.INNER_RADIUS, 0.0, Float.MAX_VALUE);
+        }
+
         public static final AnimationProperty ROTATION_DEGREES(double degrees)
         {
             return new DoubleAnimationProperty(degrees * Math.PI / 180, Attribute.ROTATION);
@@ -179,16 +200,16 @@ public interface AnimationProperty
             return new Point2DAnimationProperty_0(new Point2D(x, y), Attribute.SHEAR);
         }
 
-        public static final AnimationProperty POSITION(IPositionCalculator calc)
+        public static final AnimationProperty POSITIONING(IPositioningCalculator calc)
         {
-            return new PositionAnimationProperty(calc);
+            return new PositioningAnimationProperty(calc);
         }
 
-        private static final class PositionAnimationProperty implements AnimationProperty
+        private static final class PositioningAnimationProperty implements AnimationProperty
         {
-            private final IPositionCalculator m_calc;
+            private final IPositioningCalculator m_calc;
 
-            public PositionAnimationProperty(IPositionCalculator calc)
+            public PositioningAnimationProperty(IPositioningCalculator calc)
             {
                 m_calc = calc;
             }

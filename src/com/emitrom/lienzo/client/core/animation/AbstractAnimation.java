@@ -20,8 +20,6 @@ package com.emitrom.lienzo.client.core.animation;
 import com.emitrom.lienzo.client.core.shape.Node;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Timer;
 
 public class AbstractAnimation implements IAnimation, IAnimationHandle

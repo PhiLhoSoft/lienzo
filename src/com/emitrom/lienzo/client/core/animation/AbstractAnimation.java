@@ -22,6 +22,7 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Timer;
 
 public class AbstractAnimation implements IAnimation, IAnimationHandle
 {
@@ -75,10 +76,10 @@ public class AbstractAnimation implements IAnimation, IAnimationHandle
                 }
             }
         };
-        Scheduler.get().scheduleDeferred(new ScheduledCommand()
+        Timer t = new Timer()
         {
             @Override
-            public void execute()
+            public void run()
             {
                 if (isRunning())
                 {
@@ -87,7 +88,9 @@ public class AbstractAnimation implements IAnimation, IAnimationHandle
                     AnimationScheduler.get().requestAnimationFrame(animate);
                 }
             }
-        });
+        };
+        t.schedule(0);
+
         return this;
     }
 

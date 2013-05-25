@@ -30,6 +30,24 @@ public final class Shadow
 {
     private final ShadowJSO m_jso;
 
+    private static final String normalizeShadowColor(String color)
+    {
+        if ((null == color) || ((color = color.trim()).isEmpty()))
+        {
+            return "black";
+        }
+        return color;
+    }
+
+    private static final String normalizeShadowColor(IColor color)
+    {
+        if (null == color)
+        {
+            return "black";
+        }
+        return normalizeShadowColor(color.getColorString());
+    }
+
     public Shadow(ShadowJSO jso)
     {
         m_jso = jso;
@@ -45,7 +63,7 @@ public final class Shadow
      */
     public Shadow(String color, int blur, double offx, double offy)
     {
-        this(ShadowJSO.make(color, blur, new Point2D(offx, offy).getJSO()));
+        this(ShadowJSO.make(normalizeShadowColor(color), blur, true, new Point2D(offx, offy).getJSO()));
     }
 
     /**
@@ -59,41 +77,68 @@ public final class Shadow
      */
     public Shadow(IColor color, int blur, double offx, double offy)
     {
-        this(ShadowJSO.make(color.getColorString(), blur, new Point2D(offx, offy).getJSO()));
+        this(ShadowJSO.make(normalizeShadowColor(color), blur, true, new Point2D(offx, offy).getJSO()));
+    }
+
+    /**
+     * Constructs a Shadow from a color (as a String), a blur and an offset (offx, offy).
+     * 
+     * @param color String
+     * @param blur
+     * @param offx
+     * @param offy
+     */
+    public Shadow(String color, int blur, double offx, double offy, boolean onfill)
+    {
+        this(ShadowJSO.make(normalizeShadowColor(color), blur, onfill, new Point2D(offx, offy).getJSO()));
+    }
+
+    /**
+     * Constructs a Shadow from a color (i.e. {@link Color} or {@link ColorName}), 
+     * a blur and an offset (offx, offy).
+     * 
+     * @param color {@link Color} or {@link ColorName}
+     * @param blur
+     * @param offx
+     * @param offy
+     */
+    public Shadow(IColor color, int blur, double offx, double offy, boolean onfill)
+    {
+        this(ShadowJSO.make(normalizeShadowColor(color), blur, onfill, new Point2D(offx, offy).getJSO()));
     }
 
     /**
      * Returns the color as a string.
      * @return String
      */
-    public String getColor()
+    public final String getColor()
     {
-        return m_jso.getColor();
+        return normalizeShadowColor(m_jso.getColor());
     }
-    
+
     /**
      * Sets the color as a string.
      * 
      * @param color String
      * @return this Shadow
      */
-    public Shadow setColor(String color)
+    public final Shadow setColor(String color)
     {
-        m_jso.setColor(color);
-        
+        m_jso.setColor(normalizeShadowColor(color));
+
         return this;
     }
-    
+
     /**
      * Sets the color as a {@link Color} or {@link ColorName}.
      * 
      * @param color {@link Color} or {@link ColorName}
      * @return this Shadow
      */
-    public Shadow setColor(IColor color)
+    public final Shadow setColor(IColor color)
     {
-        m_jso.setColor(color.getColorString());
-        
+        m_jso.setColor(normalizeShadowColor(color));
+
         return this;
     }
 
@@ -101,21 +146,21 @@ public final class Shadow
      * Returns the blur.
      * @return String
      */
-    public int getBlur()
+    public final int getBlur()
     {
         return m_jso.getBlur();
     }
-    
+
     /**
      * Sets the blur.
      * 
      * @param blur int
      * @return this Shadow
      */
-    public Shadow setBlur(int blur)
+    public final Shadow setBlur(int blur)
     {
         m_jso.setBlur(blur);
-        
+
         return this;
     }
 
@@ -123,24 +168,46 @@ public final class Shadow
      * Returns the offset as a Point2D.
      * @return Point2D
      */
-    public Point2D getOffset()
+    public final Point2D getOffset()
     {
         return new Point2D(m_jso.getOffset());
     }
-    
+
     /**
      * Sets the color as a string.
      * 
      * @param offset Point2D
      * @return this Shadow
      */
-    public Shadow setOffset(Point2D offset)
+    public final Shadow setOffset(Point2D offset)
     {
         m_jso.setOffset(offset.getJSO());
-        
+
         return this;
     }
-    
+
+    /**
+     * Returns the offset as a Point2D.
+     * @return Point2D
+     */
+    public final boolean getOnFill()
+    {
+        return m_jso.getOnFill();
+    }
+
+    /**
+     * Sets the color as a string.
+     * 
+     * @param offset Point2D
+     * @return this Shadow
+     */
+    public final Shadow setOnFill(boolean onfill)
+    {
+        m_jso.setOnFill(onfill);
+
+        return this;
+    }
+
     public final ShadowJSO getJSO()
     {
         return m_jso;
@@ -148,12 +215,13 @@ public final class Shadow
 
     public static final class ShadowJSO extends JavaScriptObject
     {
-        static final native ShadowJSO make(String color, int blur, Point2DJSO offset)
+        static final native ShadowJSO make(String color, int blur, boolean onfill, Point2DJSO offset)
         /*-{
 			return {
 				color : color,
 				blur : blur,
-				offset : offset
+				offset : offset,
+				onfill : onfill
 			};
         }-*/;
 
@@ -161,35 +229,48 @@ public final class Shadow
         {
 
         }
-        
+
         public final native String getColor()
         /*-{
-            return this.color;
+			return this.color;
         }-*/;
-        
+
         public final native void setColor(String color)
         /*-{
-            this.color = color;
+			this.color = color;
         }-*/;
-        
+
         public final native int getBlur()
         /*-{
-            return this.blur;
+			return this.blur;
         }-*/;
-        
-        public final native int setBlur(int blur)
+
+        public final native void setBlur(int blur)
         /*-{
-            this.blur = blur;
+			this.blur = blur;
         }-*/;
-        
+
+        public final native boolean getOnFill()
+        /*-{
+			if (this.onfill != undefined) {
+				return this.onfill;
+			}
+			return true;
+        }-*/;
+
+        public final native void setOnFill(boolean onfill)
+        /*-{
+			this.onfill = onfill;
+        }-*/;
+
         public final native Point2DJSO getOffset()
         /*-{
-            return this.offset;
+			return this.offset;
         }-*/;
-        
+
         public final native void setOffset(Point2DJSO offset)
         /*-{
-            this.offset = offset;
+			this.offset = offset;
         }-*/;
     }
 }

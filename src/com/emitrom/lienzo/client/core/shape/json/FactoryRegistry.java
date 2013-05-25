@@ -20,6 +20,7 @@ package com.emitrom.lienzo.client.core.shape.json;
 import com.emitrom.lienzo.client.core.shape.Arc;
 import com.emitrom.lienzo.client.core.shape.Arrow;
 import com.emitrom.lienzo.client.core.shape.BezierCurve;
+import com.emitrom.lienzo.client.core.shape.Bow;
 import com.emitrom.lienzo.client.core.shape.Circle;
 import com.emitrom.lienzo.client.core.shape.Ellipse;
 import com.emitrom.lienzo.client.core.shape.GridLayer;
@@ -35,6 +36,7 @@ import com.emitrom.lienzo.client.core.shape.Polygon;
 import com.emitrom.lienzo.client.core.shape.QuadraticCurve;
 import com.emitrom.lienzo.client.core.shape.Rectangle;
 import com.emitrom.lienzo.client.core.shape.RegularPolygon;
+import com.emitrom.lienzo.client.core.shape.Ring;
 import com.emitrom.lienzo.client.core.shape.Scene;
 import com.emitrom.lienzo.client.core.shape.Slice;
 import com.emitrom.lienzo.client.core.shape.Spline;
@@ -151,6 +153,10 @@ public final class FactoryRegistry
         registry.registerFactory(new Triangle.TriangleFactory());
 
         registry.registerFactory(new Spline.SplineFactory());
+
+        registry.registerFactory(new Bow.BowFactory());
+
+        registry.registerFactory(new Ring.RingFactory());
 
         // Container Types
 

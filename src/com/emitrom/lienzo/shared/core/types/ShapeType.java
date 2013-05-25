@@ -60,6 +60,10 @@ public class ShapeType
 
     public static final ShapeType SPLINE          = new ShapeType("Spline");
 
+    public static final ShapeType BOW             = new ShapeType("Bow");
+
+    public static final ShapeType RING            = new ShapeType("Ring");
+
     private final String          m_value;
 
     public ShapeType(String value)

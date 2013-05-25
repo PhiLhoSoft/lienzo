@@ -108,6 +108,7 @@ public final class Point2D
     public final Point2D set(Point2D p)
     {
         m_jso.setX(p.getX());
+
         m_jso.setY(p.getY());
 
         return this;
@@ -159,7 +160,7 @@ public final class Point2D
     {
         return new Point2D(m_jso.plus(p.m_jso));
     }
-    
+
     /**
      * Adds the coordinates of point P to this point,
      * i.e. this.x += p.x; this.y += p.y;
@@ -170,9 +171,10 @@ public final class Point2D
     public final Point2D plusInSitu(Point2D p)
     {
         m_jso.plusInSitu(p.m_jso);
+
         return this;
     }
-    
+
     /**
      * Returns a new point by subtracting the coordinates of this point and point P,
      * i.e. (this.x - p.x, this.y - p.y)
@@ -186,7 +188,7 @@ public final class Point2D
     {
         return new Point2D(m_jso.minus(p.m_jso));
     }
-    
+
     /**
      * Subtracts the coordinates of point P from this point,
      * i.e. this.x -= p.x; this.y -= p.y;
@@ -197,9 +199,10 @@ public final class Point2D
     public final Point2D minusInSitu(Point2D p)
     {
         m_jso.minusInSitu(p.m_jso);
+
         return this;
     }
-    
+
     /**
      * Returns a new point by diving the coordinates of this point by 'd',
      * i.e. (this.x / d, this.y / d)
@@ -212,11 +215,12 @@ public final class Point2D
     public final Point2D div(double d) throws GeoException
     {
         if (d == 0.0)
+        {
             throw new GeoException("can't divide by 0");
-        
+        }
         return times(1.0 / d);
     }
-    
+
     /**
      * Divides the coordinates this Point2D by 'd',
      * i.e. this.x /= p.x; this.y /= p.y;
@@ -227,12 +231,14 @@ public final class Point2D
     public final Point2D divInSitu(double d) throws GeoException
     {
         if (d == 0.0)
+        {
             throw new GeoException("can't divide by 0");
-        
+        }
         timesInSitu(d);
+
         return this;
     }
-    
+
     /**
      * Returns a new point by multiplying the coordinates of this point by 'd',
      * i.e. (this.x * d, this.y * d)
@@ -246,7 +252,7 @@ public final class Point2D
     {
         return new Point2D(m_jso.times(d));
     }
-    
+
     /**
      * Multiplies the coordinates this Point2D by 'd',
      * i.e. this.x *= p.x; this.y *= p.y;
@@ -257,9 +263,10 @@ public final class Point2D
     public final Point2D timesInSitu(double d)
     {
         m_jso.timesInSitu(d);
+
         return this;
     }
-    
+
     /**
      * Returns a new Point2D perpendicular to this vector by rotating this Point2D 
      * 90 degrees counterclockwise around (0,0)
@@ -271,7 +278,7 @@ public final class Point2D
     {
         return new Point2D(m_jso.perpendicular());
     }
-    
+
     /**
      * Returns a new Point2D by rotating this Point2D counterclockwise 
      * over the angle (in radians, not degrees!)
@@ -286,7 +293,7 @@ public final class Point2D
     {
         return new Point2D(m_jso.rotate(angleInRadians));
     }
-    
+
     /**
      * Rotates this Point2D counterclockwise 
      * over the angle (in radians, not degrees!)
@@ -298,9 +305,10 @@ public final class Point2D
     public final Point2D rotateInSitu(double angleInRadians)
     {
         m_jso.rotateInSitu(angleInRadians);
+
         return this;
     }
-    
+
     /**
      * Returns a new Point2D in the same direction as this Point2D
      * with a length of 1.
@@ -310,9 +318,11 @@ public final class Point2D
     public final Point2D unit() throws GeoException
     {
         double len = getLength();
+
         if (len == 0)
+        {
             throw new GeoException("can't normalize (0,0)");
-        
+        }
         return div(len);
     }
 
@@ -326,9 +336,11 @@ public final class Point2D
     public final Point2D unitInSitu() throws GeoException
     {
         double len = getLength();
+
         if (len == 0)
+        {
             throw new GeoException("can't normalize (0,0)");
-        
+        }
         return divInSitu(len);
     }
 
@@ -361,7 +373,7 @@ public final class Point2D
     {
         return m_jso;
     }
-    
+
     /**
      * Returns a string representation for debugging purposes, 
      * e.g. "(1.1, 2.2)"
@@ -385,11 +397,9 @@ public final class Point2D
      */
     public static final boolean isColinear(Point2D p1, Point2D p2, Point2D p3)
     {
-        return (p1.getX() * (p2.getY() - p3.getY()) + 
-                p2.getX() * (p3.getY() - p1.getY()) + 
-                p3.getX() * (p1.getY() - p2.getY())) == 0; 
+        return (p1.getX() * (p2.getY() - p3.getY()) + p2.getX() * (p3.getY() - p1.getY()) + p3.getX() * (p1.getY() - p2.getY())) == 0;
     }
-    
+
     /**
      * Returns the determinant of vectors P and Q. By definition:
      * <ul>
@@ -414,7 +424,7 @@ public final class Point2D
     {
         return (p.getX() * q.getY()) - (p.getY() * q.getX());
     }
-    
+
     /**
      * Construct a Point2D from polar coordinates, i.e. a radius and an angle.
      * 
@@ -426,7 +436,7 @@ public final class Point2D
     {
         return new Point2D(radius * Math.cos(angle), radius * Math.sin(angle));
     }
-    
+
     public static class Point2DJSO extends JavaScriptObject
     {
         protected Point2DJSO()
@@ -436,31 +446,28 @@ public final class Point2D
 
         public static native Point2DJSO make(double xval, double yval)
         /*-{
-			var self = {};
-
-			self.x = xval;
-
-			self.y = yval;
-
-			return self;
+			return {
+				x : xval,
+				y : yval
+			};
         }-*/;
 
         public final native static double distance(Point2DJSO a, Point2DJSO b)
         /*-{
-            var dx = b.x - a.x;
+			var dx = b.x - a.x;
 
-            var dy = b.y - a.y;
+			var dy = b.y - a.y;
 
-            return Math.sqrt((dx * dx) + (dy * dy));
+			return Math.sqrt((dx * dx) + (dy * dy));
         }-*/;
 
         public final native static double length(Point2DJSO a)
         /*-{
-            var dx = a.x;
+			var dx = a.x;
 
-            var dy = a.y;
+			var dy = a.y;
 
-            return Math.sqrt((dx * dx) + (dy * dy));
+			return Math.sqrt((dx * dx) + (dy * dy));
         }-*/;
 
         public final native double getX()
@@ -487,117 +494,103 @@ public final class Point2D
         {
             return distance(this, other);
         };
-        
+
         public final double getLength()
         {
             return length(this);
         };
-        
+
         public final native Point2DJSO plus(Point2DJSO jso)
         /*-{
-            var r = {};
-    
-            r.x = this.x + jso.x;
-    
-            r.y = this.y + jso.y;
-            
-            return r;
+			return {
+				x : this.x + jso.x,
+				y : this.y + jso.y
+			};
         }-*/;
-        
+
         public final native void plusInSitu(Point2DJSO jso)
         /*-{
-            this.x += jso.x;
-            
-            this.y += jso.y;
+			this.x += jso.x;
+
+			this.y += jso.y;
         }-*/;
-        
+
         public final native Point2DJSO minus(Point2DJSO jso)
         /*-{
-            var r = {};
-    
-            r.x = this.x - jso.x;
-    
-            r.y = this.y - jso.y;
-            
-            return r;
+			return {
+				x : this.x - jso.x,
+				y : this.y - jso.y
+			};
         }-*/;
-        
+
         public final native void minusInSitu(Point2DJSO jso)
         /*-{
-            this.x -= jso.x;
-            
-            this.y -= jso.y;
+			this.x -= jso.x;
+
+			this.y -= jso.y;
         }-*/;
-        
+
         public final native Point2DJSO times(double d)
         /*-{
-            var r = {};
-
-            r.x = this.x * d;
-
-            r.y = this.y * d;
-            
-            return r;
+			return {
+				x : this.x * d,
+				y : this.y * d
+			};
         }-*/;
-        
+
         public final native void timesInSitu(double d)
         /*-{
-            this.x *= d;
-            
-            this.y *= d;
+			this.x *= d;
+
+			this.y *= d;
         }-*/;
-        
+
         public final native Point2DJSO perpendicular()
         /*-{
-            var r = {};
-
-            r.x = -this.y;
-
-            r.y = this.x;
-            
-            return r;
+			return {
+				x : -this.y,
+				y : this.x
+			};
         }-*/;
-        
+
         public final native Point2DJSO rotate(double angleInRadians)
         /*-{
-            var r = {};
+			var s = Math.sin(alpha);
 
-            var s = Math.sin (alpha);
-            
-            var c = Math.cos (alpha);
+			var c = Math.cos(alpha);
 
-            r.x = c * this.x - s * this.y;
-
-            r.y = s * this.x + c * this.y;
-            
-            return r;
+			return {
+				x : c * this.x - s * this.y,
+				y : s * this.x + c * this.y
+			};
         }-*/;
-        
+
         public final native void rotateInSitu(double angleInRadians)
         /*-{
-            var s = Math.sin (alpha);
-            
-            var c = Math.cos (alpha);
+			var s = Math.sin(alpha);
 
-            var x = c * this.x - s * this.y;
+			var c = Math.cos(alpha);
 
-            this.y = s * this.x + c * this.y;
-            
-            this.x = x;
+			var x = c * this.x - s * this.y;
+
+			this.y = s * this.x + c * this.y;
+
+			this.x = x;
         }-*/;
-        
+
         public final native boolean isNullVector()
         /*-{
-            return this.x == 0 && this.y == 0;
-        }-*/;        
-        
+			return ((this.x == 0) && (this.y == 0));
+        }-*/;
+
         public final native double getAngle()
         /*-{
-            if (this.x == 0 && this.y == 0)
-                return 0.0; // not sure if check is needed
+			if ((this.x == 0) && (this.y == 0)) {
+				return 0.0; // not sure if check is needed
+			}
+			var a = Math.atan2(this.y, this.x); // between [-PI,PI]
 
-            var a = Math.atan2(this.y, this.x); // between [-PI,PI]
-            return (a >= 0.0) ? a : (a + Math.PI * 2); 
-        }-*/;        
+			return (a >= 0.0) ? a : (a + Math.PI * 2);
+        }-*/;
     }
 }

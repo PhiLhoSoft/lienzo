@@ -61,7 +61,9 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 {
     private ShapeType              m_type;
 
-    protected boolean              m_apsh = false;
+    private boolean                m_apsh = false;
+
+    private boolean                m_fill = false;
 
     private final String           m_hkey = Color.getRGBColorKey();
 
@@ -156,6 +158,8 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         }
         m_apsh = false;
 
+        m_fill = false;
+
         Attributes attr = getAttributes();
 
         draw(context);
@@ -163,6 +167,16 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         fill(context, attr, alpha);
 
         stroke(context, attr, alpha);
+    }
+
+    protected final void setWasFilledFlag(boolean fill)
+    {
+        m_fill = fill;
+    }
+
+    protected final boolean getWasFilledFlag()
+    {
+        return m_fill;
     }
 
     protected abstract void draw(Context2D context);
@@ -190,6 +204,8 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
                 context.restore();
 
+                setWasFilledFlag(true);
+
                 return;
             }
             context.save();
@@ -205,6 +221,8 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
                 context.setFillColor(fill);
 
                 context.fill();
+
+                setWasFilledFlag(true);
             }
             else
             {
@@ -219,18 +237,24 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
                         context.setFillGradient(new LinearGradient((LinearGradientJSO) base));
 
                         context.fill();
+
+                        setWasFilledFlag(true);
                     }
                     else if ("RadialGradient".equals(base.getType()))
                     {
                         context.setFillGradient(new RadialGradient((RadialGradientJSO) base));
 
                         context.fill();
+
+                        setWasFilledFlag(true);
                     }
                     else if ("PatternGradient".equals(base.getType()))
                     {
                         context.setFillGradient(new PatternGradient((PatternGradientJSO) base));
 
                         context.fill();
+
+                        setWasFilledFlag(true);
                     }
                 }
             }
@@ -258,26 +282,36 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
                 color = LienzoGlobals.getInstance().getDefaultStrokeColor();
             }
         }
-        else if (width == 0)
+        else if (width <= 0)
         {
             width = LienzoGlobals.getInstance().getDefaultStrokeWidth();
         }
-        if (null != color)
+        if ((null == color) && (width <= 0))
         {
-            if (context.isSelection())
+            if (getWasFilledFlag())
             {
-                color = getColorKey();
-
-                context.setGlobalAlpha(1);
+                return false;
             }
-            else
-            {
-                context.setGlobalAlpha(alpha);
-            }
-            context.setStrokeColor(color);
+            color = LienzoGlobals.getInstance().getDefaultStrokeColor();
 
-            context.setStrokeWidth(width);
+            width = LienzoGlobals.getInstance().getDefaultStrokeWidth();
+        }
+        if (context.isSelection())
+        {
+            color = getColorKey();
 
+            context.setGlobalAlpha(1);
+        }
+        else
+        {
+            context.setGlobalAlpha(alpha);
+        }
+        context.setStrokeColor(color);
+
+        context.setStrokeWidth(width);
+
+        if (doStrokeExtraProperties())
+        {
             if (attr.isDefined(Attribute.LINE_JOIN))
             {
                 context.setLineJoin(attr.getLineJoin());
@@ -290,9 +324,13 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
             {
                 context.setMiterLimit(attr.getMiterLimit());
             }
-            return true;
         }
-        return false;
+        return true;
+    }
+
+    protected boolean doStrokeExtraProperties()
+    {
+        return true;
     }
 
     /**

@@ -63,6 +63,12 @@ public class Circle extends Shape<Circle>
         context.closePath();
     }
 
+    @Override
+    protected boolean doStrokeExtraProperties()
+    {
+        return false;
+    }
+
     /**
      * Sets this circle's radius.
      * 

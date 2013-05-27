@@ -53,6 +53,12 @@ public class Ellipse extends Shape<Ellipse>
     {
         super(ShapeType.ELLIPSE, node);
     }
+    
+    @Override
+    protected boolean doStrokeExtraProperties()
+    {
+        return false;
+    }
 
     /**
      * Draws this ellipse.

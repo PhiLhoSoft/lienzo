@@ -164,6 +164,8 @@ public class Text extends Shape<Text>
 
                 context.restore();
 
+                setWasFilledFlag(true);
+
                 return;
             }
             context.save();
@@ -181,6 +183,8 @@ public class Text extends Shape<Text>
                 context.setFillColor(fill);
 
                 context.fillText(attr.getText(), 0, 0);
+
+                setWasFilledFlag(true);
             }
             context.restore();
         }

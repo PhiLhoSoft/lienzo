@@ -52,6 +52,12 @@ public class Ring extends Shape<Ring>
         super(ShapeType.RING, node);
     }
 
+    @Override
+    protected boolean doStrokeExtraProperties()
+    {
+        return false;
+    }
+
     /**
      * Draws this slice.
      * 

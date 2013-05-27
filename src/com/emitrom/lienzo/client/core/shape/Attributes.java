@@ -243,9 +243,7 @@ public class Attributes extends JavaScriptObject
 
     public final double getStrokeWidth()
     {
-        double w = getDouble(Attribute.STROKE_WIDTH.getProperty());
-
-        return w == 0 ? 1 : w; // default strokeWidth to 1 if not set
+        return getDouble(Attribute.STROKE_WIDTH.getProperty());
     }
 
     public final void setX(double x)
@@ -1183,7 +1181,7 @@ public class Attributes extends JavaScriptObject
         }
         return 0;
     }
-    
+
     public final boolean getLineFlatten()
     {
         if (isDefined(Attribute.LINE_FLATTEN))
@@ -1192,7 +1190,7 @@ public class Attributes extends JavaScriptObject
         }
         return false;
     }
-    
+
     public final void setLineFlatten(boolean flat)
     {
         put(Attribute.LINE_FLATTEN.getProperty(), flat);

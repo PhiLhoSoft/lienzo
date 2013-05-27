@@ -62,8 +62,70 @@ public class Ring extends Shape<Ring>
     {
         context.beginPath();
 
-        context.arc(0, 0, getOuterRadius(), 0, Math.PI * 2, false);
+        drawOuterRign(context);
 
+        drawInnerRing(context);
+
+        context.closePath();
+    }
+
+    @Override
+    protected void stroke(Context2D context, Attributes attr, double alpha)
+    {
+        context.save();
+
+        if (setStrokeParams(context, attr, alpha))
+        {
+            if (context.isSelection())
+            {
+                context.beginPath();
+
+                drawOuterRign(context);
+
+                context.closePath();
+
+                context.stroke();
+
+                context.beginPath();
+
+                drawInnerRing(context);
+
+                context.closePath();
+
+                context.stroke();
+
+                context.restore();
+
+                return;
+            }
+            doApplyShadow(context, attr);
+
+            context.beginPath();
+
+            drawOuterRign(context);
+
+            context.closePath();
+
+            context.stroke();
+
+            context.beginPath();
+
+            drawInnerRing(context);
+
+            context.closePath();
+
+            context.stroke();
+        }
+        context.restore();
+    }
+
+    private final void drawOuterRign(Context2D context)
+    {
+        context.arc(0, 0, getOuterRadius(), 0, Math.PI * 2, false);
+    }
+
+    private final void drawInnerRing(Context2D context)
+    {
         context.arc(0, 0, getInnerRadius(), 0, Math.PI * 2, true);
     }
 

@@ -81,8 +81,8 @@ public class Picture extends Shape<Picture>
     public Picture(String url, boolean listening)
     {
         this(url, true, listening, null);
-    }    
-    
+    }
+
     /**
      * Creates a Picture from a URL.
      * The following attributes are defaulted:
@@ -126,8 +126,8 @@ public class Picture extends Shape<Picture>
     public Picture(String url, int sx, int sy, int sw, int sh, boolean listening)
     {
         this(url, sx, sy, sw, sh, listening, null);
-    }    
-    
+    }
+
     /**
      * Creates a Picture from a URL.
      * The following attributes are defaulted:
@@ -174,8 +174,8 @@ public class Picture extends Shape<Picture>
     public Picture(String url, int sx, int sy, int sw, int sh, int dw, int dh, boolean listening)
     {
         this(url, sx, sy, sw, sh, dw, dh, listening, null);
-    }    
-    
+    }
+
     /**
      * Creates a Picture from a URL.
      * 
@@ -226,7 +226,7 @@ public class Picture extends Shape<Picture>
     {
         this(url, dw, dh, listening, null);
     }
-    
+
     /**
      * Creates a Picture from a URL.
      * The following attributes are defaulted:
@@ -276,7 +276,7 @@ public class Picture extends Shape<Picture>
     {
         this(resource, true, listening, null);
     }
-    
+
     /**
      * Creates a Picture from an ImageResource.
      * The following attributes are defaulted:
@@ -321,7 +321,7 @@ public class Picture extends Shape<Picture>
     {
         this(resource, sx, sy, sw, sh, listening, null);
     }
-    
+
     /**
      * Creates a Picture from an ImageResource.
      * The following attributes are defaulted:
@@ -369,7 +369,7 @@ public class Picture extends Shape<Picture>
     {
         this(resource, sx, sy, sw, sh, dw, dh, listening, null);
     }
-    
+
     /**
      * Creates a Picture from an ImageResource.
      * 
@@ -420,7 +420,7 @@ public class Picture extends Shape<Picture>
     {
         this(resource, dw, dh, listening, null);
     }
-    
+
     /**
      * Creates a Picture from an ImageResource.
      * The following attributes are defaulted:
@@ -457,8 +457,7 @@ public class Picture extends Shape<Picture>
 
         setListening(listening);
 
-        if (pictureCategory != null)
-            setPictureCategory(pictureCategory);
+        if (pictureCategory != null) setPictureCategory(pictureCategory);
 
         m_proxy = new ImageProxy(this, load);
     }
@@ -522,13 +521,13 @@ public class Picture extends Shape<Picture>
         SerializationMode mode = getSerializationMode();
         if (mode == SerializationMode.DATA_URL)
         {
-            //TODO support different image formats
+            // TODO support different image formats
             attr.put("url", new JSONString(toDataURL(null)));
         }
         else if (mode == SerializationMode.RESOURCE_ID)
         {
-            //TODO where do we make sure that it has a resourceID
-            //TODO should we remove the URL here?        
+            // TODO where do we make sure that it has a resourceID
+            // TODO should we remove the URL here?
         }
 
         JSONObject object = new JSONObject();
@@ -550,8 +549,6 @@ public class Picture extends Shape<Picture>
     @Override
     public void draw(Context2D context)
     {
-        boolean apsh = false;
-
         Attributes attr = getAttributes();
 
         context.save();
@@ -564,19 +561,11 @@ public class Picture extends Shape<Picture>
 
             return;
         }
-        if ((attr.isDefined(Attribute.SHADOW)) && (m_apsh == false))
-        {
-            apsh = m_apsh = doApplyShadow(context, attr);
-        }
+        doApplyShadow(context, attr);
 
         m_proxy.drawImage(context);
 
         context.restore();
-
-        if (apsh)
-        {
-            draw(context);
-        }
     }
 
     public String getPictureCategory()

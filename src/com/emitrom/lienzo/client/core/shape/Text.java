@@ -24,7 +24,6 @@ import com.emitrom.lienzo.client.core.shape.json.IFactory;
 import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
 import com.emitrom.lienzo.client.core.types.TextMetrics;
-import com.emitrom.lienzo.shared.core.types.ColorName;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.emitrom.lienzo.shared.core.types.TextAlign;
 import com.emitrom.lienzo.shared.core.types.TextBaseLine;
@@ -149,49 +148,35 @@ public class Text extends Shape<Text>
     @Override
     protected void fill(Context2D context, Attributes attr, double alpha)
     {
-        if (context.isSelection())
-        {
-            context.save();
-
-            context.beginPath();
-
-            context.setGlobalAlpha(1);
-
-            context.setFillColor(getColorKey());
-
-            context.fillText(attr.getText(), 0, 0);
-
-            context.restore();
-
-            return;
-        }
         if (attr.isDefined(Attribute.FILL))
         {
+            if (context.isSelection())
+            {
+                context.save();
+
+                context.beginPath();
+
+                context.setGlobalAlpha(1);
+
+                context.setFillColor(getColorKey());
+
+                context.fillText(attr.getText(), 0, 0);
+
+                context.restore();
+
+                return;
+            }
             context.save();
 
             context.beginPath();
 
-            if ((attr.isDefined(Attribute.SHADOW)) && (m_apsh == false))
-            {
-                m_apsh = doApplyShadow(context, attr);
-            }
+            doApplyShadow(context, attr);
+
             context.setGlobalAlpha(alpha);
 
             String fill = attr.getFillColor();
 
-            if (m_apsh)
-            {
-                if (null != fill)
-                {
-                    context.setFillColor(fill);
-                }
-                else
-                {
-                    context.setFillColor(ColorName.WHITE);
-                }
-                context.fillText(attr.getText(), 0, 0);
-            }
-            else if (null != fill)
+            if (null != fill)
             {
                 context.setFillColor(fill);
 
@@ -218,10 +203,8 @@ public class Text extends Shape<Text>
 
                 return;
             }
-            if ((m_apsh == false) && (attr.isDefined(Attribute.SHADOW)))
-            {
-                m_apsh = doApplyShadow(context, attr);
-            }
+            doApplyShadow(context, attr);
+
             context.beginPath();
 
             context.strokeText(attr.getText(), 0, 0);

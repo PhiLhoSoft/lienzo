@@ -176,29 +176,27 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
      */
     protected void fill(Context2D context, Attributes attr, double alpha)
     {
-        if (context.isSelection())
-        {
-            context.save();
-
-            context.setGlobalAlpha(1);
-
-            context.setFillColor(getColorKey());
-
-            context.fill();
-
-            context.restore();
-
-            return;
-        }
         if (attr.isDefined(Attribute.FILL))
         {
+            if (context.isSelection())
+            {
+                context.save();
+
+                context.setGlobalAlpha(1);
+
+                context.setFillColor(getColorKey());
+
+                context.fill();
+
+                context.restore();
+
+                return;
+            }
             context.save();
 
-            if ((m_apsh == false) && (attr.isDefined(Attribute.SHADOW)))
-            {
-                m_apsh = doApplyShadow(context, attr);
-            }
-            context.setGlobalAlpha(getGlobalAlpha());
+            doApplyShadow(context, attr);
+
+            context.setGlobalAlpha(alpha);
 
             String fill = attr.getFillColor();
 
@@ -317,14 +315,11 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
                 return;
             }
-            if ((m_apsh == false) && (attr.isDefined(Attribute.SHADOW)))
-            {
-                m_apsh = doApplyShadow(context, attr);
-            }
-            context.stroke();
+            doApplyShadow(context, attr);
 
-            context.restore();
+            context.stroke();
         }
+        context.restore();
     }
 
     /**
@@ -334,17 +329,19 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
      * @param attr
      * @return boolean
      */
-    protected final boolean doApplyShadow(Context2D context, Attributes attr)
+    protected final void doApplyShadow(Context2D context, Attributes attr)
     {
-        Shadow shadow = attr.getShadow();
-
-        if (null != shadow)
+        if ((m_apsh == false) && (attr.isDefined(Attribute.SHADOW)))
         {
-            context.setShadow(shadow);
+            m_apsh = true;
 
-            return true;
+            Shadow shadow = attr.getShadow();
+
+            if (null != shadow)
+            {
+                context.setShadow(shadow);
+            }
         }
-        return false;
     }
 
     /**

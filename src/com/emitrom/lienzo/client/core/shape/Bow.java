@@ -220,7 +220,7 @@ public class Bow extends Shape<Bow>
     {
         public BowFactory()
         {
-            super(ShapeType.SLICE);
+            super(ShapeType.BOW);
 
             addAttribute(Attribute.INNER_RADIUS, true);
 

@@ -81,7 +81,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
         super(NodeType.LAYER);
 
         setClearLayerBeforeDraw(true);
-        
+
         setZoomable(true);
     }
 
@@ -404,7 +404,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
     {
         return getAttributes().isZoomable();
     }
-    
+
     /**
      * Sets whether the Layer is zoomable.
      * If not, changes to the (parent) Viewport's transform (probably due to zoom or pan operations) won't affect this layer.
@@ -416,10 +416,10 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
     public Layer setZoomable(boolean zoomable)
     {
         getAttributes().setZoomable(zoomable);
-        
+
         return this;
     }
-    
+
     /**
      * Returns whether this layer is cleared before being drawn.
      * 
@@ -530,26 +530,23 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
                     Context2D context = getContext();
 
                     Transform vpTrans = null;
-                    
+
                     if (isZoomable())
                     {
                         vpTrans = getViewport().getTransform();
                     }
-                    
                     if (vpTrans != null)
                     {
                         context.save();
 
                         context.transform(vpTrans);
                     }
-
                     drawWithTransforms(context);
 
                     if (vpTrans != null)
                     {
                         context.restore();
                     }
-
                     if (m_olad != null)
                     {
                         m_olad.onLayerAfterDraw(this);
@@ -570,7 +567,6 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
 
                                 context.transform(vpTrans);
                             }
-
                             drawWithTransforms(context);
 
                             if (vpTrans != null)

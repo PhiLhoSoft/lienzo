@@ -299,7 +299,14 @@ public final class NativeContext2D extends JavaScriptObject
 
     public final void setShadow(Shadow shadow)
     {
-        this.setShadow(shadow.getJSO());
+        if (null == shadow)
+        {
+            this.noShadow();
+        }
+        else
+        {
+            this.setShadow(shadow.getJSO());
+        }
     }
 
     private final native void setShadow(ShadowJSO shadow)
@@ -311,6 +318,17 @@ public final class NativeContext2D extends JavaScriptObject
 		this.shadowOffsetY = shadow.offset.y;
 
 		this.shadowBlur = shadow.blur;
+    }-*/;
+
+    private final native void noShadow()
+    /*-{
+		this.shadowColor = "transparent";
+
+		this.shadowOffsetX = 0;
+
+		this.shadowOffsetY = 0;
+
+		this.shadowBlur = 0;
     }-*/;
 
     public final native boolean isSupported(String feature)

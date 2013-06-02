@@ -19,10 +19,9 @@ package com.emitrom.lienzo.client.core.animation;
 
 import java.util.ArrayList;
 
-import com.emitrom.lienzo.client.core.shape.Layer;
 import com.emitrom.lienzo.client.core.shape.Node;
 
-public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAnimation
+public class TweeningAnimation extends TimedAnimation
 {
     private final AnimationTweener       m_tweener;
 
@@ -103,15 +102,9 @@ public class TweeningAnimation extends TimedAnimation implements ILayerBatchedAn
                 }
                 if (draw)
                 {
-                    scheduleBatchedRedraw(node.getLayer());
+                    LayerRedrawManager.get().schedule(node.getLayer());
                 }
             }
         }
-    }
-
-    @Override
-    public void scheduleBatchedRedraw(Layer layer)
-    {
-        LayerBatchedAnimationRedrawManager.get().scheduleBatchedRedraw(layer);
     }
 }

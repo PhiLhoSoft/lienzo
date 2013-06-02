@@ -17,12 +17,11 @@
 
 package com.emitrom.lienzo.client.core.animation;
 
-import com.emitrom.lienzo.client.core.shape.Layer;
 import com.emitrom.lienzo.client.core.shape.Node;
 import com.emitrom.lienzo.client.core.types.Point2DArray;
 import com.emitrom.lienzo.client.core.types.Transform;
 
-public class ThreePointAnimation extends TimedAnimation implements ILayerBatchedAnimation
+public class ThreePointAnimation extends TimedAnimation
 {
     private final Transform m_beg;
 
@@ -90,12 +89,6 @@ public class ThreePointAnimation extends TimedAnimation implements ILayerBatched
 
         node.setTransform(new Transform(m_mid));
 
-        scheduleBatchedRedraw(node.getLayer());
-    }
-
-    @Override
-    public void scheduleBatchedRedraw(Layer layer)
-    {
-        LayerBatchedAnimationRedrawManager.get().scheduleBatchedRedraw(layer);
+        LayerRedrawManager.get().schedule(node.getLayer());
     }
 }

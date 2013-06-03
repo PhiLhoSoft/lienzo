@@ -19,6 +19,7 @@ package com.emitrom.lienzo.client.widget;
 
 import java.util.ArrayList;
 
+import com.emitrom.lienzo.client.core.animation.LayerRedrawManager;
 import com.emitrom.lienzo.client.core.event.INodeXYEvent;
 import com.emitrom.lienzo.client.core.event.NodeDragEndEvent;
 import com.emitrom.lienzo.client.core.event.NodeDragMoveEvent;
@@ -444,9 +445,9 @@ final class LienzoHandlerManager
 
         m_dragnode.setVisible(false);
 
-        m_dragnode.getLayer().draw();
-
         m_dragContext.drawNode(m_lienzo.getDragLayer().getContext());
+        
+        LayerRedrawManager.get().schedule(m_dragnode.getLayer());
 
         m_dragging_dispatch_move = m_dragnode.isEventHandled(NodeDragMoveEvent.getType());
 
@@ -455,8 +456,6 @@ final class LienzoHandlerManager
 
     private final void doDragMove(INodeXYEvent event)
     {
-        m_lienzo.getDragLayer().clear();
-
         m_dragContext.dragUpdate(event);
 
         if (m_dragging_dispatch_move)

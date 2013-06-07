@@ -170,25 +170,27 @@ public class Text extends Shape<Text>
 
                 setWasFilledFlag(true);
 
-                return;
             }
-            context.save();
+            else
+            {
+                context.save();
 
-            context.beginPath();
+                context.beginPath();
 
-            doApplyShadow(context, attr);
+                doApplyShadow(context, attr);
 
-            context.setGlobalAlpha(alpha);
+                context.setGlobalAlpha(alpha);
 
-            context.setFillColor(fill);
+                context.setFillColor(fill);
 
-            context.fillText(attr.getText(), 0, 0);
+                context.fillText(attr.getText(), 0, 0);
 
-            context.closePath();
+                context.closePath();
 
-            context.restore();
+                context.restore();
 
-            setWasFilledFlag(true);
+                setWasFilledFlag(true);
+            }
         }
     }
 
@@ -206,21 +208,19 @@ public class Text extends Shape<Text>
                 context.strokeText(attr.getText(), 0, 0);
 
                 context.closePath();
-
-                context.restore();
-
-                return;
             }
-            doApplyShadow(context, attr);
+            else
+            {
+                doApplyShadow(context, attr);
 
-            context.beginPath();
+                context.beginPath();
 
-            context.strokeText(attr.getText(), 0, 0);
+                context.strokeText(attr.getText(), 0, 0);
 
-            context.closePath();
-
-            context.restore();
+                context.closePath();
+            }
         }
+        context.restore();
     }
 
     /**

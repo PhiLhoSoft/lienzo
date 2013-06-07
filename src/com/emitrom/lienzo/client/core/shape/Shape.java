@@ -348,14 +348,13 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
             if (context.isSelection())
             {
                 context.stroke();
-
-                context.restore();
-
-                return;
             }
-            doApplyShadow(context, attr);
+            else
+            {
+                doApplyShadow(context, attr);
 
-            context.stroke();
+                context.stroke();
+            }
         }
         context.restore();
     }

@@ -133,6 +133,7 @@ public abstract class ContainerNode<M extends IDrawable<?>, T extends ContainerN
      * <p> 
      * Groups should draw their children in the current context.
      */
+    @Override
     protected void drawWithoutTransforms(Context2D context)
     {
         // Draw child nodes
@@ -141,7 +142,11 @@ public abstract class ContainerNode<M extends IDrawable<?>, T extends ContainerN
 
         for (int i = 0; i < size; i++)
         {
+            context.save();
+
             m_list.get(i).drawWithTransforms(context);
+
+            context.restore();
         }
     }
 

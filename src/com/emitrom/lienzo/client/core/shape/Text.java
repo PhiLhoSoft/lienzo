@@ -148,7 +148,9 @@ public class Text extends Shape<Text>
     @Override
     protected void fill(Context2D context, Attributes attr, double alpha)
     {
-        if (attr.isDefined(Attribute.FILL))
+        String fill = attr.getFillColor();
+
+        if (null != fill)
         {
             if (context.isSelection())
             {
@@ -161,6 +163,8 @@ public class Text extends Shape<Text>
                 context.setFillColor(getColorKey());
 
                 context.fillText(attr.getText(), 0, 0);
+
+                context.closePath();
 
                 context.restore();
 
@@ -176,17 +180,15 @@ public class Text extends Shape<Text>
 
             context.setGlobalAlpha(alpha);
 
-            String fill = attr.getFillColor();
+            context.setFillColor(fill);
 
-            if (null != fill)
-            {
-                context.setFillColor(fill);
+            context.fillText(attr.getText(), 0, 0);
 
-                context.fillText(attr.getText(), 0, 0);
+            context.closePath();
 
-                setWasFilledFlag(true);
-            }
             context.restore();
+
+            setWasFilledFlag(true);
         }
     }
 
@@ -203,6 +205,8 @@ public class Text extends Shape<Text>
 
                 context.strokeText(attr.getText(), 0, 0);
 
+                context.closePath();
+
                 context.restore();
 
                 return;
@@ -212,6 +216,8 @@ public class Text extends Shape<Text>
             context.beginPath();
 
             context.strokeText(attr.getText(), 0, 0);
+
+            context.closePath();
 
             context.restore();
         }

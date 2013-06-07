@@ -106,7 +106,13 @@ public class Attributes extends JavaScriptObject
 
     public final String getFillColor()
     {
-        return getString(Attribute.FILL.getProperty());
+        String fill = getString(Attribute.FILL.getProperty());
+
+        if ((null != fill) && (false == (fill = fill.trim()).isEmpty()))
+        {
+            return fill;
+        }
+        return fill;
     }
 
     public final void setFillGradient(LinearGradient gradient)

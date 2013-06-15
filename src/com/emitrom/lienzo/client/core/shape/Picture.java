@@ -547,7 +547,7 @@ public class Picture extends Shape<Picture>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
         context.save();
 

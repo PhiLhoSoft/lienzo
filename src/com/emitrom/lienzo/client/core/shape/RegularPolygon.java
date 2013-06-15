@@ -55,7 +55,7 @@ public class RegularPolygon extends Shape<RegularPolygon>
      * @context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
         final int s = getSides();
 

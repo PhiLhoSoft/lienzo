@@ -72,7 +72,7 @@ public class Bow extends Shape<Bow>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
         final double end = getEndAngle();
 

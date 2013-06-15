@@ -16,6 +16,7 @@
  */
 package com.emitrom.lienzo.client.core.shape.json;
 
+import com.emitrom.lienzo.client.core.shape.IContainer;
 import com.emitrom.lienzo.client.core.shape.IJSONSerializable;
 
 /**
@@ -31,5 +32,5 @@ public interface IContainerFactory
      * 
      * @param childNode IJSONSerializable
      */
-    public boolean isValidForContainer(IJSONSerializable<?> node);
+    public boolean isValidForContainer(IContainer<?> g, IJSONSerializable<?> node);
 }

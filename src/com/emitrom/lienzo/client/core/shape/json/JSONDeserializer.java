@@ -343,7 +343,7 @@ public final class JSONDeserializer
 
                     if (kidNode != null)
                     {
-                        if (containerFactory.isValidForContainer(kidNode))
+                        if (containerFactory.isValidForContainer(g, kidNode))
                         {
                             g.add(kidNode);
                         }

@@ -749,6 +749,12 @@ public class Scene extends ContainerNode<Layer, Scene> implements IJSONSerializa
     }
 
     @Override
+    public boolean isValidForContainer(IJSONSerializable<?> node)
+    {
+        return (node instanceof Layer);
+    }
+
+    @Override
     public IFactory<?> getFactory()
     {
         return new SceneFactory();
@@ -772,9 +778,9 @@ public class Scene extends ContainerNode<Layer, Scene> implements IJSONSerializa
         }
 
         @Override
-        public boolean isValidForContainer(IJSONSerializable<?> node)
+        public boolean isValidForContainer(IContainer<?> g, IJSONSerializable<?> node)
         {
-            return (node instanceof Layer);
+            return g.isValidForContainer(node);
         }
     }
 }

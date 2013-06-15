@@ -26,7 +26,6 @@ import com.emitrom.lienzo.client.core.animation.AnimationTweener;
 import com.emitrom.lienzo.client.core.animation.IAnimationCallback;
 import com.emitrom.lienzo.client.core.animation.IAnimationHandle;
 import com.emitrom.lienzo.client.core.animation.TweeningAnimation;
-import com.emitrom.lienzo.client.core.shape.PolyLine.LastState;
 import com.emitrom.lienzo.client.core.types.DragBounds;
 import com.emitrom.lienzo.client.core.types.FillGradient;
 import com.emitrom.lienzo.client.core.types.LinearGradient;
@@ -162,7 +161,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
         Attributes attr = getAttributes();
 
-        prepare(context, attr);
+        prepare(context, attr, alpha);
 
         fill(context, attr, alpha);
 
@@ -179,7 +178,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         return m_fill;
     }
 
-    protected abstract void prepare(Context2D context, Attributes attr);
+    protected abstract void prepare(Context2D context, Attributes attr, double alpha);
 
     /**
      * Fills the Shape using the passed attributes.
@@ -393,7 +392,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
      * @param state
      * @param plus
      */
-    protected void drawDashedLine(Context2D context, double x, double y, double x2, double y2, double[] da, LastState state, double plus)
+    protected void drawDashedLine(Context2D context, double x, double y, double x2, double y2, double[] da, double plus)
     {
         final int dashCount = da.length;
 
@@ -409,7 +408,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
         double distRemaining = Math.sqrt(dx * dx + dy * dy) + plus;
 
-        int dashIndex = state.getIndex();
+        int dashIndex = 0;
 
         while (distRemaining >= 0.1)
         {
@@ -449,7 +448,6 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
             dashIndex++;
         }
-        state.setIndex(dashIndex);
     }
 
     /**

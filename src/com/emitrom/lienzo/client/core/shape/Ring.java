@@ -64,13 +64,13 @@ public class Ring extends Shape<Ring>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
         context.beginPath();
 
-        drawOuterRign(context);
+        context.arc(0, 0, getOuterRadius(), 0, Math.PI * 2, false);
 
-        drawInnerRing(context);
+        context.arc(0, 0, getInnerRadius(), 0, Math.PI * 2, true);
 
         context.closePath();
     }
@@ -86,7 +86,7 @@ public class Ring extends Shape<Ring>
             {
                 context.beginPath();
 
-                drawOuterRign(context);
+                context.arc(0, 0, getOuterRadius(), 0, Math.PI * 2, false);
 
                 context.closePath();
 
@@ -94,8 +94,8 @@ public class Ring extends Shape<Ring>
 
                 context.beginPath();
 
-                drawInnerRing(context);
-
+                context.arc(0, 0, getInnerRadius(), 0, Math.PI * 2, true);
+                
                 context.closePath();
 
                 context.stroke();
@@ -108,7 +108,7 @@ public class Ring extends Shape<Ring>
 
             context.beginPath();
 
-            drawOuterRign(context);
+            context.arc(0, 0, getOuterRadius(), 0, Math.PI * 2, false);
 
             context.closePath();
 
@@ -116,23 +116,13 @@ public class Ring extends Shape<Ring>
 
             context.beginPath();
 
-            drawInnerRing(context);
-
+            context.arc(0, 0, getInnerRadius(), 0, Math.PI * 2, true);
+            
             context.closePath();
 
             context.stroke();
         }
         context.restore();
-    }
-
-    private final void drawOuterRign(Context2D context)
-    {
-        context.arc(0, 0, getOuterRadius(), 0, Math.PI * 2, false);
-    }
-
-    private final void drawInnerRing(Context2D context)
-    {
-        context.arc(0, 0, getInnerRadius(), 0, Math.PI * 2, true);
     }
 
     /**

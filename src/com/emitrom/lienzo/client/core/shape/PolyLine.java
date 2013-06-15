@@ -57,10 +57,8 @@ public class PolyLine extends Shape<PolyLine>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
-        double alpha = getGlobalAlpha();
-
         Point2DArray list = getPoints();
 
         if ((null != list) && (list.getLength() >= 2))
@@ -71,48 +69,7 @@ public class PolyLine extends Shape<PolyLine>
 
             context.beginPath();
 
-            double x = point.getX();
-
-            double y = point.getY();
-
-            if ((false == context.isSelection()) && (attr.isDefined(Attribute.DASH_ARRAY)))
-            {
-                DashArray dash = getDashArray();
-
-                if (dash != null)
-                {
-                    double[] data = dash.getNormalizedArray();
-
-                    if (data.length > 0)
-                    {
-                        final double plus = getStrokeWidth();
-
-                        if (setStrokeParams(context, attr, alpha))
-                        {
-                            LastState state = new LastState();
-
-                            for (int i = 1; i < leng; i++)
-                            {
-                                point = list.getPoint(i);
-
-                                double xe = point.getX();
-
-                                double ye = point.getY();
-
-                                drawDashedLine(context, x, y, xe, ye, data, state, plus);
-
-                                x = xe;
-
-                                y = ye;
-                            }
-                            return;
-                        }
-                    }
-                }
-            }
-            context.beginPath();
-
-            context.moveTo(x, y);
+            context.moveTo(point.getX(), point.getY());
 
             for (int i = 1; i < leng; i++)
             {
@@ -191,38 +148,6 @@ public class PolyLine extends Shape<PolyLine>
     public IFactory<?> getFactory()
     {
         return new PolyLineFactory();
-    }
-
-    protected static class LastState
-    {
-        private int m_index = 0;
-
-        public int getIndex()
-        {
-            return m_index;
-        }
-
-        public void setIndex(int index)
-        {
-            this.m_index = index;
-        }
-
-        private double m_length = 0;
-
-        public double getLength()
-        {
-            return m_length;
-        }
-
-        public void setLength(double length)
-        {
-            this.m_length = length;
-        }
-
-        public LastState()
-        {
-
-        }
     }
 
     public static class PolyLineFactory extends ShapeFactory<PolyLine>

@@ -56,7 +56,7 @@ public class Polygon extends Shape<Polygon>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
         Point2DArray list = getPoints();
 

@@ -19,7 +19,6 @@ package com.emitrom.lienzo.client.core.shape;
 
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
-import com.emitrom.lienzo.client.core.shape.PolyLine.LastState;
 import com.emitrom.lienzo.client.core.shape.json.IFactory;
 import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
@@ -71,15 +70,13 @@ public class Line extends Shape<Line>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
-        double alpha = getGlobalAlpha();
-
         Point2DArray list = getPoints();
 
         if ((null != list) && (list.getLength() == 2))
         {
-            if ((false == context.isSelection()) && (attr.isDefined(Attribute.DASH_ARRAY)))
+            if (attr.isDefined(Attribute.DASH_ARRAY))
             {
                 DashArray dash = getDashArray();
 
@@ -97,7 +94,7 @@ public class Line extends Shape<Line>
 
                             context.beginPath();
 
-                            drawDashedLine(context, p0.getX(), p0.getY(), p1.getX(), p1.getY(), data, new LastState(), attr.getStrokeWidth() / 2);
+                            drawDashedLine(context, p0.getX(), p0.getY(), p1.getX(), p1.getY(), data, attr.getStrokeWidth() / 2);
                         }
                         return;
                     }

@@ -124,9 +124,9 @@ public class Text extends Shape<Text>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
-        String text = attr.getText();
+        String text = getText();
 
         if ((null == text) || (text.isEmpty()))
         {
@@ -134,13 +134,13 @@ public class Text extends Shape<Text>
         }
         if (attr.isDefined(Attribute.TEXT_BASELINE))
         {
-            context.setTextBaseline(attr.getTextBaseLine());
+            context.setTextBaseline(getTextBaseLine());
         }
         if (attr.isDefined(Attribute.TEXT_ALIGN))
         {
-            context.setTextAlign(attr.getTextAlign());
+            context.setTextAlign(getTextAlign());
         }
-        context.setTextFont(attr.getFontStyle() + " " + attr.getFontSize() + "pt " + attr.getFontFamily());
+        context.setTextFont(getFontStyle() + " " + getFontSize() + "pt " + getFontFamily());
     }
 
     @Override
@@ -160,7 +160,7 @@ public class Text extends Shape<Text>
 
                 context.setFillColor(getColorKey());
 
-                context.fillText(attr.getText(), 0, 0);
+                context.fillText(getText(), 0, 0);
 
                 context.closePath();
 
@@ -181,7 +181,7 @@ public class Text extends Shape<Text>
 
                 context.setFillColor(fill);
 
-                context.fillText(attr.getText(), 0, 0);
+                context.fillText(getText(), 0, 0);
 
                 context.closePath();
 
@@ -203,7 +203,7 @@ public class Text extends Shape<Text>
             {
                 context.beginPath();
 
-                context.strokeText(attr.getText(), 0, 0);
+                context.strokeText(getText(), 0, 0);
 
                 context.closePath();
             }
@@ -213,7 +213,7 @@ public class Text extends Shape<Text>
 
                 context.beginPath();
 
-                context.strokeText(attr.getText(), 0, 0);
+                context.strokeText(getText(), 0, 0);
 
                 context.closePath();
             }
@@ -232,8 +232,6 @@ public class Text extends Shape<Text>
     {
         TextMetrics size = null;
 
-        Attributes attr = getAttributes();
-
         String text = getText();
 
         if ((null == text) || (text.isEmpty()))
@@ -246,13 +244,13 @@ public class Text extends Shape<Text>
 
         context.setTextBaseline(TextBaseLine.ALPHABETIC);
 
-        context.setTextFont(attr.getFontStyle() + " " + attr.getFontSize() + "pt " + attr.getFontFamily());
+        context.setTextFont(getFontStyle() + " " + getFontSize() + "pt " + getFontFamily());
 
-        double width = attr.getStrokeWidth();
+        double width = getStrokeWidth();
 
         if (width == 0)
         {
-            width = 2;
+            width = 1;
         }
         context.setStrokeWidth(width);
 

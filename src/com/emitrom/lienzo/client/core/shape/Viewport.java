@@ -83,7 +83,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
     private final Scene      m_back    = new Scene();
 
     private Mediators        m_mediators;
-    
+
     /**
      * Constructor. Creates an instance of a viewport.
      * 
@@ -107,7 +107,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
         m_drag.add(new DragLayer());
 
         m_mediators = new Mediators(this);
-        
+
         // Zoom mediators rely on the Transform not being null.
         setTransform(new Transform());
     }
@@ -207,7 +207,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
             super.add(scene);
         }
     }
-    
+
     public HandlerRegistration addOrientationChangeHandler(OrientationChangeHandler handler)
     {
         return addEnsureHandler(OrientationChangeEvent.TYPE, handler);
@@ -217,7 +217,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
     {
         return addEnsureHandler(ResizeStartEvent.TYPE, handler);
     }
-    
+
     public HandlerRegistration addResizeChangeHandler(ResizeChangeHandler handler)
     {
         return addEnsureHandler(ResizeChangeEvent.TYPE, handler);
@@ -227,7 +227,6 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
     {
         return addEnsureHandler(ResizeEndEvent.TYPE, handler);
     }
-
 
     public void draw()
     {
@@ -404,7 +403,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
     public void viewLocalArea(double x, double y, double width, double height)
     {
         Transform t = Transform.createViewportTransform(x, y, width, height, m_wide, m_high);
-        
+
         if (t != null)
         {
             setTransform(t);
@@ -423,12 +422,12 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
     public Viewport setTransform(Transform transform)
     {
         super.setTransform(transform);
-        
+
         super.fireEvent(new ViewportTransformChangedEvent(this));
-        
+
         return this;
     }
-    
+
     /**
      * Returns a {@link JSONObject} representation of the {@link Viewport} with its {@link Attributes} as well as its children.
      * 
@@ -557,7 +556,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
     {
         m_mediators.push(mediator);
     }
-    
+
     /**
      * Adds a ViewportTransformChangedHandler that will be notified whenever the Viewport's 
      * transform changes (probably due to a zoom or pan operation.)
@@ -571,6 +570,12 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
     }
 
     @Override
+    public boolean isValidForContainer(IJSONSerializable<?> node)
+    {
+        return (node instanceof Scene);
+    }
+
+    @Override
     public IFactory<?> getFactory()
     {
         return new ViewportFactory();
@@ -581,7 +586,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
         public ViewportFactory()
         {
             super(NodeType.VIEWPORT);
-            
+
             // For Viewports, the Transform is required (for other Nodes it's optional),
             // so override the requirednesss.
             addAttribute(Attribute.TRANSFORM, true);
@@ -598,9 +603,9 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
         }
 
         @Override
-        public boolean isValidForContainer(IJSONSerializable<?> node)
+        public boolean isValidForContainer(IContainer<?> g, IJSONSerializable<?> node)
         {
-            return (node instanceof Scene);
+            return g.isValidForContainer(node);
         }
     }
 
@@ -705,5 +710,5 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
             }
         }
     }
-    
+
 }

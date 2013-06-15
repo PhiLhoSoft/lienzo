@@ -69,7 +69,7 @@ public class Rectangle extends Shape<Rectangle>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr)
+    public void prepare(Context2D context, Attributes attr, double alpha)
     {
         context.beginPath();
 

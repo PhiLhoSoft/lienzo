@@ -87,4 +87,6 @@ public interface IContainer<M> extends Iterable<M>
      * @return ArrayList
      */
     public ArrayList<Node<?>> search(INodeFilter filter);
+
+    public boolean isValidForContainer(IJSONSerializable<?> node);
 }

@@ -787,6 +787,12 @@ public class Group extends ContainerNode<IPrimitive<?>, Group> implements IPrimi
     }
 
     @Override
+    public boolean isValidForContainer(IJSONSerializable<?> node)
+    {
+        return (node instanceof IPrimitive<?>);
+    }
+
+    @Override
     public IFactory<?> getFactory()
     {
         return new GroupFactory();
@@ -834,9 +840,9 @@ public class Group extends ContainerNode<IPrimitive<?>, Group> implements IPrimi
         }
 
         @Override
-        public boolean isValidForContainer(IJSONSerializable<?> node)
+        public boolean isValidForContainer(IContainer<?> g, IJSONSerializable<?> node)
         {
-            return (node instanceof IPrimitive);
+            return g.isValidForContainer(node);
         }
     }
 }

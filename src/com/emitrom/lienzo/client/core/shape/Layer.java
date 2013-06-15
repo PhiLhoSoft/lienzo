@@ -835,6 +835,12 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
     }
 
     @Override
+    public boolean isValidForContainer(IJSONSerializable<?> node)
+    {
+        return (node instanceof IPrimitive<?>);
+    }
+
+    @Override
     public IFactory<?> getFactory()
     {
         return new LayerFactory();
@@ -952,9 +958,9 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
         }
 
         @Override
-        public boolean isValidForContainer(IJSONSerializable<?> node)
+        public boolean isValidForContainer(IContainer<?> g, IJSONSerializable<?> node)
         {
-            return (node instanceof IPrimitive);
+            return g.isValidForContainer(node);
         }
     }
 }

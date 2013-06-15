@@ -60,7 +60,7 @@ public class QuadraticCurve extends Shape<QuadraticCurve>
      * @param context
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         Point2DArray points = getControlPoints();
 
@@ -109,13 +109,13 @@ public class QuadraticCurve extends Shape<QuadraticCurve>
     {
         return new QuadraticCurveFactory();
     }
-    
+
     public static class QuadraticCurveFactory extends ShapeFactory<QuadraticCurve>
     {
         public QuadraticCurveFactory()
         {
             super(ShapeType.QUADRATIC_CURVE);
-            
+
             addAttribute(Attribute.CONTROL_POINTS, true);
         }
 

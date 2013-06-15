@@ -89,7 +89,7 @@ public class Movie extends Shape<Movie>
      * @param context
      */
     @Override
-    public void draw(final Context2D context)
+    public void prepare(final Context2D context, Attributes attr)
     {
         if (false == m_inits)
         {

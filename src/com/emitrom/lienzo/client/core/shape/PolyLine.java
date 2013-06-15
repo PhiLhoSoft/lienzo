@@ -57,13 +57,11 @@ public class PolyLine extends Shape<PolyLine>
      * @param context
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         double alpha = getGlobalAlpha();
 
-        Attributes attr = getAttributes();
-
-        Point2DArray list = attr.getPoints();
+        Point2DArray list = getPoints();
 
         if ((null != list) && (list.getLength() >= 2))
         {
@@ -79,7 +77,7 @@ public class PolyLine extends Shape<PolyLine>
 
             if ((false == context.isSelection()) && (attr.isDefined(Attribute.DASH_ARRAY)))
             {
-                DashArray dash = attr.getDashArray();
+                DashArray dash = getDashArray();
 
                 if (dash != null)
                 {
@@ -87,7 +85,7 @@ public class PolyLine extends Shape<PolyLine>
 
                     if (data.length > 0)
                     {
-                        final double plus = attr.getStrokeWidth();
+                        final double plus = getStrokeWidth();
 
                         if (setStrokeParams(context, attr, alpha))
                         {

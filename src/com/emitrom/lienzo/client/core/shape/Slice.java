@@ -72,7 +72,7 @@ public class Slice extends Shape<Slice>
      * @param context
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         double start = getStartAngle();
 

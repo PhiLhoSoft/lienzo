@@ -547,10 +547,8 @@ public class Picture extends Shape<Picture>
      * @param context
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
-        Attributes attr = getAttributes();
-
         context.save();
 
         if (context.isSelection())

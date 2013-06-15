@@ -69,19 +69,17 @@ public class Rectangle extends Shape<Rectangle>
      * @param context
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
-        Attributes attr = getAttributes();
-
         context.beginPath();
 
-        double r = attr.getCornerRadius();
+        double r = getCornerRadius();
 
         if (r != 0)
         {
-            double w = attr.getWidth();
+            double w = getWidth();
 
-            double h = attr.getHeight();
+            double h = getHeight();
 
             context.moveTo(r, 0);
 

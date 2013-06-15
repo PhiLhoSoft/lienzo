@@ -73,7 +73,7 @@ public class Arc extends Shape<Arc>
      * @param context the {@link Context2D} used to draw this arc.
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         context.beginPath();
 

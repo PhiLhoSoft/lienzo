@@ -59,7 +59,7 @@ public class Star extends Shape<Star>
      * @param context
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         final int s = getStarPoints();
 

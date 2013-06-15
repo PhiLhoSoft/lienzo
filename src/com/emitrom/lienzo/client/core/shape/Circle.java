@@ -54,7 +54,7 @@ public class Circle extends Shape<Circle>
      * @param context the {@link Context2D} used to draw this circle. 
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         context.beginPath();
 

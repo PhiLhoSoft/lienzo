@@ -18,6 +18,7 @@
 package com.emitrom.lienzo.client.core;
 
 import com.emitrom.lienzo.shared.core.types.IColor;
+import com.emitrom.lienzo.shared.core.types.LayerClearMode;
 import com.google.gwt.canvas.client.Canvas;
 
 /**
@@ -40,6 +41,8 @@ public final class LienzoGlobals
     private final boolean              m_lineDashSupport   = false;
 
     private final boolean              m_canvasSupported   = Canvas.isSupported();
+
+    private LayerClearMode             m_layerClearMode    = LayerClearMode.CLEAR;
 
     private LienzoGlobals()
     {
@@ -111,5 +114,18 @@ public final class LienzoGlobals
     public final String getDefaultFontFamily()
     {
         return DEFAULT_FONT_FAMILY;
+    }
+
+    public final LayerClearMode getLayerClearMode()
+    {
+        return m_layerClearMode;
+    }
+
+    public final void setLayerClearMode(LayerClearMode mode)
+    {
+        if (null != mode)
+        {
+            m_layerClearMode = mode;
+        }
     }
 }

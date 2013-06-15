@@ -58,7 +58,7 @@ import com.google.gwt.json.client.JSONObject;
  */
 public class Arrow extends Shape<Arrow>
 {
-    private Point2DArray              m_polygon;
+    private Point2DArray m_polygon;
 
     /**
      * Constructor. Creates an instance of an arrow.
@@ -105,7 +105,7 @@ public class Arrow extends Shape<Arrow>
      * @param context the {@link Context2D} used to draw this arrow.
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         Point2DArray list = getPolygon(); // is null for invalid arrow definition
 

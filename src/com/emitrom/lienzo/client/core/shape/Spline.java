@@ -61,7 +61,7 @@ public class Spline extends Shape<Spline>
     * @param context the {@link Context2D} used to draw this spline.
     */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         if (null == m_points)
         {

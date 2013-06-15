@@ -162,7 +162,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
         Attributes attr = getAttributes();
 
-        draw(context);
+        prepare(context, attr);
 
         fill(context, attr, alpha);
 
@@ -179,7 +179,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         return m_fill;
     }
 
-    protected abstract void draw(Context2D context);
+    protected abstract void prepare(Context2D context, Attributes attr);
 
     /**
      * Fills the Shape using the passed attributes.

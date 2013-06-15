@@ -124,10 +124,8 @@ public class Text extends Shape<Text>
      * @param context
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
-        Attributes attr = getAttributes();
-
         String text = attr.getText();
 
         if ((null == text) || (text.isEmpty()))

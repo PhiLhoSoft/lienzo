@@ -136,17 +136,11 @@ public abstract class ContainerNode<M extends IDrawable<?>, T extends ContainerN
     @Override
     protected void drawWithoutTransforms(Context2D context)
     {
-        // Draw child nodes
-
         final int size = m_list.length();
 
         for (int i = 0; i < size; i++)
         {
-            context.save();
-
             m_list.get(i).drawWithTransforms(context);
-
-            context.restore();
         }
     }
 

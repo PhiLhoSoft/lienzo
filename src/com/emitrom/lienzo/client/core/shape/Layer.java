@@ -37,6 +37,7 @@ import com.emitrom.lienzo.client.core.types.OnLayerAfterDraw;
 import com.emitrom.lienzo.client.core.types.OnLayerBeforeDraw;
 import com.emitrom.lienzo.client.core.types.Transform;
 import com.emitrom.lienzo.shared.core.types.DataURLType;
+import com.emitrom.lienzo.shared.core.types.LayerClearMode;
 import com.emitrom.lienzo.shared.core.types.NodeType;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
@@ -61,6 +62,8 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
 
     private int                           m_high            = 0;
 
+    private boolean                       m_virgin          = true;
+
     private SelectionLayer                m_select          = null;
 
     private OnLayerBeforeDraw             m_olbd            = null;
@@ -82,7 +85,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
 
         setClearLayerBeforeDraw(true);
 
-        setZoomable(true);
+        setZoomable(false);
     }
 
     /**
@@ -98,10 +101,9 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
         {
             setClearLayerBeforeDraw(true);
         }
-
         if (NativeInternalType.BOOLEAN != getAttributes().typeOf(Attribute.ZOOMABLE))
         {
-            setZoomable(true);
+            setZoomable(false);
         }
     }
 
@@ -529,21 +531,21 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
                 {
                     Context2D context = getContext();
 
-                    Transform vpTrans = null;
+                    Transform transform = null;
 
                     if (isZoomable())
                     {
-                        vpTrans = getViewport().getTransform();
+                        transform = getViewport().getTransform();
                     }
-                    if (vpTrans != null)
+                    if (transform != null)
                     {
                         context.save();
 
-                        context.transform(vpTrans);
+                        context.transform(transform);
                     }
                     drawWithTransforms(context);
 
-                    if (vpTrans != null)
+                    if (transform != null)
                     {
                         context.restore();
                     }
@@ -561,15 +563,15 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
 
                             context = selection.getContext();
 
-                            if (vpTrans != null)
+                            if (transform != null)
                             {
                                 context.save();
 
-                                context.transform(vpTrans);
+                                context.transform(transform);
                             }
                             drawWithTransforms(context);
 
-                            if (vpTrans != null)
+                            if (transform != null)
                             {
                                 context.restore();
                             }
@@ -621,11 +623,25 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
      */
     public void clear()
     {
-        Context2D context = getContext();
-
-        if (null != context)
+        if (false == m_virgin)
         {
-            context.clearRect(0, 0, m_wide, m_high);
+            if (LienzoGlobals.getInstance().getLayerClearMode() == LayerClearMode.CLEAR)
+            {
+                Context2D context = getContext();
+
+                if (null != context)
+                {
+                    context.clearRect(0, 0, m_wide, m_high);
+                }
+            }
+            else
+            {
+                setPixelSize(m_wide, m_high);
+            }
+        }
+        else
+        {
+            m_virgin = false;
         }
     }
 

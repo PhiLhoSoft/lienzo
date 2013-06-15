@@ -71,19 +71,17 @@ public class Line extends Shape<Line>
      * @param context
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         double alpha = getGlobalAlpha();
 
-        Attributes attr = getAttributes();
-
-        Point2DArray list = attr.getPoints();
+        Point2DArray list = getPoints();
 
         if ((null != list) && (list.getLength() == 2))
         {
             if ((false == context.isSelection()) && (attr.isDefined(Attribute.DASH_ARRAY)))
             {
-                DashArray dash = attr.getDashArray();
+                DashArray dash = getDashArray();
 
                 if (dash != null)
                 {

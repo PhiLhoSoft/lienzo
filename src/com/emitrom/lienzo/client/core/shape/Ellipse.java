@@ -32,7 +32,7 @@ import com.google.gwt.json.client.JSONObject;
  */
 public class Ellipse extends Shape<Ellipse>
 {
-    private static final double        KAPPA     = .5522848;
+    private static final double KAPPA = .5522848;
 
     /**
      * Constructor. Creates an instance of an ellipse.
@@ -53,7 +53,7 @@ public class Ellipse extends Shape<Ellipse>
     {
         super(ShapeType.ELLIPSE, node);
     }
-    
+
     @Override
     protected boolean doStrokeExtraProperties()
     {
@@ -66,7 +66,7 @@ public class Ellipse extends Shape<Ellipse>
      * @param context the {@link Context2D} used to draw this ellipse.
      */
     @Override
-    public void draw(Context2D context)
+    public void prepare(Context2D context, Attributes attr)
     {
         double w = getWidth();
 

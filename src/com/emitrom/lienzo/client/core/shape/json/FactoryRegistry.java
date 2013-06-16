@@ -21,6 +21,7 @@ import com.emitrom.lienzo.client.core.shape.Arc;
 import com.emitrom.lienzo.client.core.shape.Arrow;
 import com.emitrom.lienzo.client.core.shape.BezierCurve;
 import com.emitrom.lienzo.client.core.shape.Bow;
+import com.emitrom.lienzo.client.core.shape.Chord;
 import com.emitrom.lienzo.client.core.shape.Circle;
 import com.emitrom.lienzo.client.core.shape.Ellipse;
 import com.emitrom.lienzo.client.core.shape.GridLayer;
@@ -157,6 +158,8 @@ public final class FactoryRegistry
         registry.registerFactory(new Bow.BowFactory());
 
         registry.registerFactory(new Ring.RingFactory());
+
+        registry.registerFactory(new Chord.ChordFactory());
 
         // Container Types
 

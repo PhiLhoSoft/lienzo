@@ -63,6 +63,8 @@ public class ShapeType
     public static final ShapeType BOW             = new ShapeType("Bow");
 
     public static final ShapeType RING            = new ShapeType("Ring");
+    
+    public static final ShapeType CHORD            = new ShapeType("Chord");
 
     private final String          m_value;
 

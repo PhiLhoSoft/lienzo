@@ -27,6 +27,7 @@ import com.emitrom.lienzo.client.core.shape.Ellipse;
 import com.emitrom.lienzo.client.core.shape.GridLayer;
 import com.emitrom.lienzo.client.core.shape.Group;
 import com.emitrom.lienzo.client.core.shape.IJSONSerializable;
+import com.emitrom.lienzo.client.core.shape.IsoscelesTrapezoid;
 import com.emitrom.lienzo.client.core.shape.Layer;
 import com.emitrom.lienzo.client.core.shape.Line;
 import com.emitrom.lienzo.client.core.shape.Movie;
@@ -160,6 +161,8 @@ public final class FactoryRegistry
         registry.registerFactory(new Ring.RingFactory());
 
         registry.registerFactory(new Chord.ChordFactory());
+        
+        registry.registerFactory(new IsoscelesTrapezoid.IsoscelesTrapezoidFactory());
 
         // Container Types
 

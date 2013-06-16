@@ -160,6 +160,10 @@ public class Attribute
 
     public static final Attribute         LINE_FLATTEN                     = new Attribute("lineFlatten", M.lineFlattenTypeLabel(), M.lineFlattenTypeDescription(), AttributeType.BOOLEAN_TYPE);
 
+    public static final Attribute         TOP_WIDTH                        = new Attribute("topWidth", M.widthLabel(), M.widthDescription(), AttributeType.NUMBER_TYPE);
+
+    public static final Attribute         BOTTOM_WIDTH                     = new Attribute("bottomWidth", M.widthLabel(), M.widthDescription(), AttributeType.NUMBER_TYPE);
+
     private final String                  m_property;
 
     private final String                  m_label;

@@ -22,49 +22,51 @@ package com.emitrom.lienzo.shared.core.types;
  */
 public class ShapeType
 {
-    public static final ShapeType ARC             = new ShapeType("Arc");
+    public static final ShapeType ARC                 = new ShapeType("Arc");
 
-    public static final ShapeType ARROW           = new ShapeType("Arrow");
+    public static final ShapeType ARROW               = new ShapeType("Arrow");
 
-    public static final ShapeType BEZIER_CURVE    = new ShapeType("BezierCurve");
+    public static final ShapeType BEZIER_CURVE        = new ShapeType("BezierCurve");
 
-    public static final ShapeType CIRCLE          = new ShapeType("Circle");
+    public static final ShapeType CIRCLE              = new ShapeType("Circle");
 
-    public static final ShapeType ELLIPSE         = new ShapeType("Ellipse");
+    public static final ShapeType ELLIPSE             = new ShapeType("Ellipse");
 
-    public static final ShapeType LINE            = new ShapeType("Line");
+    public static final ShapeType LINE                = new ShapeType("Line");
 
-    public static final ShapeType MOVIE           = new ShapeType("Movie");
+    public static final ShapeType MOVIE               = new ShapeType("Movie");
 
-    public static final ShapeType PARALLELOGRAM   = new ShapeType("Parallelogram");
+    public static final ShapeType PARALLELOGRAM       = new ShapeType("Parallelogram");
 
-    public static final ShapeType PICTURE         = new ShapeType("Picture");
+    public static final ShapeType PICTURE             = new ShapeType("Picture");
 
-    public static final ShapeType POLYGON         = new ShapeType("Polygon");
+    public static final ShapeType POLYGON             = new ShapeType("Polygon");
 
-    public static final ShapeType POLYLINE        = new ShapeType("Polyline");
+    public static final ShapeType POLYLINE            = new ShapeType("Polyline");
 
-    public static final ShapeType QUADRATIC_CURVE = new ShapeType("QuadraticCurve");
+    public static final ShapeType QUADRATIC_CURVE     = new ShapeType("QuadraticCurve");
 
-    public static final ShapeType RECTANGLE       = new ShapeType("Rectangle");
+    public static final ShapeType RECTANGLE           = new ShapeType("Rectangle");
 
-    public static final ShapeType REGULAR_POLYGON = new ShapeType("RegularPolygon");
+    public static final ShapeType REGULAR_POLYGON     = new ShapeType("RegularPolygon");
 
-    public static final ShapeType SLICE           = new ShapeType("Slice");
+    public static final ShapeType SLICE               = new ShapeType("Slice");
 
-    public static final ShapeType STAR            = new ShapeType("Star");
+    public static final ShapeType STAR                = new ShapeType("Star");
 
-    public static final ShapeType TEXT            = new ShapeType("Text");
+    public static final ShapeType TEXT                = new ShapeType("Text");
 
-    public static final ShapeType TRIANGLE        = new ShapeType("Triangle");
+    public static final ShapeType TRIANGLE            = new ShapeType("Triangle");
 
-    public static final ShapeType SPLINE          = new ShapeType("Spline");
+    public static final ShapeType SPLINE              = new ShapeType("Spline");
 
-    public static final ShapeType BOW             = new ShapeType("Bow");
+    public static final ShapeType BOW                 = new ShapeType("Bow");
 
-    public static final ShapeType RING            = new ShapeType("Ring");
-    
-    public static final ShapeType CHORD            = new ShapeType("Chord");
+    public static final ShapeType RING                = new ShapeType("Ring");
+
+    public static final ShapeType CHORD               = new ShapeType("Chord");
+
+    public static final ShapeType ISOSCELES_TRAPEZOID = new ShapeType("IsoscelesTrapezoid");
 
     private final String          m_value;
 

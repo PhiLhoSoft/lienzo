@@ -1215,6 +1215,26 @@ public class Attributes extends JavaScriptObject
         put(Attribute.ANGLE_FACTOR.getProperty(), factor);
     }
 
+    public final void setTopWidth(double topwidth)
+    {
+        put(Attribute.TOP_WIDTH.getProperty(), topwidth);
+    }
+
+    public final double getTopWidth()
+    {
+        return getDouble(Attribute.TOP_WIDTH.getProperty());
+    }
+
+    public final void setBottomWidth(double bottomwidth)
+    {
+        put(Attribute.BOTTOM_WIDTH.getProperty(), bottomwidth);
+    }
+
+    public final double getBottomWidth()
+    {
+        return getDouble(Attribute.BOTTOM_WIDTH.getProperty());
+    }
+
     public final void put(String name, String value)
     {
         if (null != value)
@@ -1478,5 +1498,4 @@ public class Attributes extends JavaScriptObject
     /*-{
 		return obj[name];
     }-*/;
-
 }

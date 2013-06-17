@@ -22,7 +22,6 @@ import com.emitrom.lienzo.client.core.Context2D;
 import com.emitrom.lienzo.client.core.shape.json.IFactory;
 import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
-import com.emitrom.lienzo.client.core.types.DashArray;
 import com.emitrom.lienzo.client.core.types.Point2D;
 import com.emitrom.lienzo.client.core.types.Point2DArray;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
@@ -87,43 +86,6 @@ public class PolyLine extends Shape<PolyLine>
     }
 
     /**
-     * Gets this polygon's dash array.
-     * 
-     * @return {@link DashArray} if this polyline is not dashed, there will be no elements in the {@link DashArray}
-     */
-    public DashArray getDashArray()
-    {
-        return getAttributes().getDashArray();
-    }
-
-    /**
-     * Sets the dash array.  
-     * 
-     * @param array
-     * @return this PolyLine
-     */
-    public PolyLine setDashArray(DashArray array)
-    {
-        getAttributes().setDashArray(array);
-
-        return this;
-    }
-
-    /**
-     * Sets the dash array with individual dash lengths.
-     * 
-     * @param dash length of dash
-     * @param dashes if specified, length of remaining dashes
-     * @return this PolyLine
-     */
-    public PolyLine setDashArray(double dash, double... dashes)
-    {
-        getAttributes().setDashArray(new DashArray(dash, dashes));
-
-        return this;
-    }
-
-    /**
      * Returns this PolyLine's points.
      * @return {@link Point2DArray}
      */
@@ -157,8 +119,6 @@ public class PolyLine extends Shape<PolyLine>
             super(ShapeType.POLYLINE);
 
             addAttribute(Attribute.POINTS, true);
-
-            addAttribute(Attribute.DASH_ARRAY);
         }
 
         @Override

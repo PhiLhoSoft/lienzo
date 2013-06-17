@@ -26,6 +26,7 @@ import com.emitrom.lienzo.client.core.animation.AnimationTweener;
 import com.emitrom.lienzo.client.core.animation.IAnimationCallback;
 import com.emitrom.lienzo.client.core.animation.IAnimationHandle;
 import com.emitrom.lienzo.client.core.animation.TweeningAnimation;
+import com.emitrom.lienzo.client.core.types.DashArray;
 import com.emitrom.lienzo.client.core.types.DragBounds;
 import com.emitrom.lienzo.client.core.types.FillGradient;
 import com.emitrom.lienzo.client.core.types.LinearGradient;
@@ -381,75 +382,43 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
     }
 
     /**
-     * Draws a dashed line instead of a solid one for the shape.
+     * Gets the {@link DashArray}. If this is a solid line, the dash array is empty.
      * 
-     * @param context
-     * @param x
-     * @param y
-     * @param x2
-     * @param y2
-     * @param da
-     * @param state
-     * @param plus
+     * @return {@link DashArray} if this line is not dashed, there will be no elements in the {@link DashArray}
      */
-    protected void drawDashedLine(Context2D context, double x, double y, double x2, double y2, double[] da, double plus)
+    public DashArray getDashArray()
     {
-        final int dashCount = da.length;
-
-        final double dx = (x2 - x);
-
-        final double dy = (y2 - y);
-
-        boolean xbig = (Math.abs(dx) > Math.abs(dy));
-
-        double slope = (xbig) ? dy / dx : dx / dy;
-
-        context.moveTo(x, y);
-
-        double distRemaining = Math.sqrt(dx * dx + dy * dy) + plus;
-
-        int dashIndex = 0;
-
-        while (distRemaining >= 0.1)
-        {
-            double dashLength = Math.min(distRemaining, da[dashIndex % dashCount]);
-
-            double step = Math.sqrt(dashLength * dashLength / (1 + slope * slope));
-
-            if (xbig)
-            {
-                if (dx < 0)
-                {
-                    step = -step;
-                }
-                x += step;
-
-                y += slope * step;
-            }
-            else
-            {
-                if (dy < 0)
-                {
-                    step = -step;
-                }
-                x += slope * step;
-
-                y += step;
-            }
-            if (dashIndex % 2 == 0)
-            {
-                context.lineTo(x, y);
-            }
-            else
-            {
-                context.moveTo(x, y);
-            }
-            distRemaining -= dashLength;
-
-            dashIndex++;
-        }
+        return getAttributes().getDashArray();
     }
 
+    /**
+     * Sets the dash array. 
+     * 
+     * @param array contains dash lengths
+     * @return this Line
+     */
+    public T setDashArray(DashArray array)
+    {
+        getAttributes().setDashArray(array);
+
+        return cast();
+    }
+
+    /**
+     * Sets the dash array with individual dash lengths.
+     * 
+     * @param dash length of dash
+     * @param dashes if specified, length of remaining dashes
+     * @return this Line
+     */
+    public T setDashArray(double dash, double... dashes)
+    {
+        getAttributes().setDashArray(new DashArray(dash, dashes));
+
+        return cast();
+    }
+
+    
     /**
      * Returns this shape cast as an {@link IPrimitive}
      * 

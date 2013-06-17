@@ -253,12 +253,9 @@ public class TestSerialization extends LienzoTestCase
         Point2DArray a = new Point2DArray(new Point2D(1.2, 2.3), new Point2D(3.4, 4.5), new Point2D(5.6, 6.7), new Point2D(7.8, 8.9));
 
         PolyLine r = new PolyLine(a);
-        DashArray dash = createDashArray();
-        r.setDashArray(dash);
         
         PolyLine r2 = serializeShapeTest(r);  
         assertEquals(a, r2.getPoints());
-        assertEquals(dash, r2.getDashArray());
     }
     
     public void testAllQuadraticCurve()

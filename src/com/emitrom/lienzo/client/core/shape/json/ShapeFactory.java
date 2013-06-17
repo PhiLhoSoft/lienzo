@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.client.core.shape.json;
 
 import com.emitrom.lienzo.client.core.Attribute;
@@ -33,7 +34,7 @@ public abstract class ShapeFactory<T extends IJSONSerializable<T>> extends NodeF
     protected ShapeFactory(ShapeType type)
     {
         super(type.getValue());
-        
+
         addAttribute(Attribute.X);
         addAttribute(Attribute.Y);
         addAttribute(Attribute.ALPHA);
@@ -50,8 +51,9 @@ public abstract class ShapeFactory<T extends IJSONSerializable<T>> extends NodeF
         addAttribute(Attribute.MITER_LIMIT);
         addAttribute(Attribute.DRAG_CONSTRAINT);
         addAttribute(Attribute.DRAG_BOUNDS);
+        addAttribute(Attribute.DASH_ARRAY);
     }
-    
+
     /**
      * Only factories that wish to extend other factories should use this.
      * 

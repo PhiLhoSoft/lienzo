@@ -26,14 +26,14 @@ import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.google.gwt.json.client.JSONObject;
 
 /**
- * A Slice is defined by a start angle and an end angle, like a slice of a pizza.
+ * A Chord is defined by a radius, a start angle and an end angle.  Effectively,
+ * a chord is a circle with a flat side, which is defined by the start and end angles.
  * The angles can be specified in clockwise or counter-clockwise order.
- * Slices greater than 180 degrees (or PI radians) look like pacmans.
  */
 public class Chord extends Shape<Chord>
 {
     /**
-     * Constructor. Creates an instance of a slice.
+     * Constructor. Creates an instance of a chord.
      * 
      * @param radius
      * @param startAngle in radians
@@ -48,7 +48,7 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Constructor. Creates an instance of a slice, drawn clockwise.
+     * Constructor. Creates an instance of a chord, drawn clockwise.
      * 
      * @param radius
      * @param startAngle in radians
@@ -67,7 +67,7 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Draws this slice.
+     * Draws this chord.
      * 
      * @param context
      */
@@ -86,7 +86,7 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Gets this slice's radius
+     * Gets this chord's radius
      * 
      * @return double
      */
@@ -96,10 +96,10 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Sets this slice's radius.
+     * Sets this chord's radius.
      * 
      * @param radius
-     * @return this Slice.
+     * @return this chord.
      */
     public Chord setRadius(double radius)
     {
@@ -109,7 +109,7 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Gets the starting angle of this slice.
+     * Gets the starting angle of this chord.
      * 
      * @return double in radians
      */
@@ -119,10 +119,10 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Sets the starting angle of this slice.
+     * Sets the starting angle of this chord.
      * 
      * @param angle in radians
-     * @return this Slice.
+     * @return this chord.
      */
     public Chord setStartAngle(double angle)
     {
@@ -132,7 +132,7 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Gets the end angle of this slice.
+     * Gets the end angle of this chord.
      * 
      * @return double in radians
      */
@@ -142,10 +142,10 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Gets the end angle of this slice.
+     * Gets the end angle of this chord.
      * 
      * @param angle in radians
-     * @return this Slice.
+     * @return this chord.
      */
     public Chord setEndAngle(double angle)
     {
@@ -155,7 +155,7 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Returns whether the slice is drawn counter clockwise.
+     * Returns whether the chord is drawn counter clockwise.
      * The default value is true.
      * 
      * @return boolean
@@ -166,11 +166,11 @@ public class Chord extends Shape<Chord>
     }
 
     /**
-     * Sets whether the drawing direction of this slice is counter clockwise.
+     * Sets whether the drawing direction of this chord is counter clockwise.
      * The default value is true.
      * 
      * @param counterclockwise
-     * @return this Slice
+     * @return this chord
      */
     public Chord setCounterClockwise(boolean counterclockwise)
     {

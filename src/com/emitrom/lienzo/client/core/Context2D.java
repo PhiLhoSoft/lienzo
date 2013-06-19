@@ -76,6 +76,11 @@ public class Context2D
         m_jso.rect(x, y, w, h);
     }
 
+    public void fillRect(double x, double y, double w, double h)
+    {
+        m_jso.fillRect(x, y, w, h);
+    }
+
     public void fill()
     {
         m_jso.fill();

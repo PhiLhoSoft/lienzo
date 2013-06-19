@@ -22,6 +22,9 @@ import com.emitrom.lienzo.client.core.animation.positioning.IPositioningCalculat
 import com.emitrom.lienzo.client.core.shape.IPrimitive;
 import com.emitrom.lienzo.client.core.shape.Node;
 import com.emitrom.lienzo.client.core.types.Point2D;
+import com.emitrom.lienzo.client.core.util.ColorExtractor;
+import com.emitrom.lienzo.shared.core.types.Color;
+import com.emitrom.lienzo.shared.core.types.IColor;
 
 /**
  * AnimationProperty defines what node attribute is modified during a "tweening" animation 
@@ -208,6 +211,106 @@ public interface AnimationProperty
         public static final AnimationProperty DASH_OFFSET(double offset)
         {
             return new DoubleAnimationProperty(offset, Attribute.DASH_OFFSET);
+        }
+
+        public static final AnimationProperty FILL_COLOR(String color)
+        {
+            return new StringFillColorAnimationProperty(color, Attribute.FILL);
+        }
+
+        public static final AnimationProperty FILL_COLOR(IColor color)
+        {
+            return new StringFillColorAnimationProperty(color.getColorString(), Attribute.FILL);
+        }
+
+        private static final class StringFillColorAnimationProperty implements AnimationProperty
+        {
+            private String    m_target;
+
+            private Attribute m_attribute;
+
+            private double    m_origin_r;
+
+            private double    m_origin_g;
+
+            private double    m_origin_b;
+
+            private double    m_origin_a;
+
+            private double    m_target_r;
+
+            private double    m_target_g;
+
+            private double    m_target_b;
+
+            private double    m_target_a;
+
+            public StringFillColorAnimationProperty(String target, Attribute attribute)
+            {
+                m_target = target;
+
+                m_attribute = attribute;
+            }
+
+            @Override
+            public boolean init(Node<?> node)
+            {
+                if ((node != null) && (m_attribute != null) && (node.getAttributeSheet().contains(m_attribute)))
+                {
+                    Color cend = ColorExtractor.extract(m_target);
+
+                    String fill = node.getAttributes().getFillColor();
+
+                    if ((null == fill) || ((fill = fill.trim()).isEmpty()))
+                    {
+                        fill = "transparent";
+                    }
+                    Color cbeg;
+
+                    if ("transparent".equals(fill))
+                    {
+                        cbeg = new Color(cend.getR(), cend.getG(), cend.getB(), 0.0);
+                    }
+                    else
+                    {
+                        cbeg = ColorExtractor.extract(fill);
+                    }
+                    m_origin_r = cbeg.getR();
+
+                    m_origin_g = cbeg.getG();
+
+                    m_origin_b = cbeg.getB();
+
+                    m_origin_a = cbeg.getA();
+
+                    m_target_r = cend.getR();
+
+                    m_target_g = cend.getG();
+
+                    m_target_b = cend.getB();
+
+                    m_target_a = cend.getA();
+
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean apply(Node<?> node, double percent)
+            {
+                double r = (m_origin_r + ((m_target_r - m_origin_r) * percent));
+
+                double g = (m_origin_g + ((m_target_g - m_origin_g) * percent));
+
+                double b = (m_origin_b + ((m_target_b - m_origin_b) * percent));
+
+                double a = (m_origin_a + ((m_target_a - m_origin_a) * percent));
+
+                node.getAttributes().setFillColor(new Color(((int) (r + 0.5)), ((int) (g + 0.5)), ((int) (b + 0.5)), a).getColorString());
+
+                return true;
+            }
         }
 
         private static final class PositioningAnimationProperty implements AnimationProperty

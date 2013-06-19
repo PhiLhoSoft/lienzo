@@ -205,6 +205,11 @@ public interface AnimationProperty
             return new PositioningAnimationProperty(calc);
         }
 
+        public static final AnimationProperty DASH_OFFSET(double offset)
+        {
+            return new DoubleAnimationProperty(offset, Attribute.DASH_OFFSET);
+        }
+
         private static final class PositioningAnimationProperty implements AnimationProperty
         {
             private final IPositioningCalculator m_calc;

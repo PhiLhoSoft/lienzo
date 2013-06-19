@@ -35,26 +35,28 @@ public interface AnimationTweener
 {
     public static final AnimationTweener LINEAR      = TweenerBuilder.MAKE_LINEAR();
 
-    public static final AnimationTweener EASE_IN     = TweenerBuilder.EASE_IN_P(3.0);
+    public static final AnimationTweener EASE_IN     = TweenerBuilder.MAKE_EASE_IN(3.0);
 
-    public static final AnimationTweener EASE_OUT    = TweenerBuilder.EASE_OUT_P(3.0);
+    public static final AnimationTweener EASE_OUT    = TweenerBuilder.MAKE_EASE_OUT(3.0);
 
     public static final AnimationTweener EASE_IN_OUT = TweenerBuilder.MAKE_EASE_IN_OUT();
 
     public static final AnimationTweener ELASTIC     = TweenerBuilder.MAKE_ELASTIC(3);
 
+    public static final AnimationTweener BOUNCE      = TweenerBuilder.MAKE_BOUNCE(3);
+
     public double tween(double percent);
 
     public static final class TweenerBuilder
     {
-        public static final AnimationTweener EASE_IN_P(double strength)
+        public static final AnimationTweener MAKE_EASE_IN(double strength)
         {
-            return MAKE_EASE_IN(Math.min(6.0, Math.max(2.0, strength)));
+            return MAKE_EASE_IN_P(Math.min(6.0, Math.max(1.0, strength)));
         }
 
-        public static final AnimationTweener EASE_OUT_P(double strength)
+        public static final AnimationTweener MAKE_EASE_OUT(double strength)
         {
-            return MAKE_EASE_OUT(Math.min(6.0, Math.max(2.0, strength)));
+            return MAKE_EASE_OUT_P(Math.min(6.0, Math.max(1.0, strength)));
         }
 
         private static final AnimationTweener MAKE_LINEAR()
@@ -69,7 +71,7 @@ public interface AnimationTweener
             };
         }
 
-        private static final AnimationTweener MAKE_EASE_IN(final double strength)
+        private static final AnimationTweener MAKE_EASE_IN_P(final double strength)
         {
             return new AnimationTweener()
             {
@@ -81,7 +83,7 @@ public interface AnimationTweener
             };
         }
 
-        private static final AnimationTweener MAKE_EASE_OUT(final double strength)
+        private static final AnimationTweener MAKE_EASE_OUT_P(final double strength)
         {
             return new AnimationTweener()
             {
@@ -113,6 +115,22 @@ public interface AnimationTweener
                 public double tween(double percent)
                 {
                     return (((1.0 - Math.cos(percent * Math.PI * passes)) * (1.0 - percent)) + percent);
+                }
+            };
+        }
+
+        public static final AnimationTweener MAKE_BOUNCE(int bounces)
+        {
+            final AnimationTweener elastic = MAKE_ELASTIC(bounces);
+
+            return new AnimationTweener()
+            {
+                @Override
+                public double tween(double percent)
+                {
+                    percent = elastic.tween(percent);
+
+                    return ((percent <= 1.0) ? (percent) : (2.0 - percent));
                 }
             };
         }

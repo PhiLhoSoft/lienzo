@@ -425,4 +425,60 @@ public final class NativeContext2D extends JavaScriptObject
     /*-{
 		this.miterLimit = limit;
     }-*/;
+
+    public final native void setLineDash(double[] dashes)
+    /*-{
+		if (!this.LienzoSetLineDash) {
+			if (this.setLineDash) {
+				this.LienzoSetLineDash = this.setLineDash;
+
+				this.LienzoSetLineDashOffset = function(d) {
+					this.lineDashOffset = d | 0;
+				};
+			} else if (this.webkitLineDash) {
+				this.LienzoSetLineDash = function(d) {
+					this.webkitLineDash = d;
+				};
+				this.LienzoSetLineDashOffset = function(d) {
+					this.webkitLineDashOffset = d | 0;
+				};
+			} else {
+				this.LienzoSetLineDash = function(d) {
+					this.mozDash = d;
+				};
+				this.LienzoSetLineDashOffset = function(d) {
+					this.mozDashOffset = d | 0;
+				};
+			}
+		}
+		this.LienzoSetLineDash(dashes);
+    }-*/;
+
+    public final native void setLineDashOffset(double offset)
+    /*-{
+		if (!this.LienzoSetLineDash) {
+			if (this.setLineDash) {
+				this.LienzoSetLineDash = this.setLineDash;
+
+				this.LienzoSetLineDashOffset = function(d) {
+					this.lineDashOffset = d | 0;
+				};
+			} else if (this.webkitLineDash) {
+				this.LienzoSetLineDash = function(d) {
+					this.webkitLineDash = d;
+				};
+				this.LienzoSetLineDashOffset = function(d) {
+					this.webkitLineDashOffset = d | 0;
+				};
+			} else {
+				this.LienzoSetLineDash = function(d) {
+					this.mozDash = d;
+				};
+				this.LienzoSetLineDashOffset = function(d) {
+					this.mozDashOffset = d | 0;
+				};
+			}
+		}
+		this.LienzoSetLineDashOffset(offset);
+    }-*/;
 }

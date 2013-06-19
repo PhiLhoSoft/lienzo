@@ -1235,6 +1235,16 @@ public class Attributes extends JavaScriptObject
         return getDouble(Attribute.BOTTOM_WIDTH.getProperty());
     }
 
+    public final void setDashOffset(double offset)
+    {
+        put(Attribute.DASH_OFFSET.getProperty(), offset);
+    }
+
+    public final double getDashOffset()
+    {
+        return getDouble(Attribute.DASH_OFFSET.getProperty());
+    }
+
     public final void put(String name, String value)
     {
         if (null != value)
@@ -1498,4 +1508,5 @@ public class Attributes extends JavaScriptObject
     /*-{
 		return obj[name];
     }-*/;
+
 }

@@ -17,8 +17,13 @@
 
 package com.emitrom.lienzo.client.core;
 
+import com.emitrom.lienzo.client.core.types.DashArray;
+import com.emitrom.lienzo.client.core.types.ImageData;
+import com.emitrom.lienzo.client.core.util.ScratchCanvas;
+import com.emitrom.lienzo.shared.core.types.ColorName;
 import com.emitrom.lienzo.shared.core.types.IColor;
 import com.emitrom.lienzo.shared.core.types.LayerClearMode;
+import com.emitrom.lienzo.shared.core.types.LineCap;
 import com.google.gwt.canvas.client.Canvas;
 
 /**
@@ -26,23 +31,27 @@ import com.google.gwt.canvas.client.Canvas;
  */
 public final class LienzoGlobals
 {
-    public static final double         DEFAULT_FONT_SIZE   = 48;
+    public static final double         DEFAULT_FONT_SIZE       = 48;
 
-    public static final String         DEFAULT_FONT_STYLE  = "normal";
+    public static final String         DEFAULT_FONT_STYLE      = "normal";
 
-    public static final String         DEFAULT_FONT_FAMILY = "Verdana";
+    public static final String         DEFAULT_FONT_FAMILY     = "Verdana";
 
-    private static final LienzoGlobals s_instance          = new LienzoGlobals();
+    private static final LienzoGlobals s_instance              = new LienzoGlobals();
 
-    private double                     m_strokeWidth       = 1;
+    private double                     m_strokeWidth           = 1;
 
-    private String                     m_strokeColor       = "black";
+    private String                     m_strokeColor           = "black";
 
-    private final boolean              m_lineDashSupport   = false;
+    private boolean                    m_globalLineDashSupport = false;
 
-    private final boolean              m_canvasSupported   = Canvas.isSupported();
+    private boolean                    m_nativeLineDashSupport = false;
 
-    private LayerClearMode             m_layerClearMode    = LayerClearMode.CLEAR;
+    private boolean                    m_nativeLineDashExamine = false;
+
+    private final boolean              m_canvasSupported       = Canvas.isSupported();
+
+    private LayerClearMode             m_layerClearMode        = LayerClearMode.CLEAR;
 
     private LienzoGlobals()
     {
@@ -98,7 +107,28 @@ public final class LienzoGlobals
 
     public final boolean isLineDashSupported()
     {
-        return m_lineDashSupport;
+        return ((isGlobalLineDashSupported()) && (isNativeLineDashSupported()));
+    }
+
+    public final boolean isGlobalLineDashSupported()
+    {
+        return m_globalLineDashSupport;
+    }
+
+    public final void setGlobalLineDashSupported(boolean supported)
+    {
+        m_globalLineDashSupport = supported;
+    }
+
+    public final boolean isNativeLineDashSupported()
+    {
+        if (false == m_nativeLineDashExamine)
+        {
+            m_nativeLineDashSupport = examineNativeLineDashSupported();
+
+            m_nativeLineDashExamine = true;
+        }
+        return m_nativeLineDashSupport;
     }
 
     public final double getDefaultFontSize()
@@ -127,5 +157,55 @@ public final class LienzoGlobals
         {
             m_layerClearMode = mode;
         }
+    }
+
+    private final boolean examineNativeLineDashSupported()
+    {
+        if (isCanvasSupported())
+        {
+            ScratchCanvas scratch = new ScratchCanvas(20, 10);
+
+            Context2D context = scratch.getContext();
+
+            context.setStrokeWidth(10);
+
+            context.setLineCap(LineCap.BUTT);
+
+            context.setStrokeColor(ColorName.BLUE);
+
+            context.beginPath();
+
+            context.moveTo(0, 5);
+
+            context.lineTo(20, 5);
+
+            context.stroke();
+
+            context.setStrokeColor(ColorName.RED);
+
+            context.setLineDash(new DashArray(5, 5));
+
+            context.beginPath();
+
+            context.moveTo(0, 5);
+
+            context.lineTo(20, 5);
+
+            context.stroke();
+
+            ImageData backing = context.getImageData(0, 0, 20, 10);
+
+            if (null != backing)
+            {
+                if ((backing.getRedAt(3, 5) == 255) && (backing.getBlueAt(3, 5) == 0) && (backing.getGreenAt(3, 5) == 0))
+                {
+                    if ((backing.getRedAt(8, 5) == 0) && (backing.getBlueAt(8, 5) == 255) && (backing.getGreenAt(8, 5) == 0))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

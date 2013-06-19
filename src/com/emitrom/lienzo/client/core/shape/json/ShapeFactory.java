@@ -52,6 +52,7 @@ public abstract class ShapeFactory<T extends IJSONSerializable<T>> extends NodeF
         addAttribute(Attribute.DRAG_CONSTRAINT);
         addAttribute(Attribute.DRAG_BOUNDS);
         addAttribute(Attribute.DASH_ARRAY);
+        addAttribute(Attribute.DASH_OFFSET);
     }
 
     /**

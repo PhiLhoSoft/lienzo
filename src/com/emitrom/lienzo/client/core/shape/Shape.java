@@ -310,7 +310,27 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
         context.setStrokeWidth(width);
 
-        if (doStrokeExtraProperties())
+        boolean isdashed = false;
+
+        if (attr.isDefined(Attribute.DASH_ARRAY))
+        {
+            if (LienzoGlobals.getInstance().isLineDashSupported())
+            {
+                DashArray dash = attr.getDashArray();
+
+                if ((null != dash) && (dash.getLength() > 0))
+                {
+                    context.setLineDash(dash);
+
+                    if (attr.isDefined(Attribute.DASH_OFFSET))
+                    {
+                        context.setLineDashOffset(attr.getDashOffset());
+                    }
+                    isdashed = true;
+                }
+            }
+        }
+        if ((isdashed) || (doStrokeExtraProperties()))
         {
             if (attr.isDefined(Attribute.LINE_JOIN))
             {
@@ -404,6 +424,18 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         return cast();
     }
 
+    public double getDashOffset()
+    {
+        return getAttributes().getDashOffset();
+    }
+
+    public T setDashOffset(double offset)
+    {
+        getAttributes().setDashOffset(offset);
+
+        return cast();
+    }
+
     /**
      * Sets the dash array with individual dash lengths.
      * 
@@ -418,7 +450,6 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         return cast();
     }
 
-    
     /**
      * Returns this shape cast as an {@link IPrimitive}
      * 

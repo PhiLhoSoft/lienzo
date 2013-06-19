@@ -96,6 +96,8 @@ public class Attribute
 
     public static final Attribute         DASH_ARRAY                       = new Attribute("dashArray", M.dashArrayLabel(), M.dashArrayDescription(), AttributeType.DASH_ARRAY_TYPE);
 
+    public static final Attribute         DASH_OFFSET                      = new Attribute("dashOffset", M.dashArrayLabel(), M.dashArrayDescription(), AttributeType.NUMBER_TYPE);
+
     public static final Attribute         SIDES                            = new Attribute("sides", M.sidesLabel(), M.sidesDescription(), AttributeType.NUMBER_TYPE);
 
     public static final Attribute         OUTER_RADIUS                     = new Attribute("outerRadius", M.outerRadiusLabel(), M.outerRadiusDescription(), AttributeType.NUMBER_TYPE);

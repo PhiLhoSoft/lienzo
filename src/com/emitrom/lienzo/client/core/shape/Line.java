@@ -19,6 +19,7 @@ package com.emitrom.lienzo.client.core.shape;
 
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
+import com.emitrom.lienzo.client.core.LienzoGlobals;
 import com.emitrom.lienzo.client.core.shape.json.IFactory;
 import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
@@ -78,25 +79,28 @@ public class Line extends Shape<Line>
         {
             if (attr.isDefined(Attribute.DASH_ARRAY))
             {
-                DashArray dash = getDashArray();
-
-                if (dash != null)
+                if (false == LienzoGlobals.getInstance().isNativeLineDashSupported())
                 {
-                    double[] data = dash.getNormalizedArray();
+                    DashArray dash = getDashArray();
 
-                    if (data.length > 0)
+                    if (dash != null)
                     {
-                        if (setStrokeParams(context, attr, alpha))
+                        double[] data = dash.getNormalizedArray();
+
+                        if (data.length > 0)
                         {
-                            Point2D p0 = list.getPoint(0);
+                            if (setStrokeParams(context, attr, alpha))
+                            {
+                                Point2D p0 = list.getPoint(0);
 
-                            Point2D p1 = list.getPoint(1);
+                                Point2D p1 = list.getPoint(1);
 
-                            context.beginPath();
+                                context.beginPath();
 
-                            drawDashedLine(context, p0.getX(), p0.getY(), p1.getX(), p1.getY(), data, attr.getStrokeWidth() / 2);
+                                drawDashedLine(context, p0.getX(), p0.getY(), p1.getX(), p1.getY(), data, attr.getStrokeWidth() / 2);
+                            }
+                            return;
                         }
-                        return;
                     }
                 }
             }

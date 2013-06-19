@@ -223,7 +223,57 @@ public interface AnimationProperty
             return new StringFillColorAnimationProperty(color.getColorString(), Attribute.FILL);
         }
 
-        private static final class StringFillColorAnimationProperty implements AnimationProperty
+        public static final AnimationProperty STROKE_COLOR(String color)
+        {
+            return new StringStrokeColorAnimationProperty(color, Attribute.FILL);
+        }
+
+        public static final AnimationProperty STROKE_COLOR(IColor color)
+        {
+            return new StringStrokeColorAnimationProperty(color.getColorString(), Attribute.FILL);
+        }
+
+        private static final class StringFillColorAnimationProperty extends AbstractStringColorAnimationProperty
+        {
+            public StringFillColorAnimationProperty(String target, Attribute attribute)
+            {
+                super(target, attribute);
+            }
+
+            @Override
+            protected String getColorString(Node<?> node)
+            {
+                return node.getAttributes().getFillColor();
+            }
+
+            @Override
+            protected void setColorString(Node<?> node, String color)
+            {
+                node.getAttributes().setFillColor(color);
+            }
+        }
+
+        private static final class StringStrokeColorAnimationProperty extends AbstractStringColorAnimationProperty
+        {
+            public StringStrokeColorAnimationProperty(String target, Attribute attribute)
+            {
+                super(target, attribute);
+            }
+
+            @Override
+            protected String getColorString(Node<?> node)
+            {
+                return node.getAttributes().getStrokeColor();
+            }
+
+            @Override
+            protected void setColorString(Node<?> node, String color)
+            {
+                node.getAttributes().setStrokeColor(color);
+            }
+        }
+
+        private static abstract class AbstractStringColorAnimationProperty implements AnimationProperty
         {
             private String    m_target;
 
@@ -245,12 +295,16 @@ public interface AnimationProperty
 
             private double    m_target_a;
 
-            public StringFillColorAnimationProperty(String target, Attribute attribute)
+            public AbstractStringColorAnimationProperty(String target, Attribute attribute)
             {
                 m_target = target;
 
                 m_attribute = attribute;
             }
+
+            protected abstract String getColorString(Node<?> node);
+
+            protected abstract void setColorString(Node<?> node, String color);
 
             @Override
             public boolean init(Node<?> node)
@@ -259,21 +313,21 @@ public interface AnimationProperty
                 {
                     Color cend = ColorExtractor.extract(m_target);
 
-                    String fill = node.getAttributes().getFillColor();
+                    String color = getColorString(node);
 
-                    if ((null == fill) || ((fill = fill.trim()).isEmpty()))
+                    if ((null == color) || ((color = color.trim()).isEmpty()))
                     {
-                        fill = "transparent";
+                        color = "transparent";
                     }
                     Color cbeg;
 
-                    if ("transparent".equals(fill))
+                    if ("transparent".equals(color))
                     {
                         cbeg = new Color(cend.getR(), cend.getG(), cend.getB(), 0.0);
                     }
                     else
                     {
-                        cbeg = ColorExtractor.extract(fill);
+                        cbeg = ColorExtractor.extract(color);
                     }
                     m_origin_r = cbeg.getR();
 
@@ -307,7 +361,7 @@ public interface AnimationProperty
 
                 double a = (m_origin_a + ((m_target_a - m_origin_a) * percent));
 
-                node.getAttributes().setFillColor(new Color(((int) (r + 0.5)), ((int) (g + 0.5)), ((int) (b + 0.5)), a).getColorString());
+                setColorString(node, new Color(((int) (r + 0.5)), ((int) (g + 0.5)), ((int) (b + 0.5)), a).getColorString());
 
                 return true;
             }

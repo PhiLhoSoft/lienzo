@@ -17,6 +17,7 @@
 
 package com.emitrom.lienzo.client.core;
 
+import com.emitrom.lienzo.client.core.shape.path.PathPartArray.PathPartArrayJSO;
 import com.emitrom.lienzo.client.core.types.ImageData;
 import com.emitrom.lienzo.client.core.types.ImageDataPixelColor;
 import com.emitrom.lienzo.client.core.types.ImageLoader.ImageJSO;
@@ -480,5 +481,11 @@ public final class NativeContext2D extends JavaScriptObject
 			}
 		}
 		this.LienzoSetLineDashOffset(offset);
+    }-*/;
+
+    public final native void drawPath(PathPartArrayJSO path)
+    /*-{
+        
+        
     }-*/;
 }

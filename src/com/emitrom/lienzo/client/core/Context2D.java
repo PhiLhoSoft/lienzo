@@ -17,6 +17,7 @@
 
 package com.emitrom.lienzo.client.core;
 
+import com.emitrom.lienzo.client.core.shape.path.PathPartArray;
 import com.emitrom.lienzo.client.core.types.DashArray;
 import com.emitrom.lienzo.client.core.types.ImageData;
 import com.emitrom.lienzo.client.core.types.ImageDataPixelColor;
@@ -367,6 +368,14 @@ public class Context2D
     public void setLineDashOffset(double offset)
     {
         m_jso.setLineDashOffset(offset);
+    }
+
+    public void drawPath(PathPartArray path)
+    {
+        if ((null != path) && (path.getLength() > 0))
+        {
+            m_jso.drawPath(path.getJSO());
+        }
     }
 
     public static class GradientJSO extends JavaScriptObject

@@ -47,6 +47,11 @@ public class Point2DArray
     {
         this(Point2DArrayJSO.makePoint2DArrayJSO());
     }
+    
+    public Point2DArray(double x, double y)
+    {
+        this(Point2DArrayJSO.makePoint2DArrayJSO());
+    }
 
     public Point2DArray(Point2D point)
     {
@@ -199,7 +204,7 @@ public class Point2DArray
         return new JSONArray(m_jso).toString();
     }
 
-    static final class Point2DArrayJSO extends JsArray<Point2DJSO>
+    public static final class Point2DArrayJSO extends JsArray<Point2DJSO>
     {
         protected Point2DArrayJSO()
         {

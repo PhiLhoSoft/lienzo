@@ -19,7 +19,6 @@ package com.emitrom.lienzo.client.core.animation;
 
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.animation.positioning.IPositioningCalculator;
-import com.emitrom.lienzo.client.core.shape.IPrimitive;
 import com.emitrom.lienzo.client.core.shape.Node;
 import com.emitrom.lienzo.client.core.types.Point2D;
 import com.emitrom.lienzo.client.core.util.ColorExtractor;
@@ -36,7 +35,6 @@ import com.emitrom.lienzo.shared.core.types.IColor;
  * @see Properties
  * @see AnimationProperties
  * @see AnimationTweener
- * @see AnimationManager#add(IPrimitive, AnimationTweener, AnimationProperties, int, IAnimationCallback)
  */
 public interface AnimationProperty
 {
@@ -54,7 +52,6 @@ public interface AnimationProperty
      * @see AnimationProperty
      * @see AnimationProperties
      * @see AnimationTweener
-     * @see AnimationManager
      */
     public static class Properties
     {

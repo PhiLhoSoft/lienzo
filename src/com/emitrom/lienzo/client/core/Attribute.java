@@ -166,10 +166,6 @@ public class Attribute
 
     public static final Attribute         BOTTOM_WIDTH                     = new Attribute("bottomWidth", M.widthLabel(), M.widthDescription(), AttributeType.NUMBER_TYPE);
 
-    public static final Attribute         X_RADIUS                         = new Attribute("xRadius", M.widthLabel(), M.widthDescription(), AttributeType.NUMBER_TYPE);
-
-    public static final Attribute         Y_RADIUS                         = new Attribute("yRadius", M.widthLabel(), M.widthDescription(), AttributeType.NUMBER_TYPE);
-
     public static final Attribute         PATH_PARTS                       = new Attribute("pathParts", M.widthLabel(), M.widthDescription(), AttributeType.PATH_PARTS_ARRAY_TYPE);
 
     private final String                  m_property;

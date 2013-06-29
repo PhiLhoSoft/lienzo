@@ -3,8 +3,8 @@ package com.emitrom.lienzo.client.core.shape.path;
 
 public class ClosePathPart extends PathPart
 {
-    public ClosePathPart(boolean absolute)
+    public ClosePathPart()
     {
-        super(PathPartJSO.makePathPart(absolute ? PathPartType.Z : PathPartType.z));
+        super(PathPartJSO.makePathPart(PathPartType.z));
     }
 }

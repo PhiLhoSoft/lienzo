@@ -1246,11 +1246,6 @@ public class Attributes extends JavaScriptObject
         return getDouble(Attribute.DASH_OFFSET.getProperty());
     }
 
-    public final double getXRadius()
-    {
-        return getDouble(Attribute.X_RADIUS.getProperty());
-    }
-
     public final PathPartArray getPathParts()
     {
         JsArray<JavaScriptObject> parts = getArrayOfJSO(Attribute.PATH_PARTS.getProperty());
@@ -1270,7 +1265,7 @@ public class Attributes extends JavaScriptObject
         }
         else
         {
-            delete(Attribute.PATH_PARTS.getProperty());
+            put(Attribute.PATH_PARTS.getProperty(), new PathPartArray().getJSO());
         }
     }
 

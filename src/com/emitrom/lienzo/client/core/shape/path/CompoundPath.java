@@ -1,6 +1,8 @@
 
 package com.emitrom.lienzo.client.core.shape.path;
 
+import java.util.List;
+
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
 import com.emitrom.lienzo.client.core.shape.Attributes;
@@ -13,7 +15,7 @@ import com.emitrom.lienzo.client.core.types.Point2DArray;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.google.gwt.json.client.JSONObject;
 
-public class CompoundPath extends Shape<CompoundPath>
+public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilder<CompoundPath>
 {
     public CompoundPath()
     {
@@ -35,84 +37,202 @@ public class CompoundPath extends Shape<CompoundPath>
         }
     }
 
+    @Override
     public CompoundPath m(double x, double y)
     {
-        return m(new Point2DArray(x, y));
+        getAttributes().getPathParts().m(x, y);
+
+        return this;
     }
 
+    @Override
     public CompoundPath m(Point2D point)
     {
-        return m(new Point2DArray(point));
+        getAttributes().getPathParts().m(point);
+
+        return this;
     }
 
+    @Override
     public CompoundPath m(Point2DArray points)
     {
-        getAttributes().getPathParts().push(new MoveToPathPart(points, false));
+        getAttributes().getPathParts().m(points);
 
         return this;
     }
 
+    @Override
+    public CompoundPath m(Point2D point, Point2D... points)
+    {
+        getAttributes().getPathParts().m(point, points);
+
+        return this;
+    }
+
+    @Override
+    public CompoundPath m(Point2D[] points)
+    {
+        getAttributes().getPathParts().m(points);
+
+        return this;
+    }
+
+    @Override
+    public CompoundPath m(List<Point2D> points)
+    {
+        getAttributes().getPathParts().m(points);
+
+        return this;
+    }
+
+    @Override
     public CompoundPath M(double x, double y)
     {
-        return M(new Point2DArray(x, y));
+        getAttributes().getPathParts().M(x, y);
+
+        return this;
     }
 
+    @Override
     public CompoundPath M(Point2D point)
     {
-        return M(new Point2DArray(point));
+        getAttributes().getPathParts().M(point);
+
+        return this;
     }
 
+    @Override
     public CompoundPath M(Point2DArray points)
     {
-        getAttributes().getPathParts().push(new MoveToPathPart(points, true));
+        getAttributes().getPathParts().M(points);
 
         return this;
     }
 
+    @Override
+    public CompoundPath M(Point2D point, Point2D... points)
+    {
+        getAttributes().getPathParts().M(point, points);
+
+        return this;
+    }
+
+    @Override
+    public CompoundPath M(Point2D[] points)
+    {
+        getAttributes().getPathParts().M(points);
+
+        return this;
+    }
+
+    @Override
+    public CompoundPath M(List<Point2D> points)
+    {
+        getAttributes().getPathParts().M(points);
+
+        return this;
+    }
+
+    @Override
     public CompoundPath l(double x, double y)
     {
-        return l(new Point2DArray(x, y));
+        getAttributes().getPathParts().l(x, y);
+
+        return this;
     }
 
+    @Override
     public CompoundPath l(Point2D point)
     {
-        return l(new Point2DArray(point));
+        getAttributes().getPathParts().l(point);
+
+        return this;
     }
 
+    @Override
     public CompoundPath l(Point2DArray points)
     {
-        getAttributes().getPathParts().push(new LineToPathPart(points, false));
+        getAttributes().getPathParts().l(points);
 
         return this;
     }
 
+    @Override
+    public CompoundPath l(Point2D point, Point2D... points)
+    {
+        getAttributes().getPathParts().l(point, points);
+
+        return this;
+    }
+
+    @Override
+    public CompoundPath l(Point2D[] points)
+    {
+        getAttributes().getPathParts().l(points);
+
+        return this;
+    }
+
+    @Override
+    public CompoundPath l(List<Point2D> points)
+    {
+        getAttributes().getPathParts().l(points);
+
+        return this;
+    }
+
+    @Override
     public CompoundPath L(double x, double y)
     {
-        return L(new Point2DArray(x, y));
+        getAttributes().getPathParts().L(x, y);
+
+        return this;
     }
 
+    @Override
     public CompoundPath L(Point2D point)
     {
-        return L(new Point2DArray(point));
+        getAttributes().getPathParts().L(point);
+
+        return this;
     }
 
+    @Override
     public CompoundPath L(Point2DArray points)
     {
-        getAttributes().getPathParts().push(new LineToPathPart(points, true));
+        getAttributes().getPathParts().L(points);
 
         return this;
     }
 
+    @Override
+    public CompoundPath L(Point2D point, Point2D... points)
+    {
+        getAttributes().getPathParts().L(point, points);
+
+        return this;
+    }
+
+    @Override
+    public CompoundPath L(Point2D[] points)
+    {
+        getAttributes().getPathParts().L(points);
+
+        return this;
+    }
+
+    @Override
+    public CompoundPath L(List<Point2D> points)
+    {
+        getAttributes().getPathParts().L(points);
+
+        return this;
+    }
+
+    @Override
     public CompoundPath z()
     {
-        getAttributes().getPathParts().push(new ClosePathPart(false));
-
-        return this;
-    }
-
-    public CompoundPath Z()
-    {
-        getAttributes().getPathParts().push(new ClosePathPart(true));
+        getAttributes().getPathParts().z();
 
         return this;
     }
@@ -146,4 +266,5 @@ public class CompoundPath extends Shape<CompoundPath>
             return new CompoundPath(node);
         }
     }
+
 }

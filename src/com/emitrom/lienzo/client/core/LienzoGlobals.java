@@ -35,7 +35,7 @@ public final class LienzoGlobals
 
     public static final String         DEFAULT_FONT_STYLE      = "normal";
 
-    public static final String         DEFAULT_FONT_FAMILY     = "Verdana";
+    public static final String         DEFAULT_FONT_FAMILY     = "Helvetica";
 
     private static final LienzoGlobals s_instance              = new LienzoGlobals();
 
@@ -43,7 +43,7 @@ public final class LienzoGlobals
 
     private String                     m_strokeColor           = "black";
 
-    private boolean                    m_globalLineDashSupport = false;
+    private boolean                    m_globalLineDashSupport = true;
 
     private boolean                    m_nativeLineDashSupport = false;
 

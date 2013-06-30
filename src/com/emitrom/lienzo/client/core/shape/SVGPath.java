@@ -12,8 +12,12 @@ import com.google.gwt.json.client.JSONObject;
 
 public class SVGPath extends Shape<SVGPath>
 {
-    private final PathPartArray m_parts = new PathPartArray();
-    
+    private final static String   BREAKER = "#";
+
+    private static final String[] SYMBOLS = new String[] { "m", "M", "l", "L", "v", "V", "h", "H", "z", "Z", "c", "C", "q", "Q", "t", "T", "s", "S", "a", "A" };
+
+    private PathPartArray         m_parts = null;
+
     public SVGPath()
     {
         super(ShapeType.SVG_PATH);
@@ -22,6 +26,33 @@ public class SVGPath extends Shape<SVGPath>
     protected SVGPath(JSONObject node)
     {
         super(ShapeType.SVG_PATH, node);
+    }
+
+    final void makePathParts(String path)
+    {
+        m_parts = new PathPartArray();
+
+        if ((null == path) || ((path = path.trim()).isEmpty()))
+        {
+            return;
+        }
+        path = path.replaceAll("\\s+", ",");
+
+        for (int i = 0; i < SYMBOLS.length; i++)
+        {
+            String s = SYMBOLS[i];
+
+            path = path.replaceAll(s, BREAKER + s);
+        }
+        path = path.replaceAll(",-", "-").replaceAll("-", ",-");
+
+        if (path.startsWith(BREAKER))
+        {
+            path = path.substring(1);
+        }
+        // String[] list = path.split(BREAKER);
+
+        // create path parts
     }
 
     @Override
@@ -33,9 +64,12 @@ public class SVGPath extends Shape<SVGPath>
     @Override
     protected void prepare(Context2D context, Attributes attr, double alpha)
     {
-        context.beginPath();
+        if (null != m_parts)
+        {
+            context.beginPath();
 
-        context.drawPath(m_parts);
+            context.drawPath(m_parts);
+        }
     }
 
     public static class PSVGathFactory extends ShapeFactory<SVGPath>

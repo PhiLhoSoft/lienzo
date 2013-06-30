@@ -70,6 +70,8 @@ public class ShapeType
 
     public static final ShapeType PATH                = new ShapeType("Path");
 
+    public static final ShapeType SVG_PATH            = new ShapeType("SVGPath");
+
     private final String          m_value;
 
     public ShapeType(String value)

@@ -240,7 +240,7 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     @Override
     public IFactory<?> getFactory()
     {
-        return new CompoundPathFactory();
+        return new PathFactory();
     }
 
     @Override
@@ -251,9 +251,9 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
         context.drawPath(attr.getPathParts());
     }
 
-    public static class CompoundPathFactory extends ShapeFactory<Path>
+    public static class PathFactory extends ShapeFactory<Path>
     {
-        public CompoundPathFactory()
+        public PathFactory()
         {
             super(ShapeType.PATH);
 

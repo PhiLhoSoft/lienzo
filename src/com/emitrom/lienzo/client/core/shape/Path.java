@@ -1,25 +1,25 @@
 
-package com.emitrom.lienzo.client.core.shape.path;
+package com.emitrom.lienzo.client.core.shape;
 
 import java.util.List;
 
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
-import com.emitrom.lienzo.client.core.shape.Attributes;
-import com.emitrom.lienzo.client.core.shape.Shape;
 import com.emitrom.lienzo.client.core.shape.json.IFactory;
 import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
+import com.emitrom.lienzo.client.core.shape.path.IPathPartBuilder;
+import com.emitrom.lienzo.client.core.shape.path.PathPartArray;
 import com.emitrom.lienzo.client.core.types.Point2D;
 import com.emitrom.lienzo.client.core.types.Point2DArray;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.google.gwt.json.client.JSONObject;
 
-public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilder<CompoundPath>
+public class Path extends Shape<Path> implements IPathPartBuilder<Path>
 {
-    public CompoundPath()
+    public Path()
     {
-        super(ShapeType.COMPOUND_PATH);
+        super(ShapeType.PATH);
 
         if (null == getAttributes().getPathParts())
         {
@@ -27,9 +27,9 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
         }
     }
 
-    protected CompoundPath(JSONObject node)
+    protected Path(JSONObject node)
     {
-        super(ShapeType.COMPOUND_PATH, node);
+        super(ShapeType.PATH, node);
 
         if (null == getAttributes().getPathParts())
         {
@@ -38,7 +38,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath m(double x, double y)
+    public Path m(double x, double y)
     {
         getAttributes().getPathParts().m(x, y);
 
@@ -46,7 +46,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath m(Point2D point)
+    public Path m(Point2D point)
     {
         getAttributes().getPathParts().m(point);
 
@@ -54,7 +54,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath m(Point2DArray points)
+    public Path m(Point2DArray points)
     {
         getAttributes().getPathParts().m(points);
 
@@ -62,7 +62,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath m(Point2D point, Point2D... points)
+    public Path m(Point2D point, Point2D... points)
     {
         getAttributes().getPathParts().m(point, points);
 
@@ -70,7 +70,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath m(Point2D[] points)
+    public Path m(Point2D[] points)
     {
         getAttributes().getPathParts().m(points);
 
@@ -78,7 +78,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath m(List<Point2D> points)
+    public Path m(List<Point2D> points)
     {
         getAttributes().getPathParts().m(points);
 
@@ -86,7 +86,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath M(double x, double y)
+    public Path M(double x, double y)
     {
         getAttributes().getPathParts().M(x, y);
 
@@ -94,7 +94,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath M(Point2D point)
+    public Path M(Point2D point)
     {
         getAttributes().getPathParts().M(point);
 
@@ -102,7 +102,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath M(Point2DArray points)
+    public Path M(Point2DArray points)
     {
         getAttributes().getPathParts().M(points);
 
@@ -110,7 +110,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath M(Point2D point, Point2D... points)
+    public Path M(Point2D point, Point2D... points)
     {
         getAttributes().getPathParts().M(point, points);
 
@@ -118,7 +118,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath M(Point2D[] points)
+    public Path M(Point2D[] points)
     {
         getAttributes().getPathParts().M(points);
 
@@ -126,7 +126,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath M(List<Point2D> points)
+    public Path M(List<Point2D> points)
     {
         getAttributes().getPathParts().M(points);
 
@@ -134,7 +134,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath l(double x, double y)
+    public Path l(double x, double y)
     {
         getAttributes().getPathParts().l(x, y);
 
@@ -142,7 +142,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath l(Point2D point)
+    public Path l(Point2D point)
     {
         getAttributes().getPathParts().l(point);
 
@@ -150,7 +150,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath l(Point2DArray points)
+    public Path l(Point2DArray points)
     {
         getAttributes().getPathParts().l(points);
 
@@ -158,7 +158,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath l(Point2D point, Point2D... points)
+    public Path l(Point2D point, Point2D... points)
     {
         getAttributes().getPathParts().l(point, points);
 
@@ -166,7 +166,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath l(Point2D[] points)
+    public Path l(Point2D[] points)
     {
         getAttributes().getPathParts().l(points);
 
@@ -174,7 +174,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath l(List<Point2D> points)
+    public Path l(List<Point2D> points)
     {
         getAttributes().getPathParts().l(points);
 
@@ -182,7 +182,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath L(double x, double y)
+    public Path L(double x, double y)
     {
         getAttributes().getPathParts().L(x, y);
 
@@ -190,7 +190,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath L(Point2D point)
+    public Path L(Point2D point)
     {
         getAttributes().getPathParts().L(point);
 
@@ -198,7 +198,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath L(Point2DArray points)
+    public Path L(Point2DArray points)
     {
         getAttributes().getPathParts().L(points);
 
@@ -206,7 +206,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath L(Point2D point, Point2D... points)
+    public Path L(Point2D point, Point2D... points)
     {
         getAttributes().getPathParts().L(point, points);
 
@@ -214,7 +214,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath L(Point2D[] points)
+    public Path L(Point2D[] points)
     {
         getAttributes().getPathParts().L(points);
 
@@ -222,7 +222,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath L(List<Point2D> points)
+    public Path L(List<Point2D> points)
     {
         getAttributes().getPathParts().L(points);
 
@@ -230,7 +230,7 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
     }
 
     @Override
-    public CompoundPath z()
+    public Path z()
     {
         getAttributes().getPathParts().z();
 
@@ -251,20 +251,51 @@ public class CompoundPath extends Shape<CompoundPath> implements IPathPartBuilde
         context.drawPath(attr.getPathParts());
     }
 
-    public static class CompoundPathFactory extends ShapeFactory<CompoundPath>
+    public static class CompoundPathFactory extends ShapeFactory<Path>
     {
         public CompoundPathFactory()
         {
-            super(ShapeType.COMPOUND_PATH);
+            super(ShapeType.PATH);
 
             addAttribute(Attribute.PATH_PARTS, true);
         }
 
         @Override
-        public CompoundPath create(JSONObject node, ValidationContext ctx)
+        public Path create(JSONObject node, ValidationContext ctx)
         {
-            return new CompoundPath(node);
+            return new Path(node);
         }
     }
 
+    @Override
+    public Path q(double cx, double cy, double ex, double ey)
+    {
+        getAttributes().getPathParts().q(cx, cy, ex, ey);
+
+        return this;
+    }
+
+    @Override
+    public Path q(Point2D cp, Point2D ep)
+    {
+        getAttributes().getPathParts().q(cp, ep);
+
+        return this;
+    }
+
+    @Override
+    public Path Q(double cx, double cy, double ex, double ey)
+    {
+        getAttributes().getPathParts().Q(cx, cy, ex, ey);
+
+        return this;
+    }
+
+    @Override
+    public Path Q(Point2D cp, Point2D ep)
+    {
+        getAttributes().getPathParts().Q(cp, ep);
+
+        return this;
+    }
 }

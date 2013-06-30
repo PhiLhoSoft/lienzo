@@ -68,7 +68,7 @@ public class ShapeType
 
     public static final ShapeType ISOSCELES_TRAPEZOID = new ShapeType("IsoscelesTrapezoid");
 
-    public static final ShapeType COMPOUND_PATH       = new ShapeType("CompoundPath");
+    public static final ShapeType PATH                = new ShapeType("Path");
 
     private final String          m_value;
 

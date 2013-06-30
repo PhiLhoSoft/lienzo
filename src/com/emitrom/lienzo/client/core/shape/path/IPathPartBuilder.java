@@ -56,5 +56,13 @@ public interface IPathPartBuilder<T extends IPathPartBuilder<T>>
 
     public T L(List<Point2D> points);
 
+    public T q(double cx, double cy, double ex, double ey);
+
+    public T q(Point2D cp, Point2D ep);
+
+    public T Q(double cx, double cy, double ex, double ey);
+
+    public T Q(Point2D cp, Point2D ep);
+
     public T z();
 }

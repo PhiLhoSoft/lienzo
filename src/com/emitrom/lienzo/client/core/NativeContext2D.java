@@ -485,7 +485,30 @@ public final class NativeContext2D extends JavaScriptObject
 
     public final native void drawPath(PathPartArrayJSO path)
     /*-{
-        
-        
+		for ( var i = 0; i < path.length; i++) {
+			var part = path[i];
+
+			switch (part.type) {
+			case "m":
+			case "M":
+				this.moveTo(part.data[0].x, part.data[0].y);
+				break;
+
+			case "l":
+			case "L":
+				this.lineTo(part.data[0].x, part.data[0].y);
+				break;
+
+			case "q":
+			case "Q":
+				this.quadraticCurveTo(part.data[0].x, part.data[0].y, part.data[1].x, part.data[1].y);
+				break;
+
+			case "z":
+			case "Z":
+				this.closePath();
+				break;
+			}
+		}
     }-*/;
 }

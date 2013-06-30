@@ -539,4 +539,32 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
 
         return this;
     }
+
+    @Override
+    public PathPartArray q(double cx, double cy, double ex, double ey)
+    {
+        return q(new Point2D(cx, cy), new Point2D(ex, ey));
+    }
+
+    @Override
+    public PathPartArray q(Point2D cp, Point2D ep)
+    {
+        getJSO().push(new QuadraticCurveToPathPart(new Point2DArray(cp, ep), false).getJSO());
+
+        return this;
+    }
+
+    @Override
+    public PathPartArray Q(double cx, double cy, double ex, double ey)
+    {
+        return Q(new Point2D(cx, cy), new Point2D(ex, ey));
+    }
+
+    @Override
+    public PathPartArray Q(Point2D cp, Point2D ep)
+    {
+        getJSO().push(new QuadraticCurveToPathPart(new Point2DArray(cp, ep), true).getJSO());
+
+        return this;
+    }
 }

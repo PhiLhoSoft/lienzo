@@ -25,6 +25,11 @@ public class PathPart
 
     public static class PathPartJSO extends JavaScriptObject
     {
+        protected PathPartJSO()
+        {
+            
+        }
+        
         public final native String getType()
         /*-{
 			return this.type;

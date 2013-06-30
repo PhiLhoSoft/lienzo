@@ -5,7 +5,7 @@ import com.emitrom.lienzo.shared.core.types.EnumWithValue;
 
 public enum PathPartType implements EnumWithValue
 {
-    m("m"), M("M"), l("l"), L("L"), z("z"), a("a"), A("A"), UNKNOWN("unknown");
+    m("m"), M("M"), l("l"), L("L"), z("z"), a("a"), A("A"), q("q"), Q("Q"), UNKNOWN("unknown");
 
     private final String m_value;
 
@@ -18,7 +18,7 @@ public enum PathPartType implements EnumWithValue
     {
         return m_value;
     }
-    
+
     public static final PathPartType lookup(String key)
     {
         if ((null != key) && (false == (key = key.trim()).isEmpty()))

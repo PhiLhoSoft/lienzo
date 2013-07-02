@@ -483,9 +483,11 @@ public final class NativeContext2D extends JavaScriptObject
 		this.LienzoSetLineDashOffset(offset);
     }-*/;
 
-    public final native void drawPath(PathPartArrayJSO path)
+    public final native boolean drawPath(PathPartArrayJSO path)
     /*-{
-		for ( var i = 0; i < path.length; i++) {
+		var closed = false;
+
+		for ( var i = 0; ((i < path.length) && (closed == false)); i++) {
 			var part = path[i];
 
 			switch (part.type) {
@@ -501,14 +503,17 @@ public final class NativeContext2D extends JavaScriptObject
 
 			case "q":
 			case "Q":
-				this.quadraticCurveTo(part.data[0].x, part.data[0].y, part.data[1].x, part.data[1].y);
+				this.quadraticCurveTo(part.data[0].x, part.data[0].y,
+						part.data[1].x, part.data[1].y);
 				break;
 
 			case "z":
 			case "Z":
 				this.closePath();
+				closed = true;
 				break;
 			}
 		}
+		return closed;
     }-*/;
 }

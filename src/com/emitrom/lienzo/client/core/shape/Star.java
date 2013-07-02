@@ -59,7 +59,7 @@ public class Star extends Shape<Star>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         final int s = getStarPoints();
 
@@ -80,7 +80,10 @@ public class Star extends Shape<Star>
                 context.lineTo(radius * Math.sin(n * Math.PI / s), -1 * radius * Math.cos(n * Math.PI / s));
             }
             context.closePath();
+
+            return true;
         }
+        return false;
     }
 
     /**

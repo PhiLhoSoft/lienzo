@@ -105,7 +105,7 @@ public class Arrow extends Shape<Arrow>
      * @param context the {@link Context2D} used to draw this arrow.
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         Point2DArray list = getPolygon(); // is null for invalid arrow definition
 
@@ -126,7 +126,10 @@ public class Arrow extends Shape<Arrow>
                 context.lineTo(point.getX(), point.getY());
             }
             context.closePath();
+
+            return true;
         }
+        return false;
     }
 
     /**

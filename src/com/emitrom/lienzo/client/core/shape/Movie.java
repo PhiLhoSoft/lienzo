@@ -89,7 +89,7 @@ public class Movie extends Shape<Movie>
      * @param context
      */
     @Override
-    public void prepare(final Context2D context, Attributes attr, double alpha)
+    public boolean prepare(final Context2D context, Attributes attr, double alpha)
     {
         if (false == m_inits)
         {
@@ -154,6 +154,7 @@ public class Movie extends Shape<Movie>
                 }
             });
         }
+        return false;
     }
 
     /**
@@ -306,16 +307,16 @@ public class Movie extends Shape<Movie>
                 {
                     case MediaError.MEDIA_ERR_ABORTED:
                         m_error = MessageConstants.MESSAGES.moviePlaybackWasAborted();
-                        break;
+                    break;
                     case MediaError.MEDIA_ERR_NETWORK:
                         m_error = MessageConstants.MESSAGES.movieNetworkError();
-                        break;
+                    break;
                     case MediaError.MEDIA_ERR_DECODE:
                         m_error = MessageConstants.MESSAGES.movieErrorInDecoding();
-                        break;
+                    break;
                     case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
                         m_error = MessageConstants.MESSAGES.movieFormatNotSupported();
-                        break;
+                    break;
                 }
             }
         }

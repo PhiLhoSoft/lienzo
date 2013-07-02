@@ -244,11 +244,13 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     }
 
     @Override
-    protected void prepare(Context2D context, Attributes attr, double alpha)
+    protected boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         context.beginPath();
 
         context.drawPath(attr.getPathParts());
+
+        return true;
     }
 
     public static class PathFactory extends ShapeFactory<Path>

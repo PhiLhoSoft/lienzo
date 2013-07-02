@@ -69,7 +69,7 @@ public class Rectangle extends Shape<Rectangle>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         context.beginPath();
 
@@ -98,13 +98,14 @@ public class Rectangle extends Shape<Rectangle>
             context.lineTo(0, r);
 
             context.arc(r, r, r, Math.PI, Math.PI * 3 / 2, false);
-
         }
         else
         {
             context.rect(0, 0, attr.getWidth(), attr.getHeight());
         }
         context.closePath();
+
+        return true;
     }
 
     /**

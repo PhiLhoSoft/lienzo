@@ -519,6 +519,7 @@ public class Picture extends Shape<Picture>
         JSONObject attr = new JSONObject(getAttributes());
 
         SerializationMode mode = getSerializationMode();
+
         if (mode == SerializationMode.DATA_URL)
         {
             // TODO support different image formats
@@ -529,10 +530,12 @@ public class Picture extends Shape<Picture>
             // TODO where do we make sure that it has a resourceID
             // TODO should we remove the URL here?
         }
-
         JSONObject object = new JSONObject();
+
         object.put("type", new JSONString(getShapeType().getValue()));
+
         object.put("attributes", attr);
+
         return object;
     }
 
@@ -547,7 +550,7 @@ public class Picture extends Shape<Picture>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         context.save();
 
@@ -556,14 +559,16 @@ public class Picture extends Shape<Picture>
             m_proxy.drawSelectionImage(context);
 
             context.restore();
-
-            return;
         }
-        doApplyShadow(context, attr);
+        else
+        {
+            doApplyShadow(context, attr);
 
-        m_proxy.drawImage(context);
+            m_proxy.drawImage(context);
 
-        context.restore();
+            context.restore();
+        }
+        return false;
     }
 
     public String getPictureCategory()

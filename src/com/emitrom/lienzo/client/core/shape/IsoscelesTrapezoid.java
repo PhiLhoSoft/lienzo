@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.client.core.shape;
 
 import com.emitrom.lienzo.client.core.Attribute;
@@ -39,7 +40,7 @@ public class IsoscelesTrapezoid extends Shape<IsoscelesTrapezoid>
     }
 
     @Override
-    protected void prepare(Context2D context, Attributes attr, double alpha)
+    protected boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         final double hig = getHeight();
 
@@ -79,6 +80,8 @@ public class IsoscelesTrapezoid extends Shape<IsoscelesTrapezoid>
             }
         }
         context.closePath();
+
+        return true;
     }
 
     public IsoscelesTrapezoid setTopWidth(double topwidth)

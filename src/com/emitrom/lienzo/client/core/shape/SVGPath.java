@@ -62,14 +62,17 @@ public class SVGPath extends Shape<SVGPath>
     }
 
     @Override
-    protected void prepare(Context2D context, Attributes attr, double alpha)
+    protected boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         if (null != m_parts)
         {
             context.beginPath();
 
             context.drawPath(m_parts);
+
+            return true;
         }
+        return false;
     }
 
     public static class PSVGathFactory extends ShapeFactory<SVGPath>

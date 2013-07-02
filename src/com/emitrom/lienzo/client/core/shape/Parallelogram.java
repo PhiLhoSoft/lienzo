@@ -56,7 +56,7 @@ public class Parallelogram extends Shape<Parallelogram>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         double skew = getSkew();
 
@@ -93,6 +93,8 @@ public class Parallelogram extends Shape<Parallelogram>
             context.rect(0, 0, wide, high);
         }
         context.closePath();
+
+        return true;
     }
 
     /**

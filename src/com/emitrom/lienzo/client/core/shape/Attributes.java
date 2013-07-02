@@ -287,18 +287,18 @@ public class Attributes extends JavaScriptObject
         return getBoolean(Attribute.DRAGGABLE.getProperty());
     }
 
-    public final void setSelectionInterior(boolean selection)
+    public final void setFillShapeForSelection(boolean selection)
     {
-        put(Attribute.SELECTION_INTERIOR.getProperty(), selection);
+        put(Attribute.FILL_SHAPE_FOR_SELECTION.getProperty(), selection);
     }
 
-    public final boolean isSelectionInterior()
+    public final boolean isFillShapeForSelection()
     {
-        if (isDefined(Attribute.SELECTION_INTERIOR))
+        if (isDefined(Attribute.FILL_SHAPE_FOR_SELECTION))
         {
-            return getBoolean(Attribute.SELECTION_INTERIOR.getProperty());
+            return getBoolean(Attribute.FILL_SHAPE_FOR_SELECTION.getProperty());
         }
-        return true;
+        return LienzoGlobals.getInstance().getDefaultFillShapeForSelection();
     }
 
     public final void setListening(boolean listening)

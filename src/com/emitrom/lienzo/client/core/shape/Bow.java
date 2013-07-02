@@ -72,7 +72,7 @@ public class Bow extends Shape<Bow>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         final double end = getEndAngle();
 
@@ -82,7 +82,7 @@ public class Bow extends Shape<Bow>
 
         if (start == end)
         {
-            return; // zero degrees - nothing to draw
+            return false;
         }
         context.beginPath();
 
@@ -91,6 +91,8 @@ public class Bow extends Shape<Bow>
         context.arc(0, 0, getInnerRadius(), end, start, (false == ccw));
 
         context.closePath();
+
+        return true;
     }
 
     /**

@@ -43,6 +43,8 @@ public final class LienzoGlobals
 
     private String                     m_strokeColor           = "black";
 
+    private boolean                    m_fillShapeForSelection = true;
+
     private boolean                    m_globalLineDashSupport = true;
 
     private boolean                    m_nativeLineDashSupport = false;
@@ -60,6 +62,16 @@ public final class LienzoGlobals
     public static final LienzoGlobals getInstance()
     {
         return s_instance;
+    }
+
+    public final void setDefaultFillShapeForSelection(boolean fill)
+    {
+        m_fillShapeForSelection = fill;
+    }
+
+    public final boolean getDefaultFillShapeForSelection()
+    {
+        return m_fillShapeForSelection;
     }
 
     public final void setDefaultStrokeWidth(double width)

@@ -71,7 +71,7 @@ public class Line extends Shape<Line>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         Point2DArray list = getPoints();
 
@@ -99,7 +99,7 @@ public class Line extends Shape<Line>
 
                                 drawDashedLine(context, p0.getX(), p0.getY(), p1.getX(), p1.getY(), data, attr.getStrokeWidth() / 2);
                             }
-                            return;
+                            return true;
                         }
                     }
                 }
@@ -113,7 +113,10 @@ public class Line extends Shape<Line>
             point = list.getPoint(1);
 
             context.lineTo(point.getX(), point.getY());
+
+            return true;
         }
+        return false;
     }
 
     /**

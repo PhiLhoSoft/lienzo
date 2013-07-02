@@ -162,11 +162,12 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
         Attributes attr = getAttributes();
 
-        prepare(context, attr, alpha);
+        if (prepare(context, attr, alpha))
+        {
+            fill(context, attr, alpha);
 
-        fill(context, attr, alpha);
-
-        stroke(context, attr, alpha);
+            stroke(context, attr, alpha);
+        }
     }
 
     protected final void setWasFilledFlag(boolean fill)
@@ -179,7 +180,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         return m_fill;
     }
 
-    protected abstract void prepare(Context2D context, Attributes attr, double alpha);
+    protected abstract boolean prepare(Context2D context, Attributes attr, double alpha);
 
     /**
      * Fills the Shape using the passed attributes.
@@ -192,7 +193,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
     {
         boolean filled = attr.isDefined(Attribute.FILL);
 
-        if ((filled) || (attr.isSelectionInterior()))
+        if ((filled) || (attr.isFillShapeForSelection()))
         {
             if (context.isSelection())
             {
@@ -714,14 +715,14 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
         return cast();
     }
 
-    public boolean isSelectionInterior()
+    public boolean isFillShapeForSelection()
     {
-        return getAttributes().isSelectionInterior();
+        return getAttributes().isFillShapeForSelection();
     }
 
-    public T setSelectionInterior(boolean selection)
+    public T setFillShapeForSelection(boolean selection)
     {
-        getAttributes().setSelectionInterior(selection);
+        getAttributes().setFillShapeForSelection(selection);
 
         return cast();
     }

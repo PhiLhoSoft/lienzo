@@ -56,7 +56,7 @@ public class PolyLine extends Shape<PolyLine>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         Point2DArray list = getPoints();
 
@@ -76,7 +76,9 @@ public class PolyLine extends Shape<PolyLine>
 
                 context.lineTo(point.getX(), point.getY());
             }
+            return true;
         }
+        return false;
     }
 
     @Override

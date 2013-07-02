@@ -73,11 +73,13 @@ public class Arc extends Shape<Arc>
      * @param context the {@link Context2D} used to draw this arc.
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         context.beginPath();
 
         context.arc(0, 0, getRadius(), getStartAngle(), getEndAngle(), isCounterClockwise());
+
+        return true;
     }
 
     /**

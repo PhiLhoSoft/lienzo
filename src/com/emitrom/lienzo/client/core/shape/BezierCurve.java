@@ -63,7 +63,7 @@ public class BezierCurve extends Shape<BezierCurve>
      * @param context the {@link Context2D} used to draw this bezier curve.
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         Point2DArray points = getControlPoints();
 
@@ -82,7 +82,10 @@ public class BezierCurve extends Shape<BezierCurve>
             context.moveTo(p0.getX(), p0.getY());
 
             context.bezierCurveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY(), p3.getX(), p3.getY());
+
+            return true;
         }
+        return false;
     }
 
     /**

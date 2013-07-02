@@ -58,7 +58,7 @@ public class Triangle extends Shape<Triangle>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         Point2DArray list = getPoints();
 
@@ -79,7 +79,10 @@ public class Triangle extends Shape<Triangle>
             context.lineTo(point2.getX(), point2.getY());
 
             context.closePath();
+
+            return true;
         }
+        return false;
     }
 
     /**

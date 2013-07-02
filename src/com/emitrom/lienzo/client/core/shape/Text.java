@@ -124,13 +124,13 @@ public class Text extends Shape<Text>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         String text = getText();
 
         if ((null == text) || (text.isEmpty()))
         {
-            return;
+            return false;
         }
         if (attr.isDefined(Attribute.TEXT_BASELINE))
         {
@@ -141,6 +141,8 @@ public class Text extends Shape<Text>
             context.setTextAlign(getTextAlign());
         }
         context.setTextFont(getFontStyle() + " " + getFontSize() + "pt " + getFontFamily());
+
+        return true;
     }
 
     @Override
@@ -148,7 +150,7 @@ public class Text extends Shape<Text>
     {
         String fill = attr.getFillColor();
 
-        if ((null != fill) || (attr.isSelectionInterior()))
+        if ((null != fill) || (attr.isFillShapeForSelection()))
         {
             if (context.isSelection())
             {

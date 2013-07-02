@@ -72,7 +72,7 @@ public class Slice extends Shape<Slice>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         double start = getStartAngle();
 
@@ -80,7 +80,7 @@ public class Slice extends Shape<Slice>
 
         if (start == end)
         {
-            return; // zero degrees - nothing to draw
+            return false;
         }
         boolean drawPacman = true;
 
@@ -98,6 +98,8 @@ public class Slice extends Shape<Slice>
             context.lineTo(0, 0);
         }
         context.closePath();
+
+        return true;
     }
 
     /**

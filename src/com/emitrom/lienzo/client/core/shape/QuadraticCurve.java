@@ -60,7 +60,7 @@ public class QuadraticCurve extends Shape<QuadraticCurve>
      * @param context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         Point2DArray points = getControlPoints();
 
@@ -77,7 +77,10 @@ public class QuadraticCurve extends Shape<QuadraticCurve>
             context.moveTo(p0.getX(), p0.getY());
 
             context.quadraticCurveTo(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+
+            return true;
         }
+        return false;
     }
 
     /**

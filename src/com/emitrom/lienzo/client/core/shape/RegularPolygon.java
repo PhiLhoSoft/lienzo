@@ -55,7 +55,7 @@ public class RegularPolygon extends Shape<RegularPolygon>
      * @context
      */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         final int s = getSides();
 
@@ -72,7 +72,10 @@ public class RegularPolygon extends Shape<RegularPolygon>
                 context.lineTo(r * Math.sin(n * 2 * Math.PI / s), -1 * r * Math.cos(n * 2 * Math.PI / s));
             }
             context.closePath();
+
+            return true;
         }
+        return false;
     }
 
     /**

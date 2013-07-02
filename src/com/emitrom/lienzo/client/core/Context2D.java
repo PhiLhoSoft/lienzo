@@ -370,12 +370,13 @@ public class Context2D
         m_jso.setLineDashOffset(offset);
     }
 
-    public void drawPath(PathPartArray path)
+    public boolean drawPath(PathPartArray path)
     {
         if ((null != path) && (path.getLength() > 0))
         {
-            m_jso.drawPath(path.getJSO());
+            return m_jso.drawPath(path.getJSO());
         }
+        return false;
     }
 
     public static class GradientJSO extends JavaScriptObject

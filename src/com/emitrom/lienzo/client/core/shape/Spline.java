@@ -61,7 +61,7 @@ public class Spline extends Shape<Spline>
     * @param context the {@link Context2D} used to draw this spline.
     */
     @Override
-    public void prepare(Context2D context, Attributes attr, double alpha)
+    public boolean prepare(Context2D context, Attributes attr, double alpha)
     {
         if (null == m_points)
         {
@@ -77,7 +77,7 @@ public class Spline extends Shape<Spline>
 
                 context.lineTo(m_points[1].x, m_points[1].y);
             }
-            return;
+            return true;
         }
         if (null == m_carray)
         {
@@ -120,6 +120,7 @@ public class Spline extends Shape<Spline>
 
             context.quadraticCurveTo(point.x, point.y, m_points[i + 1].x, m_points[i + 1].y);
         }
+        return true;
     }
 
     @Override

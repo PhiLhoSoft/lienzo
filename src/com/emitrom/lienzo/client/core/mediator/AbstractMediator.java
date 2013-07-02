@@ -31,9 +31,15 @@ import com.emitrom.lienzo.client.core.shape.Viewport;
  */
 public abstract class AbstractMediator implements IMediator
 {
-    protected IEventFilter m_eventFilter = EventFilter.ANY;
+    private static long    s_name_counter = 0;
+
+    protected IEventFilter m_eventFilter  = EventFilter.ANY;
 
     protected Viewport     m_viewport;
+
+    private boolean        m_enabled      = true;
+
+    private String         m_name         = getClass().getName() + "_" + (s_name_counter++); // Create a default unique name, we don't create alot of Mediators, so... good'nuf
 
     /**
      * Returns the event filter for this mediator.
@@ -87,5 +93,29 @@ public abstract class AbstractMediator implements IMediator
     public Viewport getViewport()
     {
         return m_viewport;
+    }
+
+    @Override
+    public boolean isEnabled()
+    {
+        return m_enabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled)
+    {
+        m_enabled = enabled;
+    }
+
+    @Override
+    public String getName()
+    {
+        return m_name;
+    }
+
+    @Override
+    public void setName(String name)
+    {
+        m_name = name;
     }
 }

@@ -41,4 +41,12 @@ public interface IMediator
      * resets the internal state of the mediator for future use.
      */
     public void cancel();
+
+    public boolean isEnabled();
+
+    public void setEnabled(boolean enabled);
+
+    public String getName();
+
+    public void setName(String name);
 }

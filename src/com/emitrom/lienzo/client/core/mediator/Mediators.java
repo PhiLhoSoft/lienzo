@@ -18,6 +18,8 @@
 package com.emitrom.lienzo.client.core.mediator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 import com.emitrom.lienzo.client.core.shape.Viewport;
 import com.emitrom.lienzo.client.widget.LienzoPanel;
@@ -56,9 +58,11 @@ import com.google.gwt.event.shared.GwtEvent;
  * 
  * @since 1.1
  */
-public class Mediators
+public class Mediators implements Iterable<IMediator>
 {
     private final Viewport             m_viewport;
+
+    private boolean                    m_enabled   = true;
 
     private final ArrayList<IMediator> m_mediators = new ArrayList<IMediator>();
 
@@ -74,9 +78,10 @@ public class Mediators
 
     public IMediator pop()
     {
-        if (m_mediators.size() == 0) 
+        if (m_mediators.size() == 0)
+        {
             return null;
-
+        }
         return m_mediators.remove(0);
     }
 
@@ -96,13 +101,34 @@ public class Mediators
 
     public boolean handleEvent(GwtEvent<?> event)
     {
-        for (int i = 0, n = m_mediators.size(); i < n; i++)
+        if (m_enabled)
         {
-            IMediator m = m_mediators.get(i);
+            for (int i = 0, n = m_mediators.size(); i < n; i++)
+            {
+                IMediator m = m_mediators.get(i);
 
-            if (m.handleEvent(event))
-                return true;
+                if ((null != m) && (m.isEnabled()) && (m.handleEvent(event)))
+                {
+                    return true;
+                }
+            }
         }
         return false;
+    }
+
+    public boolean isEnabled()
+    {
+        return m_enabled;
+    }
+
+    public void setEnabled(boolean enabled)
+    {
+        m_enabled = enabled;
+    }
+
+    @Override
+    public Iterator<IMediator> iterator()
+    {
+        return Collections.unmodifiableList(m_mediators).iterator();
     }
 }

@@ -148,7 +148,7 @@ public class Text extends Shape<Text>
     {
         String fill = attr.getFillColor();
 
-        if (null != fill)
+        if ((null != fill) || (attr.isSelectionInterior()))
         {
             if (context.isSelection())
             {
@@ -167,9 +167,8 @@ public class Text extends Shape<Text>
                 context.restore();
 
                 setWasFilledFlag(true);
-
             }
-            else
+            else if (null != fill)
             {
                 context.save();
 

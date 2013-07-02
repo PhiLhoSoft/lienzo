@@ -103,7 +103,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
         }
         if (NativeInternalType.BOOLEAN != getAttributes().typeOf(Attribute.ZOOMABLE))
         {
-            setZoomable(false);
+            setZoomable(true);
         }
     }
 

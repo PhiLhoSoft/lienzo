@@ -85,7 +85,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
 
         setClearLayerBeforeDraw(true);
 
-        setZoomable(false);
+        setZoomable(true);
     }
 
     /**

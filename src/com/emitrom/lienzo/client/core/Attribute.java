@@ -66,6 +66,8 @@ public class Attribute
 
     public static final Attribute         DRAGGABLE                        = new Attribute("draggable", M.draggableLabel(), M.draggableDescription(), AttributeType.BOOLEAN_TYPE);
 
+    public static final Attribute         SELECTION_INTERIOR               = new Attribute("selectionInterior", M.draggableLabel(), M.draggableDescription(), AttributeType.BOOLEAN_TYPE);
+
     public static final Attribute         DRAG_CONSTRAINT                  = new Attribute("dragConstraint", M.dragConstraintLabel(), M.dragConstraintDescription(), AttributeType.DRAG_CONSTRAINT_TYPE);
 
     public static final Attribute         DRAG_BOUNDS                      = new Attribute("dragBounds", M.dragBoundsLabel(), M.dragBoundsDescription(), AttributeType.DRAG_BOUNDS_TYPE);

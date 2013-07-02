@@ -287,6 +287,20 @@ public class Attributes extends JavaScriptObject
         return getBoolean(Attribute.DRAGGABLE.getProperty());
     }
 
+    public final void setSelectionInterior(boolean selection)
+    {
+        put(Attribute.SELECTION_INTERIOR.getProperty(), selection);
+    }
+
+    public final boolean isSelectionInterior()
+    {
+        if (isDefined(Attribute.SELECTION_INTERIOR))
+        {
+            return getBoolean(Attribute.SELECTION_INTERIOR.getProperty());
+        }
+        return true;
+    }
+
     public final void setListening(boolean listening)
     {
         put(Attribute.LISTENING.getProperty(), listening);

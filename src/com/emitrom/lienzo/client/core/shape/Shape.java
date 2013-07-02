@@ -190,7 +190,9 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
      */
     protected void fill(Context2D context, Attributes attr, double alpha)
     {
-        if (attr.isDefined(Attribute.FILL))
+        boolean filled = attr.isDefined(Attribute.FILL);
+
+        if ((filled) || (attr.isSelectionInterior()))
         {
             if (context.isSelection())
             {
@@ -206,6 +208,10 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
                 setWasFilledFlag(true);
 
+                return;
+            }
+            if (false == filled)
+            {
                 return;
             }
             context.save();
@@ -704,6 +710,18 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
     public T setDraggable(boolean draggable)
     {
         getAttributes().setDraggable(draggable);
+
+        return cast();
+    }
+
+    public boolean isSelectionInterior()
+    {
+        return getAttributes().isSelectionInterior();
+    }
+
+    public T setSelectionInterior(boolean selection)
+    {
+        getAttributes().setSelectionInterior(selection);
 
         return cast();
     }

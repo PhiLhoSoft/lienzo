@@ -18,6 +18,8 @@
 package com.emitrom.lienzo.client.core;
 
 import com.emitrom.lienzo.client.core.shape.path.PathPartArray.PathPartArrayJSO;
+import com.emitrom.lienzo.client.core.types.DashArray;
+import com.emitrom.lienzo.client.core.types.DashArray.DashArrayJSO;
 import com.emitrom.lienzo.client.core.types.ImageData;
 import com.emitrom.lienzo.client.core.types.ImageDataPixelColor;
 import com.emitrom.lienzo.client.core.types.ImageLoader.ImageJSO;
@@ -427,7 +429,21 @@ public final class NativeContext2D extends JavaScriptObject
 		this.miterLimit = limit;
     }-*/;
 
-    public final native void setLineDash(double[] dashes)
+    public final void setLineDash(double[] dashes)
+    {
+        if ((null != dashes) && (dashes.length > 0))
+        {
+            DashArray d = new DashArray();
+
+            for (int i = 0; i < dashes.length; i++)
+            {
+                d.push(dashes[i]);
+            }
+            setLineDash(d.getJSO());
+        }
+    }
+
+    public final native void setLineDash(DashArrayJSO dashes)
     /*-{
 		if (!this.LienzoSetLineDash) {
 			if (this.setLineDash) {

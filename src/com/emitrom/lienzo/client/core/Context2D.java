@@ -361,7 +361,7 @@ public class Context2D
     {
         if (null != dashes)
         {
-            m_jso.setLineDash(dashes.getNormalizedArray());
+            m_jso.setLineDash(dashes.getJSO());
         }
     }
 

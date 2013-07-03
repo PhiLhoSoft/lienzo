@@ -25,6 +25,7 @@ import com.emitrom.lienzo.shared.core.types.IColor;
 import com.emitrom.lienzo.shared.core.types.LayerClearMode;
 import com.emitrom.lienzo.shared.core.types.LineCap;
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.shared.GWT;
 
 /**
  * A Global Configuration Manager.
@@ -175,47 +176,54 @@ public final class LienzoGlobals
     {
         if (isCanvasSupported())
         {
-            ScratchCanvas scratch = new ScratchCanvas(20, 10);
-
-            Context2D context = scratch.getContext();
-
-            context.setStrokeWidth(10);
-
-            context.setLineCap(LineCap.BUTT);
-
-            context.setStrokeColor(ColorName.BLUE);
-
-            context.beginPath();
-
-            context.moveTo(0, 5);
-
-            context.lineTo(20, 5);
-
-            context.stroke();
-
-            context.setStrokeColor(ColorName.RED);
-
-            context.setLineDash(new DashArray(5, 5));
-
-            context.beginPath();
-
-            context.moveTo(0, 5);
-
-            context.lineTo(20, 5);
-
-            context.stroke();
-
-            ImageData backing = context.getImageData(0, 0, 20, 10);
-
-            if (null != backing)
+            try
             {
-                if ((backing.getRedAt(3, 5) == 255) && (backing.getBlueAt(3, 5) == 0) && (backing.getGreenAt(3, 5) == 0))
+                ScratchCanvas scratch = new ScratchCanvas(20, 10);
+
+                Context2D context = scratch.getContext();
+
+                context.setStrokeWidth(10);
+
+                context.setLineCap(LineCap.BUTT);
+
+                context.setStrokeColor(ColorName.BLUE);
+
+                context.beginPath();
+
+                context.moveTo(0, 5);
+
+                context.lineTo(20, 5);
+
+                context.stroke();
+
+                context.setStrokeColor(ColorName.RED);
+
+                context.setLineDash(new DashArray(5, 5));
+
+                context.beginPath();
+
+                context.moveTo(0, 5);
+
+                context.lineTo(20, 5);
+
+                context.stroke();
+
+                ImageData backing = context.getImageData(0, 0, 20, 10);
+
+                if (null != backing)
                 {
-                    if ((backing.getRedAt(8, 5) == 0) && (backing.getBlueAt(8, 5) == 255) && (backing.getGreenAt(8, 5) == 0))
+                    if ((backing.getRedAt(3, 5) == 255) && (backing.getBlueAt(3, 5) == 0) && (backing.getGreenAt(3, 5) == 0))
                     {
-                        return true;
+                        if ((backing.getRedAt(8, 5) == 0) && (backing.getBlueAt(8, 5) == 255) && (backing.getGreenAt(8, 5) == 0))
+                        {
+                            return true;
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                GWT.log("Line Dash test failed", e); // FF 22 dev mode does not like line dashes
             }
         }
         return false;

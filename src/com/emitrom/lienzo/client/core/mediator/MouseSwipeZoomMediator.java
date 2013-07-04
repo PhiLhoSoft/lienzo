@@ -38,12 +38,17 @@ import com.google.gwt.event.shared.GwtEvent;
 public class MouseSwipeZoomMediator extends AbstractMediator
 {
     private double  m_minScale     = 0;
+
     private double  m_maxScale     = Double.MAX_VALUE;
+
     private boolean m_rightZoomOut = true;
+
     private double  m_zoomFactor   = 0.001;
 
-    private Point2D m_start;
-    private boolean m_dragging;
+    private Point2D m_start        = null;
+
+    private boolean m_dragging     = false;
+
     private Point2D m_zoomCenter   = new Point2D();
 
     public MouseSwipeZoomMediator()
@@ -54,7 +59,7 @@ public class MouseSwipeZoomMediator extends AbstractMediator
     {
         setEventFilter(EventFilter.and(filters));
     }
-    
+
     /**
      * Sets the minimum scale of the viewport.
      * 
@@ -137,7 +142,7 @@ public class MouseSwipeZoomMediator extends AbstractMediator
 
         return this;
     }
-    
+
     /**
      * Returns the zoom factor being used for zoom in and out operations.
      * 
@@ -145,26 +150,26 @@ public class MouseSwipeZoomMediator extends AbstractMediator
      * 
      * @return double
      */
-	public double getZoomFactor()
-	{
-		return m_zoomFactor;
-	}
+    public double getZoomFactor()
+    {
+        return m_zoomFactor;
+    }
 
-	/**
-	 * Sets the zoom factor that will be used during the zoom in/out operation.
-	 * The zoom factor defaults to 0.001
-	 *  
-	 * @param zoomFactor
-	 * @return this MouseSwipeZoomMediator
-	 */
-	public MouseSwipeZoomMediator setZoomFactor(double zoomFactor)
-	{
-		m_zoomFactor = zoomFactor;
-		
-		return this;
-	}
+    /**
+     * Sets the zoom factor that will be used during the zoom in/out operation.
+     * The zoom factor defaults to 0.001
+     *  
+     * @param zoomFactor
+     * @return this MouseSwipeZoomMediator
+     */
+    public MouseSwipeZoomMediator setZoomFactor(double zoomFactor)
+    {
+        m_zoomFactor = zoomFactor;
 
-	@Override
+        return this;
+    }
+
+    @Override
     public void cancel()
     {
         m_dragging = false;
@@ -173,40 +178,46 @@ public class MouseSwipeZoomMediator extends AbstractMediator
     @Override
     public boolean handleEvent(GwtEvent<?> event)
     {
-        if (event instanceof NodeMouseMoveEvent)
+        if (event.getAssociatedType() == NodeMouseMoveEvent.getType())
         {
-            if (!m_dragging) 
-                return false;
+            if (m_dragging)
+            {
+                onMouseMove((NodeMouseMoveEvent) event);
 
-            onMouseMove((NodeMouseMoveEvent) event);
-            return true;
+                return true;
+            }
+            return false;
         }
-        else if (event instanceof NodeMouseDownEvent)
+        else if (event.getAssociatedType() == NodeMouseDownEvent.getType())
         {
-            if (!m_eventFilter.matches(event)) 
-                return false;
+            if (m_eventFilter.matches(event))
+            {
+                onMouseDown((NodeMouseDownEvent) event);
 
-            onMouseDown((NodeMouseDownEvent) event);
-            return true;
+                return true;
+            }
+            return false;
         }
-        else if (event instanceof NodeMouseUpEvent)
+        else if (event.getAssociatedType() == NodeMouseUpEvent.getType())
         {
-            if (!m_dragging) 
-                return false;
+            if (m_dragging)
+            {
+                onMouseUp((NodeMouseUpEvent) event);
 
-            onMouseUp((NodeMouseUpEvent) event);
-            return true;
+                return true;
+            }
         }
-
         return false;
     }
 
     protected void onMouseDown(NodeMouseDownEvent event)
     {
         m_start = new Point2D(event.getX(), event.getY());
+
         m_dragging = true;
 
         Transform transform = getTransform();
+
         transform.getInverse().transform(m_start, m_zoomCenter);
     }
 
@@ -218,16 +229,18 @@ public class MouseSwipeZoomMediator extends AbstractMediator
     protected void onMouseMove(NodeMouseMoveEvent event)
     {
         double dx = event.getX() - m_start.getX();
+
         double scaleDelta = (1.0 + (m_zoomFactor * dx * (m_rightZoomOut ? 1 : -1)));
 
         Transform transform = getTransform();
+
         if (transform == null)
         {
             setTransform(transform = new Transform());
         }
-        
         // ASSUMPTION: scaleX == scaleY
         double currentScale = transform.getScaleX();
+
         double newScale = currentScale * scaleDelta;
 
         if (newScale < m_minScale)
@@ -238,24 +251,25 @@ public class MouseSwipeZoomMediator extends AbstractMediator
         {
             scaleDelta = m_maxScale / currentScale;
         }
-
         transform = transform.copy();
+
         transform.scaleAboutPoint(scaleDelta, m_zoomCenter.getX(), m_zoomCenter.getY());
+
         setTransform(transform);
-        
+
         redraw();
     }
-    
+
     protected Transform getTransform()
     {
         return m_viewport.getTransform();
     }
-    
+
     protected void setTransform(Transform transform)
     {
         m_viewport.setTransform(transform);
     }
-    
+
     protected void redraw()
     {
         m_viewport.getScene().draw();

@@ -34,9 +34,11 @@ import com.google.gwt.event.shared.GwtEvent;
  */
 public class MousePanMediator extends AbstractMediator
 {
-    private Point2D   m_last = new Point2D();
-    private boolean   m_dragging;
-    private Transform m_inverseTransform;
+    private Point2D   m_last             = new Point2D();
+
+    private boolean   m_dragging         = false;
+
+    private Transform m_inverseTransform = null;
 
     public MousePanMediator()
     {
@@ -56,60 +58,69 @@ public class MousePanMediator extends AbstractMediator
     @Override
     public boolean handleEvent(GwtEvent<?> event)
     {
-        if (event instanceof NodeMouseMoveEvent)
+        if (event.getAssociatedType() == NodeMouseMoveEvent.getType())
         {
-            if (!m_dragging)
-                return false;
+            if (m_dragging)
+            {
+                onMouseMove((NodeMouseMoveEvent) event);
 
-            onMouseMove((NodeMouseMoveEvent) event);
-            return true;
+                return true;
+            }
+            return false;
         }
-        else if (event instanceof NodeMouseDownEvent)
+        else if (event.getAssociatedType() == NodeMouseDownEvent.getType())
         {
-            if (!m_eventFilter.matches(event))
-                return false;
+            if (m_eventFilter.matches(event))
+            {
+                onMouseDown((NodeMouseDownEvent) event);
 
-            onMouseDown((NodeMouseDownEvent) event);
-            return true;
+                return true;
+            }
+            return false;
         }
-        else if (event instanceof NodeMouseUpEvent)
+        else if (event.getAssociatedType() == NodeMouseUpEvent.getType())
         {
-            if (!m_dragging)
-                return false;
+            if (m_dragging)
+            {
+                onMouseUp((NodeMouseUpEvent) event);
 
-            onMouseUp((NodeMouseUpEvent) event);
-            return true;
+                return true;
+            }
         }
-
         return false;
     }
 
     protected void onMouseDown(NodeMouseDownEvent event)
     {
         m_last = new Point2D(event.getX(), event.getY());
+
         m_dragging = true;
 
         Transform transform = getTransform();
+
         if (transform == null)
         {
             setTransform(transform = new Transform());
         }
-
         m_inverseTransform = transform.getInverse();
+
         m_inverseTransform.transform(m_last, m_last);
     }
-    
+
     protected void onMouseMove(NodeMouseMoveEvent event)
     {
         Point2D curr = new Point2D(event.getX(), event.getY());
+
         m_inverseTransform.transform(curr, curr);
 
         Transform transform = getTransform().copy();
+
         transform.translate(curr.getX() - m_last.getX(), curr.getY() - m_last.getY());
+
         setTransform(transform);
-        
+
         m_last = curr;
-        
+
         redraw();
     }
 
@@ -127,7 +138,7 @@ public class MousePanMediator extends AbstractMediator
     {
         m_viewport.setTransform(transform);
     }
-    
+
     protected void redraw()
     {
         m_viewport.getScene().draw();

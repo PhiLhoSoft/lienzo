@@ -32,8 +32,11 @@ import com.google.gwt.event.shared.GwtEvent;
 public class MouseWheelZoomMediator extends AbstractMediator
 {
     private double  m_minScale    = 0;
+
     private double  m_maxScale    = Double.MAX_VALUE;
+
     private boolean m_downZoomOut = true;
+
     private double  m_zoomFactor  = 0.1;
 
     public MouseWheelZoomMediator()
@@ -48,13 +51,14 @@ public class MouseWheelZoomMediator extends AbstractMediator
     @Override
     public boolean handleEvent(GwtEvent<?> event)
     {
-        if (event instanceof NodeMouseWheelEvent)
+        if (event.getAssociatedType() == NodeMouseWheelEvent.getType())
         {
-            if (!m_eventFilter.matches(event)) 
-                return false;
+            if (m_eventFilter.matches(event))
+            {
+                onMouseWheel((NodeMouseWheelEvent) event);
 
-            onMouseWheel((NodeMouseWheelEvent) event);
-            return true;
+                return true;
+            }
         }
         return false;
     }
@@ -175,15 +179,15 @@ public class MouseWheelZoomMediator extends AbstractMediator
     protected void onMouseWheel(NodeMouseWheelEvent event)
     {
         Transform transform = getTransform();
+
         if (transform == null)
         {
             setTransform(transform = new Transform());
         }
-        
         double scaleDelta;
-        
-        //Console.log("s=" + event.isSouth() + " n=" + event.isNorth() + " delta=" + event.getDeltaY() + " or.s=" + event.getOriginalEvent().isSouth() + " or.n=" + event.getOriginalEvent().isNorth() + " or.dy=" + event.getOriginalEvent().getDeltaY());
-        
+
+        // Console.log("s=" + event.isSouth() + " n=" + event.isNorth() + " delta=" + event.getDeltaY() + " or.s=" + event.getOriginalEvent().isSouth() + " or.n=" + event.getOriginalEvent().isNorth() + " or.dy=" + event.getOriginalEvent().getDeltaY());
+
         if (event.isSouth() == m_downZoomOut) // down
         {
             // zoom out
@@ -194,9 +198,10 @@ public class MouseWheelZoomMediator extends AbstractMediator
             // zoom in
             scaleDelta = 1 + m_zoomFactor;
         }
-
         // ASSUMPTION: scaleX == scaleY
+
         double currentScale = transform.getScaleX();
+
         double newScale = currentScale * scaleDelta;
 
         if (newScale < m_minScale)
@@ -207,27 +212,29 @@ public class MouseWheelZoomMediator extends AbstractMediator
         {
             scaleDelta = m_maxScale / currentScale;
         }
-
         Point2D p = new Point2D(event.getX(), event.getY());
+
         transform.getInverse().transform(p, p);
 
         transform = transform.copy();
+
         transform.scaleAboutPoint(scaleDelta, p.getX(), p.getY());
+
         setTransform(transform);
-        
+
         redraw();
     }
-    
+
     protected void redraw()
     {
         m_viewport.getScene().draw();
     }
-    
+
     protected Transform getTransform()
     {
         return m_viewport.getTransform();
     }
-    
+
     protected void setTransform(Transform transform)
     {
         m_viewport.setTransform(transform);

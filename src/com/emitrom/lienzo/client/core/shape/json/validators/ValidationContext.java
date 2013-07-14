@@ -40,9 +40,9 @@ public class ValidationContext
 
     private boolean                     m_validate = true;
 
-    private final List<String>          m_stack  = new ArrayList<String>();
+    private final List<String>          m_stack    = new ArrayList<String>();
 
-    private final List<ValidationError> m_errors = new ArrayList<ValidationError>();
+    private final List<ValidationError> m_errors   = new ArrayList<ValidationError>();
 
     /**
      * Push the context (e.g. attribute name) that is being deserialized 
@@ -234,7 +234,7 @@ public class ValidationContext
 
         return this;
     }
-    
+
     /**
      * Returns whether we should validate the node structure 
      * (i.e. attribute values, required attributes and valid child node types)
@@ -246,7 +246,7 @@ public class ValidationContext
     {
         return m_validate;
     }
-    
+
     /**
      * Sets whether we should validate the node structure 
      * (i.e. attribute values, required attributes and valid child node types)
@@ -258,7 +258,7 @@ public class ValidationContext
     public ValidationContext setValidate(boolean validate)
     {
         m_validate = validate;
-        
+
         return this;
     }
 
@@ -292,6 +292,7 @@ public class ValidationContext
         StringBuilder b = new StringBuilder();
 
         boolean first = true;
+
         for (ValidationError e : m_errors)
         {
             if (first)
@@ -302,7 +303,6 @@ public class ValidationContext
             {
                 b.append("\n");
             }
-            
             b.append(e.getContext()).append(" - ").append(e.getMessage());
         }
         return b.toString();

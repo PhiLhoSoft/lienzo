@@ -34,7 +34,7 @@ public class ViewportTransformChangedEvent extends GwtEvent<ViewportTransformCha
     public ViewportTransformChangedEvent(Viewport viewport)
     {
         m_viewport = viewport;
-	}
+    }
 
     /**
      * Returns the Viewport whose Transform was changed
@@ -47,7 +47,7 @@ public class ViewportTransformChangedEvent extends GwtEvent<ViewportTransformCha
         return m_viewport;
     }
 
-	@Override
+    @Override
     public final Type<ViewportTransformChangedHandler> getAssociatedType()
     {
         return TYPE;

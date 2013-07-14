@@ -60,14 +60,14 @@ public class LienzoPanel extends FocusPanel
     private final int                  m_high;
 
     private Viewport                   m_view;
-    
-    private boolean					   m_resizing = false;
-    
-    private Timer					   m_resize_timer;
-    
-    private int						   m_resize_check_repeat_interval = 750;
-    
-    private Orientation		   		   m_orientation;
+
+    private boolean                    m_resizing                     = false;
+
+    private Timer                      m_resize_timer;
+
+    private int                        m_resize_check_repeat_interval = 750;
+
+    private Orientation                m_orientation;
 
     public LienzoPanel(int wide, int high)
     {
@@ -84,11 +84,11 @@ public class LienzoPanel extends FocusPanel
             setPixelSize(wide, high);
 
             m_events = new LienzoHandlerManager(this);
-            
+
             initResizeTimer();
-            
+
             addHandlers();
-            
+
         }
         else
         {
@@ -96,7 +96,7 @@ public class LienzoPanel extends FocusPanel
 
             m_events = null;
         }
-        
+
     }
 
     /**
@@ -177,7 +177,7 @@ public class LienzoPanel extends FocusPanel
     {
         return m_view.getScene();
     }
-    
+
     /**
      * Returns the automatically create {@link Viewport} instance.
      * @return
@@ -206,7 +206,7 @@ public class LienzoPanel extends FocusPanel
     {
         return m_view.getDraglayer();
     }
-    
+
     /**
      * Sets the frequency in milliseconds at which the
      * timer will check to see if a resize operation is taking place.
@@ -219,9 +219,9 @@ public class LienzoPanel extends FocusPanel
      */
     public void setResizeCheckRepeatInterval(int resizeCheckRepeatInterval)
     {
-    	m_resize_check_repeat_interval = resizeCheckRepeatInterval;
+        m_resize_check_repeat_interval = resizeCheckRepeatInterval;
     }
-    
+
     /**
      * Returns the resize check repeat interval that is being used
      * to check if there is a resize operation taking place.
@@ -232,7 +232,7 @@ public class LienzoPanel extends FocusPanel
      */
     public int setResizeCheckRepeatInterval()
     {
-    	return m_resize_check_repeat_interval;
+        return m_resize_check_repeat_interval;
     }
 
     /**
@@ -283,7 +283,7 @@ public class LienzoPanel extends FocusPanel
     {
         return m_view.toDataURL(mimetype, includeBackgroundLayer);
     }
-    
+
     /**
      * Sets the background color of the LienzoPanel.
      * 
@@ -293,10 +293,10 @@ public class LienzoPanel extends FocusPanel
     public LienzoPanel setBackgroundColor(String color)
     {
         getElement().getStyle().setBackgroundColor(color);
-        
+
         return this;
     }
-    
+
     /**
      * Sets the background color of the LienzoPanel.
      * 
@@ -319,7 +319,7 @@ public class LienzoPanel extends FocusPanel
     {
         return getElement().getStyle().getBackgroundColor();
     }
-    
+
     /**
      * Returns the {@link Mediators} for this panels {@link Viewport}.
      * Mediators can be used to e.g. to add zoom operations.
@@ -350,83 +350,80 @@ public class LienzoPanel extends FocusPanel
 			return enabled;
 		}
     }-*/;
-    
+
     private void initResizeTimer()
     {
-    	m_resize_timer = new Timer()
-    	{
-			@Override
-			public void run()
-			{
-				m_resizing = false;
-				
-				if (!m_resizing)
-				{
-			        int w = getElement().getParentElement().getClientWidth();
+        m_resize_timer = new Timer()
+        {
+            @Override
+            public void run()
+            {
+                m_resizing = false;
 
-			        int h = getElement().getParentElement().getClientHeight();
-			        
-			        getViewport().getHandlerManager().fireEvent(new ResizeEndEvent(w, h));
-			        
-					cancel();
-				}
-			}
-		};
+                if (!m_resizing)
+                {
+                    int w = getElement().getParentElement().getClientWidth();
+
+                    int h = getElement().getParentElement().getClientHeight();
+
+                    getViewport().getHandlerManager().fireEvent(new ResizeEndEvent(w, h));
+
+                    cancel();
+                }
+            }
+        };
     }
-    
+
     private void addHandlers()
     {
-    	
-    	Window.addResizeHandler(new ResizeHandler()
-    	{
-			@Override
-			public void onResize(ResizeEvent event)
-			{
-		        int w = getElement().getParentElement().getClientWidth();
+        Window.addResizeHandler(new ResizeHandler()
+        {
+            @Override
+            public void onResize(ResizeEvent event)
+            {
+                int w = getElement().getParentElement().getClientWidth();
 
-		        int h = getElement().getParentElement().getClientHeight();
-		        
-		        setPixelSize(w, h);
-		        
-		    	if (!m_resizing)
-		    	{
-		    		m_resizing = true;
-		    		
-		    		getViewport().getHandlerManager().fireEvent(new ResizeStartEvent(w, h));
-		    		
-		    		m_resize_timer.scheduleRepeating(m_resize_check_repeat_interval);
-		    	}
+                int h = getElement().getParentElement().getClientHeight();
 
-		    	m_resizing = true;
-		            
-		    	getViewport().getHandlerManager().fireEvent(new ResizeChangeEvent(w, h));
-		    	
-		        Orientation orientation;
-		        
-		        if (w > h)
-		        {
-		        	orientation = Orientation.LANDSCAPE;
-		        }
-		        else
-		        {
-		        	orientation = Orientation.PORTRAIT;
-		        }
-		        
-		        if (orientation != m_orientation)
-		        {
-		        	m_orientation = orientation;
-		        	getViewport().getHandlerManager().fireEvent(new OrientationChangeEvent(w, h));			        	
-		        }
-		            
-		    	Scheduler.get().scheduleDeferred(new ScheduledCommand()
-		    	{
-		    		@Override
-		    		public void execute()
-		    		{
-		    			m_view.draw();
-		    		}
-		    	});
-			}
-		});
+                setPixelSize(w, h);
+
+                if (!m_resizing)
+                {
+                    m_resizing = true;
+
+                    getViewport().getHandlerManager().fireEvent(new ResizeStartEvent(w, h));
+
+                    m_resize_timer.scheduleRepeating(m_resize_check_repeat_interval);
+                }
+                m_resizing = true;
+
+                getViewport().getHandlerManager().fireEvent(new ResizeChangeEvent(w, h));
+
+                Orientation orientation;
+
+                if (w > h)
+                {
+                    orientation = Orientation.LANDSCAPE;
+                }
+                else
+                {
+                    orientation = Orientation.PORTRAIT;
+                }
+                if (orientation != m_orientation)
+                {
+                    m_orientation = orientation;
+
+                    getViewport().getHandlerManager().fireEvent(new OrientationChangeEvent(w, h));
+                }
+                Scheduler.get().scheduleDeferred(new ScheduledCommand()
+                {
+                    @Override
+                    public void execute()
+                    {
+                        m_view.draw();
+                    }
+                });
+            }
+        });
     }
 }

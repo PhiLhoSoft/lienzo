@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.client.core.shape.json;
 
 import com.emitrom.lienzo.client.core.shape.IContainer;
@@ -34,7 +35,7 @@ public abstract class ContainerNodeFactory<T extends IJSONSerializable<T> & ICon
     {
         this(type.getValue());
     }
-    
+
     protected ContainerNodeFactory(String typeName)
     {
         super(typeName);

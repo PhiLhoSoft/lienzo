@@ -179,7 +179,7 @@ public class MouseBoxZoomMediator extends AbstractMediator
 
         m_dragLayer = m_viewport.getDraglayer();
 
-        Transform transform = m_dragLayer.isZoomable() ? m_viewport.getTransform() : m_dragLayer.getTransform();
+        Transform transform = m_dragLayer.isTransformable() ? m_viewport.getTransform() : m_dragLayer.getTransform();
 
         if (transform == null)
         {

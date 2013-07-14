@@ -31,7 +31,7 @@ public interface DragConstraintEnforcer
      * @param dragContext
      */
     public void startDrag(DragContext dragContext);
-    
+
     /**
      * Adjust the drag offset (dx,dy)
      * 

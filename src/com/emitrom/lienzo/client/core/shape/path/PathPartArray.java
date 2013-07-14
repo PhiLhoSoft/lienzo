@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2012 Emitrom LLC. All rights reserved. 
+   Copyright (c) 2013 Emitrom LLC. All rights reserved. 
    For licensing questions, please contact us at licensing@emitrom.com
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,11 +28,24 @@ import com.google.gwt.json.client.JSONArray;
 
 public class PathPartArray implements IPathPartBuilder<PathPartArray>
 {
+    public static final class PathPartArrayJSO extends JsArray<PathPartJSO>
+    {
+        public static final native PathPartArrayJSO makePathPartArrayJSO()
+        /*-{
+			return [];
+        }-*/;
+
+        protected PathPartArrayJSO()
+        {
+
+        }
+    }
+
     private final PathPartArrayJSO m_jso;
 
-    PathPartArray(PathPartArrayJSO jso)
+    public PathPartArray()
     {
-        m_jso = jso;
+        this(PathPartArrayJSO.makePathPartArrayJSO());
     }
 
     public PathPartArray(JsArray<JavaScriptObject> jso)
@@ -40,21 +53,9 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
         m_jso = jso.cast();
     }
 
-    public PathPartArray()
+    PathPartArray(PathPartArrayJSO jso)
     {
-        this(PathPartArrayJSO.makePathPartArrayJSO());
-    }
-
-    public final PathPartArray push(PathPart part)
-    {
-        getJSO().push(part.getJSO());
-
-        return this;
-    }
-
-    public final int getLength()
-    {
-        return getJSO().length();
+        m_jso = jso;
     }
 
     public final PathPartArrayJSO getJSO()
@@ -62,247 +63,82 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
         return m_jso;
     }
 
-    public String toString()
+    public final int getLength()
     {
-        return new JSONArray(m_jso).toString();
-    }
-
-    public static final class PathPartArrayJSO extends JsArray<PathPartJSO>
-    {
-        protected PathPartArrayJSO()
-        {
-
-        }
-
-        public static final native PathPartArrayJSO makePathPartArrayJSO()
-        /*-{
-			return [];
-        }-*/;
+        return getJSO().length();
     }
 
     @Override
-    public PathPartArray m(double x, double y)
+    public PathPartArray h(double x)
     {
-        return m(new Point2D(x, y));
+        return h(new double[] { x });
     }
 
     @Override
-    public PathPartArray m(Point2D point)
+    public PathPartArray h(double x, double... xs)
     {
-        if (null != point)
+        int size = 1;
+
+        if (null != xs)
         {
-            return m(new Point2DArray(point));
+            size += xs.length;
         }
+        double[] array = new double[size];
+
+        array[0] = x;
+
+        if (null != xs)
+        {
+            for (int i = 0; i < xs.length; i++)
+            {
+                array[i + 1] = xs[i];
+            }
+        }
+        return h(array);
+    }
+
+    @Override
+    public PathPartArray h(double[] xs)
+    {
+        getJSO().push(new DoubleArrayPathPart(xs, PathPartType.h).getJSO());
+
         return this;
     }
 
     @Override
-    public PathPartArray m(Point2D point, Point2D... points)
+    public PathPartArray H(double x)
     {
-        Point2DArray list = new Point2DArray();
-
-        if (null != point)
-        {
-            list.push(point);
-        }
-        if ((null != points) && (points.length > 0))
-        {
-            final int leng = points.length;
-
-            for (int i = 0; i < leng; i++)
-            {
-                point = points[i];
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-        }
-        return m(list);
+        return H(new double[] { x });
     }
 
     @Override
-    public PathPartArray m(Point2D[] points)
+    public PathPartArray H(double x, double... xs)
     {
-        Point2DArray list = new Point2DArray();
+        int size = 1;
 
-        if ((null != points) && (points.length > 0))
+        if (null != xs)
         {
-            final int leng = points.length;
+            size += xs.length;
+        }
+        double[] array = new double[size];
 
-            for (int i = 0; i < leng; i++)
+        array[0] = x;
+
+        if (null != xs)
+        {
+            for (int i = 0; i < xs.length; i++)
             {
-                Point2D point = points[i];
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
+                array[i + 1] = xs[i];
             }
         }
-        return m(list);
+        return H(array);
     }
 
     @Override
-    public PathPartArray m(List<Point2D> points)
+    public PathPartArray H(double[] xs)
     {
-        Point2DArray list = new Point2DArray();
+        getJSO().push(new DoubleArrayPathPart(xs, PathPartType.H).getJSO());
 
-        if ((null != points) && (points.size() > 0))
-        {
-            final int leng = points.size();
-
-            for (int i = 0; i < leng; i++)
-            {
-                Point2D point = points.get(i);
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-            return m(list);
-        }
-        return this;
-    }
-
-    @Override
-    public PathPartArray m(Point2DArray points)
-    {
-        Point2DArray list = new Point2DArray();
-
-        if ((null != points) && (points.getLength() > 0))
-        {
-            final int leng = points.getLength();
-
-            for (int i = 0; i < leng; i++)
-            {
-                Point2D point = points.getPoint(i);
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-            if (list.getLength() > 0)
-            {
-                getJSO().push(new MoveToPathPart(list, false).getJSO());
-            }
-        }
-        return this;
-    }
-
-    @Override
-    public PathPartArray M(double x, double y)
-    {
-        return M(new Point2D(x, y));
-    }
-
-    @Override
-    public PathPartArray M(Point2D point)
-    {
-        if (null != point)
-        {
-            return M(new Point2DArray(point));
-        }
-        return this;
-    }
-
-    @Override
-    public PathPartArray M(Point2D point, Point2D... points)
-    {
-        Point2DArray list = new Point2DArray();
-
-        if (null != point)
-        {
-            list.push(point);
-        }
-        if ((null != points) && (points.length > 0))
-        {
-            final int leng = points.length;
-
-            for (int i = 0; i < leng; i++)
-            {
-                point = points[i];
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-        }
-        return M(list);
-    }
-
-    @Override
-    public PathPartArray M(Point2D[] points)
-    {
-        Point2DArray list = new Point2DArray();
-
-        if ((null != points) && (points.length > 0))
-        {
-            final int leng = points.length;
-
-            for (int i = 0; i < leng; i++)
-            {
-                Point2D point = points[i];
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-        }
-        return M(list);
-    }
-
-    @Override
-    public PathPartArray M(List<Point2D> points)
-    {
-        Point2DArray list = new Point2DArray();
-
-        if ((null != points) && (points.size() > 0))
-        {
-            final int leng = points.size();
-
-            for (int i = 0; i < leng; i++)
-            {
-                Point2D point = points.get(i);
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-            return M(list);
-        }
-        return this;
-    }
-
-    @Override
-    public PathPartArray M(Point2DArray points)
-    {
-        Point2DArray list = new Point2DArray();
-
-        if ((null != points) && (points.getLength() > 0))
-        {
-            final int leng = points.getLength();
-
-            for (int i = 0; i < leng; i++)
-            {
-                Point2D point = points.getPoint(i);
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-            if (list.getLength() > 0)
-            {
-                getJSO().push(new MoveToPathPart(list, true).getJSO());
-            }
-        }
         return this;
     }
 
@@ -310,6 +146,29 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
     public PathPartArray l(double x, double y)
     {
         return l(new Point2D(x, y));
+    }
+
+    @Override
+    public PathPartArray l(List<Point2D> points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if ((null != points) && (points.size() > 0))
+        {
+            final int leng = points.size();
+
+            for (int i = 0; i < leng; i++)
+            {
+                Point2D point = points.get(i);
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+            return l(list);
+        }
+        return this;
     }
 
     @Override
@@ -371,29 +230,6 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
     }
 
     @Override
-    public PathPartArray l(List<Point2D> points)
-    {
-        Point2DArray list = new Point2DArray();
-
-        if ((null != points) && (points.size() > 0))
-        {
-            final int leng = points.size();
-
-            for (int i = 0; i < leng; i++)
-            {
-                Point2D point = points.get(i);
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-            return l(list);
-        }
-        return this;
-    }
-
-    @Override
     public PathPartArray l(Point2DArray points)
     {
         Point2DArray list = new Point2DArray();
@@ -423,6 +259,29 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
     public PathPartArray L(double x, double y)
     {
         return L(new Point2D(x, y));
+    }
+
+    @Override
+    public PathPartArray L(List<Point2D> points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if ((null != points) && (points.size() > 0))
+        {
+            final int leng = points.size();
+
+            for (int i = 0; i < leng; i++)
+            {
+                Point2D point = points.get(i);
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+            return L(list);
+        }
+        return this;
     }
 
     @Override
@@ -484,29 +343,6 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
     }
 
     @Override
-    public PathPartArray L(List<Point2D> points)
-    {
-        Point2DArray list = new Point2DArray();
-
-        if ((null != points) && (points.size() > 0))
-        {
-            final int leng = points.size();
-
-            for (int i = 0; i < leng; i++)
-            {
-                Point2D point = points.get(i);
-
-                if (null != point)
-                {
-                    list.push(point);
-                }
-            }
-            return L(list);
-        }
-        return this;
-    }
-
-    @Override
     public PathPartArray L(Point2DArray points)
     {
         Point2DArray list = new Point2DArray();
@@ -533,9 +369,234 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
     }
 
     @Override
-    public PathPartArray z()
+    public PathPartArray m(double x, double y)
     {
-        getJSO().push(new ClosePathPart().getJSO());
+        return m(new Point2D(x, y));
+    }
+
+    @Override
+    public PathPartArray m(List<Point2D> points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if ((null != points) && (points.size() > 0))
+        {
+            final int leng = points.size();
+
+            for (int i = 0; i < leng; i++)
+            {
+                Point2D point = points.get(i);
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+            return m(list);
+        }
+        return this;
+    }
+
+    @Override
+    public PathPartArray m(Point2D point)
+    {
+        if (null != point)
+        {
+            return m(new Point2DArray(point));
+        }
+        return this;
+    }
+
+    @Override
+    public PathPartArray m(Point2D point, Point2D... points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if (null != point)
+        {
+            list.push(point);
+        }
+        if ((null != points) && (points.length > 0))
+        {
+            final int leng = points.length;
+
+            for (int i = 0; i < leng; i++)
+            {
+                point = points[i];
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+        }
+        return m(list);
+    }
+
+    @Override
+    public PathPartArray m(Point2D[] points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if ((null != points) && (points.length > 0))
+        {
+            final int leng = points.length;
+
+            for (int i = 0; i < leng; i++)
+            {
+                Point2D point = points[i];
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+        }
+        return m(list);
+    }
+
+    @Override
+    public PathPartArray m(Point2DArray points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if ((null != points) && (points.getLength() > 0))
+        {
+            final int leng = points.getLength();
+
+            for (int i = 0; i < leng; i++)
+            {
+                Point2D point = points.getPoint(i);
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+            if (list.getLength() > 0)
+            {
+                getJSO().push(new MoveToPathPart(list, false).getJSO());
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public PathPartArray M(double x, double y)
+    {
+        return M(new Point2D(x, y));
+    }
+
+    @Override
+    public PathPartArray M(List<Point2D> points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if ((null != points) && (points.size() > 0))
+        {
+            final int leng = points.size();
+
+            for (int i = 0; i < leng; i++)
+            {
+                Point2D point = points.get(i);
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+            return M(list);
+        }
+        return this;
+    }
+
+    @Override
+    public PathPartArray M(Point2D point)
+    {
+        if (null != point)
+        {
+            return M(new Point2DArray(point));
+        }
+        return this;
+    }
+
+    @Override
+    public PathPartArray M(Point2D point, Point2D... points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if (null != point)
+        {
+            list.push(point);
+        }
+        if ((null != points) && (points.length > 0))
+        {
+            final int leng = points.length;
+
+            for (int i = 0; i < leng; i++)
+            {
+                point = points[i];
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+        }
+        return M(list);
+    }
+
+    @Override
+    public PathPartArray M(Point2D[] points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if ((null != points) && (points.length > 0))
+        {
+            final int leng = points.length;
+
+            for (int i = 0; i < leng; i++)
+            {
+                Point2D point = points[i];
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+        }
+        return M(list);
+    }
+
+    @Override
+    public PathPartArray M(Point2DArray points)
+    {
+        Point2DArray list = new Point2DArray();
+
+        if ((null != points) && (points.getLength() > 0))
+        {
+            final int leng = points.getLength();
+
+            for (int i = 0; i < leng; i++)
+            {
+                Point2D point = points.getPoint(i);
+
+                if (null != point)
+                {
+                    list.push(point);
+                }
+            }
+            if (list.getLength() > 0)
+            {
+                getJSO().push(new MoveToPathPart(list, true).getJSO());
+            }
+        }
+        return this;
+    }
+
+    public final PathPartArray push(PathPart part)
+    {
+        getJSO().push(part.getJSO());
 
         return this;
     }
@@ -564,6 +625,101 @@ public class PathPartArray implements IPathPartBuilder<PathPartArray>
     public PathPartArray Q(Point2D cp, Point2D ep)
     {
         getJSO().push(new QuadraticCurveToPathPart(new Point2DArray(cp, ep), true).getJSO());
+
+        return this;
+    }
+
+    public String toString()
+    {
+        return new JSONArray(m_jso).toString();
+    }
+
+    @Override
+    public PathPartArray v(double y)
+    {
+        return v(new double[] { y });
+    }
+
+    @Override
+    public PathPartArray v(double y, double... ys)
+    {
+        int size = 1;
+
+        if (null != ys)
+        {
+            size += ys.length;
+        }
+        double[] array = new double[size];
+
+        array[0] = y;
+
+        if (null != ys)
+        {
+            for (int i = 0; i < ys.length; i++)
+            {
+                array[i + 1] = ys[i];
+            }
+        }
+        return v(array);
+    }
+
+    @Override
+    public PathPartArray v(double[] ys)
+    {
+        getJSO().push(new DoubleArrayPathPart(ys, PathPartType.v).getJSO());
+
+        return this;
+    }
+
+    @Override
+    public PathPartArray V(double y)
+    {
+        return V(new double[] { y });
+    }
+
+    @Override
+    public PathPartArray V(double y, double... ys)
+    {
+        int size = 1;
+
+        if (null != ys)
+        {
+            size += ys.length;
+        }
+        double[] array = new double[size];
+
+        array[0] = y;
+
+        if (null != ys)
+        {
+            for (int i = 0; i < ys.length; i++)
+            {
+                array[i + 1] = ys[i];
+            }
+        }
+        return V(array);
+    }
+
+    @Override
+    public PathPartArray V(double[] ys)
+    {
+        getJSO().push(new DoubleArrayPathPart(ys, PathPartType.V).getJSO());
+
+        return this;
+    }
+
+    @Override
+    public PathPartArray z()
+    {
+        getJSO().push(new ClosePathPart(false).getJSO());
+
+        return this;
+    }
+
+    @Override
+    public PathPartArray Z()
+    {
+        getJSO().push(new ClosePathPart(true).getJSO());
 
         return this;
     }

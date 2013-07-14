@@ -446,7 +446,7 @@ final class LienzoHandlerManager
         m_dragnode.setVisible(false);
 
         m_dragContext.drawNode(m_lienzo.getDragLayer().getContext());
-        
+
         LayerRedrawManager.get().schedule(m_dragnode.getLayer());
 
         m_dragging_dispatch_move = m_dragnode.isEventHandled(NodeDragMoveEvent.getType());

@@ -44,10 +44,4 @@ public class NodeTouchMoveEvent extends AbstractNodeTouchEvent<NodeTouchMoveHand
     {
         handler.onNodeTouchMove(this);
     }
-
-    @Override
-    public String toString()
-    {
-        return "NodeTouchMoveEvent";
-    }
 }

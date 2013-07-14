@@ -44,7 +44,7 @@ import com.emitrom.lienzo.shared.core.types.CompositeOperation;
 import com.emitrom.lienzo.shared.core.types.DragConstraint;
 import com.emitrom.lienzo.shared.core.types.LineCap;
 import com.emitrom.lienzo.shared.core.types.LineJoin;
-import com.emitrom.lienzo.shared.core.types.SerializationMode;
+import com.emitrom.lienzo.shared.core.types.PictureSerializationMode;
 import com.emitrom.lienzo.shared.core.types.TextAlign;
 import com.emitrom.lienzo.shared.core.types.TextBaseLine;
 import com.google.gwt.json.client.JSONValue;
@@ -84,7 +84,7 @@ public class AttributeType
 
     public static AttributeType    SHADOW_TYPE              = new AttributeType(ShadowValidator.INSTANCE);
 
-    public static AttributeType    SERIALIZATION_MODE_TYPE  = new AttributeType(new EnumValidator<SerializationMode>("SerializationMode", SerializationMode.values()));
+    public static AttributeType    SERIALIZATION_MODE_TYPE  = new AttributeType(new EnumValidator<PictureSerializationMode>("SerializationMode", PictureSerializationMode.values()));
 
     public static AttributeType    DASH_ARRAY_TYPE          = new AttributeType(new ArrayValidator(NumberValidator.INSTANCE));
 

@@ -109,6 +109,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
         m_mediators = new Mediators(this);
 
         // Zoom mediators rely on the Transform not being null.
+
         setTransform(new Transform());
     }
 
@@ -180,7 +181,6 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
                 }
             }
         }
-
         return this;
     }
 
@@ -365,7 +365,6 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
         {
             return;
         }
-
         Transform t = getTransform();
 
         if (null != t)
@@ -589,6 +588,7 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
 
             // For Viewports, the Transform is required (for other Nodes it's optional),
             // so override the requirednesss.
+
             addAttribute(Attribute.TRANSFORM, true);
         }
 
@@ -710,5 +710,4 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
             }
         }
     }
-
 }

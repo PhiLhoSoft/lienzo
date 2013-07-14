@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.client.core.shape.json;
 
 import com.emitrom.lienzo.client.core.Attribute;
@@ -34,18 +35,18 @@ public abstract class NodeFactory<T extends IJSONSerializable<T>> extends Abstra
     {
         this(type.getValue());
     }
-    
+
     protected NodeFactory(String typeName)
     {
         super(typeName);
-        
+
         addAttribute(Attribute.ID);
         addAttribute(Attribute.NAME);
         addAttribute(Attribute.VISIBLE);
         addAttribute(Attribute.LISTENING);
         addAttribute(Attribute.TRANSFORM);
     }
-    
+
     /**
      * Only factories that wish to extend other factories should use this.
      * 

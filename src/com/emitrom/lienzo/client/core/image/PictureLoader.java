@@ -31,6 +31,7 @@ import java.util.HashMap;
 public class PictureLoader
 {
     private static final PictureLoader s_instance = new PictureLoader();
+
     public static final String         ALL        = "ALL";
 
     private HashMap<String, Category>  m_map      = new HashMap<String, Category>();
@@ -52,7 +53,7 @@ public class PictureLoader
      */
     public final void registerProxy(String category, ImageProxy proxy)
     {
-        if (!proxy.isLoaded())
+        if (false == proxy.isLoaded())
         {
             // Don't add proxy if it's already done loading
             getOrCreateCategory(category).add(proxy);
@@ -71,6 +72,7 @@ public class PictureLoader
     public final void doneLoading(String category, ImageProxy proxy)
     {
         Category c = getCategory(category);
+
         if (c != null)
         {
             if (c.doneLoading(proxy))
@@ -105,20 +107,24 @@ public class PictureLoader
     private final Category getCategory(String category)
     {
         if (category == null)
+        {
             category = ALL;
-
+        }
         return m_map.get(category);
     }
 
     private final Category getOrCreateCategory(String category)
     {
         if (category == null)
+        {
             category = ALL;
-
+        }
         Category c = m_map.get(category);
+        
         if (c == null)
         {
             c = new Category();
+            
             m_map.put(category, c);
         }
         return c;
@@ -133,6 +139,7 @@ public class PictureLoader
     protected static class Category
     {
         private ArrayList<ImageProxy> m_proxies   = new ArrayList<ImageProxy>();
+
         private ArrayList<Runnable>   m_callbacks = new ArrayList<Runnable>();
 
         public void add(Runnable callback)

@@ -26,7 +26,7 @@ public class ValidationException extends Exception
     public ValidationException(ValidationContext context)
     {
         super(context.getDebugString());
-        
+
         m_context = context;
     }
 

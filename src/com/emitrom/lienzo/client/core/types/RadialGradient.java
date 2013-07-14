@@ -28,6 +28,8 @@ import com.emitrom.lienzo.shared.core.types.IColor;
  */
 public final class RadialGradient implements FillGradient
 {
+    public static final String      TYPE = "RadialGradient";
+
     private final RadialGradientJSO m_jso;
 
     public RadialGradient(RadialGradientJSO jso)
@@ -38,6 +40,12 @@ public final class RadialGradient implements FillGradient
     public RadialGradient(double sx, double sy, double sr, double ex, double ey, double er)
     {
         this(RadialGradientJSO.make(sx, sy, sr, ex, ey, er));
+    }
+
+    @Override
+    public String getType()
+    {
+        return TYPE;
     }
 
     /**

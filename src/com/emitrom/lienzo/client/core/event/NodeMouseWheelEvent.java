@@ -21,7 +21,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseWheelEvent;
 
-public class NodeMouseWheelEvent extends AbstractNodeMouseEvent<MouseEvent<?>, NodeMouseWheelHandler> //extends GwtEvent<NodeMouseWheelHandler>
+public class NodeMouseWheelEvent extends AbstractNodeMouseEvent<MouseEvent<?>, NodeMouseWheelHandler> // extends GwtEvent<NodeMouseWheelHandler>
 {
     private static final Type<NodeMouseWheelHandler> TYPE = new Type<NodeMouseWheelHandler>();
 
@@ -47,14 +47,14 @@ public class NodeMouseWheelEvent extends AbstractNodeMouseEvent<MouseEvent<?>, N
      */
     public double getDeltaY()
     {
-        return getNormalizedDeltaY(getOriginalEvent());        
+        return getNormalizedDeltaY(getOriginalEvent());
     }
 
     public double getNormalizedDeltaY()
     {
         return getOriginalEvent().getDeltaY();
     }
-    
+
     public boolean isNorth()
     {
         return getDeltaY() > 0;
@@ -81,7 +81,7 @@ public class NodeMouseWheelEvent extends AbstractNodeMouseEvent<MouseEvent<?>, N
     {
         handler.onNodeMouseWheel(this);
     }
-    
+
     /**
      * Returns the change in the mouse wheel position along the Y-axis; positive if
      * the mouse wheel is moving north (toward the top of the screen) or negative
@@ -110,16 +110,16 @@ public class NodeMouseWheelEvent extends AbstractNodeMouseEvent<MouseEvent<?>, N
      */
     private static native final double getNativeNormalizedDeltaY(NativeEvent event)
     /*-{
-        var delta = 0;
-        if (event.wheelDelta) { 
-            // IE/Opera.
-            delta = event.wheelDelta / 120;
-        } else if (event.detail) { 
-            // Mozilla case. 
-            // In Mozilla, sign of delta is different than in IE.
-            // Also, delta is multiple of 3.
-            delta = -event.detail / 3;
-        }
-        return delta;
+		var delta = 0;
+		if (event.wheelDelta) {
+			// IE/Opera.
+			delta = event.wheelDelta / 120;
+		} else if (event.detail) {
+			// Mozilla case. 
+			// In Mozilla, sign of delta is different than in IE.
+			// Also, delta is multiple of 3.
+			delta = -event.detail / 3;
+		}
+		return delta;
     }-*/;
 }

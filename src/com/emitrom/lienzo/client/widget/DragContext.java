@@ -41,29 +41,33 @@ import com.emitrom.lienzo.client.core.types.Transform;
 public class DragContext
 {
     // (x0,y0) in global coordinates - i.e. event(x,y) at start of drag operation
-    private int m_dragStartX;
-    private int m_dragStartY;
-    
+    private int                    m_dragStartX;
+
+    private int                    m_dragStartY;
+
     // (x1,y1) in global coordinates - i.e. event(x,y) of last drag move
-    private int m_eventX;
-    private int m_eventY;
-    
+    private int                    m_eventX;
+
+    private int                    m_eventY;
+
     // (dx,dy) in global coordinates
-    private int m_dx = 0;
-    private int m_dy = 0;
+    private int                    m_dx            = 0;
+
+    private int                    m_dy            = 0;
 
     // (dx,dy) in local coordinates (adjusted by DragConstraintsEnforcer)
-    private Point2D m_localAdjusted = new Point2D(0, 0);
-    
-    private Transform m_globalToLocal;
-    private Transform m_localToGlobal;
-    
-    private IPrimitive<?> m_node;    
+    private Point2D                m_localAdjusted = new Point2D(0, 0);
 
-    private Point2D m_p1 = new Point2D(0, 0); // (0,0) converted from global to local coordinates
-    
+    private Transform              m_globalToLocal;
+
+    private Transform              m_localToGlobal;
+
+    private IPrimitive<?>          m_node;
+
+    private Point2D                m_p1            = new Point2D(0, 0); // (0,0) converted from global to local coordinates
+
     private DragConstraintEnforcer m_dragConstraints;
-    
+
     /**
      * Starts a drag operation for the specified node.
      * 
@@ -73,22 +77,25 @@ public class DragContext
     public DragContext(INodeXYEvent event, IPrimitive<?> node)
     {
         m_node = node;
+
+        m_eventX = m_dragStartX = event.getX();
         
-        m_eventX = m_dragStartX = event.getX();        
         m_eventY = m_dragStartY = event.getY();
-        
+
         m_localToGlobal = m_node.getParent().getAbsoluteTransform();
-        
+
         m_globalToLocal = m_localToGlobal.getInverse();
-        
+
         // Convert one point from global to local coordinates
         // We need it when calculating (dx,dy) in local coordinates
-        m_globalToLocal.transform(new Point2D(0, 0), m_p1);        
+        
+        m_globalToLocal.transform(new Point2D(0, 0), m_p1);
 
         // Initialize the DragConstraintsEnforcer
+        
         m_dragConstraints = node.getDragConstraints();
-        if (m_dragConstraints != null)
-            m_dragConstraints.startDrag(this);            
+        
+        if (m_dragConstraints != null) m_dragConstraints.startDrag(this);
     }
 
     /**
@@ -100,12 +107,14 @@ public class DragContext
     public void drawNode(Context2D context)
     {
         context.save();
-        context.transform(m_localToGlobal);        
+        
+        context.transform(m_localToGlobal);
+        
         context.translate(m_localAdjusted.getX(), m_localAdjusted.getY());
-        
-        m_node.drawWithTransforms(context);        
-        
-        context.restore();        
+
+        m_node.drawWithTransforms(context);
+
+        context.restore();
     }
 
     /**
@@ -116,20 +125,25 @@ public class DragContext
      */
     public void dragUpdate(INodeXYEvent event)
     {
-        m_eventX = event.getX();        
+        m_eventX = event.getX();
+        
         m_eventY = event.getY();
+        
         m_dx = m_eventX - m_dragStartX;
-        m_dy = m_eventY - m_dragStartY;        
         
+        m_dy = m_eventY - m_dragStartY;
+
         Point2D p2 = new Point2D(0, 0);
+        
         m_globalToLocal.transform(new Point2D(m_dx, m_dy), p2);
-        
+
         m_localAdjusted.setX(p2.getX() - m_p1.getX());
-        m_localAdjusted.setY(p2.getY() - m_p1.getY());
         
+        m_localAdjusted.setY(p2.getY() - m_p1.getY());
+
         // Let the constraints adjust the location if necessary
-        if (m_dragConstraints != null)
-        	m_dragConstraints.adjust(m_localAdjusted);        
+        
+        if (m_dragConstraints != null) m_dragConstraints.adjust(m_localAdjusted);
     }
 
     /**
@@ -140,9 +154,11 @@ public class DragContext
      */
     public void dragDone()
     {
-    	// update X,Y attributes
-    	m_node.setX(m_node.getX() + m_localAdjusted.getX());
-    	m_node.setY(m_node.getY() + m_localAdjusted.getY());
+        // update X,Y attributes
+        
+        m_node.setX(m_node.getX() + m_localAdjusted.getX());
+        
+        m_node.setY(m_node.getY() + m_localAdjusted.getY());
     }
 
     /**

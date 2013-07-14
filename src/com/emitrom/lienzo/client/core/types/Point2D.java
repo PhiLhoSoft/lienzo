@@ -17,7 +17,7 @@
 
 package com.emitrom.lienzo.client.core.types;
 
-import com.emitrom.lienzo.client.core.util.GeoException;
+import com.emitrom.lienzo.client.core.util.GeometryException;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -212,11 +212,11 @@ public final class Point2D
      * @param d double
      * @return a new Point2D
      */
-    public final Point2D div(double d) throws GeoException
+    public final Point2D div(double d) throws GeometryException
     {
         if (d == 0.0)
         {
-            throw new GeoException("can't divide by 0");
+            throw new GeometryException("can't divide by 0");
         }
         return times(1.0 / d);
     }
@@ -228,11 +228,11 @@ public final class Point2D
      * @param d double
      * @return this Point2D
      */
-    public final Point2D divInSitu(double d) throws GeoException
+    public final Point2D divInSitu(double d) throws GeometryException
     {
         if (d == 0.0)
         {
-            throw new GeoException("can't divide by 0");
+            throw new GeometryException("can't divide by 0");
         }
         timesInSitu(d);
 
@@ -315,13 +315,13 @@ public final class Point2D
      * 
      * @return Point2D
      */
-    public final Point2D unit() throws GeoException
+    public final Point2D unit() throws GeometryException
     {
         double len = getLength();
 
         if (len == 0)
         {
-            throw new GeoException("can't normalize (0,0)");
+            throw new GeometryException("can't normalize (0,0)");
         }
         return div(len);
     }
@@ -331,15 +331,15 @@ public final class Point2D
      * while maintaining its direction.
      * 
      * @return this Point2D
-     * @throws GeoException
+     * @throws GeometryException
      */
-    public final Point2D unitInSitu() throws GeoException
+    public final Point2D unitInSitu() throws GeometryException
     {
         double len = getLength();
 
         if (len == 0)
         {
-            throw new GeoException("can't normalize (0,0)");
+            throw new GeometryException("can't normalize (0,0)");
         }
         return divInSitu(len);
     }

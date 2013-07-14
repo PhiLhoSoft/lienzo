@@ -239,7 +239,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
                 {
                     GradientJSO base = grad.cast();
 
-                    if ("LinearGradient".equals(base.getType()))
+                    if (LinearGradient.TYPE.equals(base.getType()))
                     {
                         context.setFillGradient(new LinearGradient((LinearGradientJSO) base));
 
@@ -247,7 +247,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
                         setWasFilledFlag(true);
                     }
-                    else if ("RadialGradient".equals(base.getType()))
+                    else if (RadialGradient.TYPE.equals(base.getType()))
                     {
                         context.setFillGradient(new RadialGradient((RadialGradientJSO) base));
 
@@ -255,7 +255,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
                         setWasFilledFlag(true);
                     }
-                    else if ("PatternGradient".equals(base.getType()))
+                    else if (PatternGradient.TYPE.equals(base.getType()))
                     {
                         context.setFillGradient(new PatternGradient((PatternGradientJSO) base));
 

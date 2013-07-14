@@ -17,12 +17,10 @@
 
 package com.emitrom.lienzo.client.core.shape.path;
 
-import com.emitrom.lienzo.client.core.types.Point2DArray;
-
-final class QuadraticCurveToPathPart extends PathPart
+final class DoubleArrayPathPart extends PathPart
 {
-    public QuadraticCurveToPathPart(Point2DArray points, boolean absolute)
+    public DoubleArrayPathPart(double[] array, PathPartType type)
     {
-        super(PathPartJSO.makePathPartPoints(absolute ? PathPartType.Q : PathPartType.q, points));
+        super(PathPartJSO.makePathPartArrayOfDouble(type, array));
     }
 }

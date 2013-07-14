@@ -47,7 +47,7 @@ public class Point2DArray
     {
         this(Point2DArrayJSO.makePoint2DArrayJSO());
     }
-    
+
     public Point2DArray(double x, double y)
     {
         this(Point2DArrayJSO.makePoint2DArrayJSO());
@@ -82,19 +82,19 @@ public class Point2DArray
     public Point2DArray(double[] x, double[] y)
     {
         this(Point2DArrayJSO.makePoint2DArrayJSO());
-        
+
         assert x != null;
 
         assert y != null;
-        
+
         assert x.length == y.length : "x and y array should have the same length";
-        
+
         for (int i = 0; i < x.length; i++)
         {
             push(x[i], y[i]);
         }
     }
-    
+
     /**
      * Creates a Point2DArray for an array with {x,y} pairs, e.g.
      * <code>
@@ -107,21 +107,21 @@ public class Point2DArray
     public Point2DArray(double[][] points)
     {
         this(Point2DArrayJSO.makePoint2DArrayJSO());
-        
-        assert(points != null);
-        
+
+        assert (points != null);
+
         for (int i = 0; i < points.length; i++)
         {
             double[] xy = points[i];
-            
+
             assert xy != null;
-            
+
             assert xy.length == 2 : "points[" + i + "] does not have length of 2";
-            
+
             push(xy[0], xy[1]);
-        }        
+        }
     }
-    
+
     public final Point2DArray push(Point2D point)
     {
         getJSO().push(point.getJSO());
@@ -198,7 +198,7 @@ public class Point2DArray
     {
         return m_jso;
     }
-    
+
     public String toString()
     {
         return new JSONArray(m_jso).toString();

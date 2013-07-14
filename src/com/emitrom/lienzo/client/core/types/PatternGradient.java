@@ -27,6 +27,8 @@ import com.emitrom.lienzo.shared.core.types.FillRepeat;
  */
 public final class PatternGradient implements FillGradient
 {
+    public static final String       TYPE = "PatternGradient";
+
     private final PatternGradientJSO m_jso;
 
     public PatternGradient(PatternGradientJSO jso)
@@ -42,6 +44,12 @@ public final class PatternGradient implements FillGradient
     public PatternGradient(ImageLoader loader, FillRepeat repeat)
     {
         this(PatternGradientJSO.make(loader.getJSO(), repeat.getValue()));
+    }
+
+    @Override
+    public String getType()
+    {
+        return TYPE;
     }
 
     public final PatternGradientJSO getJSO()

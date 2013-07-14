@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.shared.core.types;
 
 import java.util.ArrayList;
@@ -176,10 +177,11 @@ public enum ColorName implements EnumWithValue, IColor
     WHITESMOKE("whitesmoke", 245, 245, 245),	// #f5f5f5
     YELLOW("yellow", 255, 255, 0),	// #ffff00
     YELLOWGREEN("yellowgreen", 154, 205, 50);	// #9acd32
-    
+
     private final String m_value;
-    private int m_r, m_g, m_b;
-    
+
+    private int          m_r, m_g, m_b;
+
     private ColorName(String value, int r, int g, int b)
     {
         m_value = value;
@@ -198,7 +200,7 @@ public enum ColorName implements EnumWithValue, IColor
     {
         return m_value;
     }
-    
+
     @Override
     public int getR()
     {
@@ -227,7 +229,7 @@ public enum ColorName implements EnumWithValue, IColor
     {
         return new Color(m_r, m_g, m_b);
     }
-    
+
     public static final ColorName lookup(String key)
     {
         if ((null != key) && (false == (key = key.trim()).isEmpty()))

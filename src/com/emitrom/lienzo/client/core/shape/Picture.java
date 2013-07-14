@@ -28,7 +28,7 @@ import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
 import com.emitrom.lienzo.client.core.types.ImageData;
 import com.emitrom.lienzo.shared.core.types.DataURLType;
-import com.emitrom.lienzo.shared.core.types.SerializationMode;
+import com.emitrom.lienzo.shared.core.types.PictureSerializationMode;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
@@ -518,14 +518,14 @@ public class Picture extends Shape<Picture>
     {
         JSONObject attr = new JSONObject(getAttributes());
 
-        SerializationMode mode = getSerializationMode();
+        PictureSerializationMode mode = getSerializationMode();
 
-        if (mode == SerializationMode.DATA_URL)
+        if (mode == PictureSerializationMode.DATA_URL)
         {
             // TODO support different image formats
             attr.put("url", new JSONString(toDataURL(null)));
         }
-        else if (mode == SerializationMode.RESOURCE_ID)
+        else if (mode == PictureSerializationMode.RESOURCE_ID)
         {
             // TODO where do we make sure that it has a resourceID
             // TODO should we remove the URL here?
@@ -583,12 +583,12 @@ public class Picture extends Shape<Picture>
         return this;
     }
 
-    public SerializationMode getSerializationMode()
+    public PictureSerializationMode getSerializationMode()
     {
         return getAttributes().getSerializationMode();
     }
 
-    public Picture setSerializationMode(SerializationMode serializationMode)
+    public Picture setSerializationMode(PictureSerializationMode serializationMode)
     {
         getAttributes().setSerializationMode(serializationMode);
 

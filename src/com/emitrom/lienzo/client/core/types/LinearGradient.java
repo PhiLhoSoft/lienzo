@@ -26,6 +26,8 @@ import com.emitrom.lienzo.shared.core.types.IColor;
  */
 public final class LinearGradient implements FillGradient
 {
+    public static final String      TYPE = "LinearGradient";
+
     private final LinearGradientJSO m_jso;
 
     public LinearGradient(LinearGradientJSO jso)
@@ -36,6 +38,12 @@ public final class LinearGradient implements FillGradient
     public LinearGradient(double sx, double sy, double ex, double ey)
     {
         this(LinearGradientJSO.make(sx, sy, ex, ey));
+    }
+
+    @Override
+    public String getType()
+    {
+        return TYPE;
     }
 
     public final LinearGradient addColorStop(double stop, String color)

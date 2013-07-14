@@ -78,7 +78,7 @@ public class Attribute
 
     public static final Attribute         CLEAR_LAYER_BEFORE_DRAW          = new Attribute("clearLayerBeforeDraw", M.clearLayerBeforeDrawLabel(), M.clearLayerBeforeDrawDescription(), AttributeType.BOOLEAN_TYPE);
 
-    public static final Attribute         ZOOMABLE                         = new Attribute("zoomable", M.zoomableLabel(), M.zoomableDescription(), AttributeType.BOOLEAN_TYPE);
+    public static final Attribute         TRANSFORMABLE                    = new Attribute("transformable", M.zoomableLabel(), M.zoomableDescription(), AttributeType.BOOLEAN_TYPE);
 
     public static final Attribute         TEXT                             = new Attribute("text", M.textLabel(), M.textDescription(), AttributeType.STRING_TYPE);
 

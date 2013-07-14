@@ -85,7 +85,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
 
         setClearLayerBeforeDraw(true);
 
-        setZoomable(true);
+        setTransformable(true);
     }
 
     /**
@@ -101,9 +101,9 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
         {
             setClearLayerBeforeDraw(true);
         }
-        if (NativeInternalType.BOOLEAN != getAttributes().typeOf(Attribute.ZOOMABLE))
+        if (NativeInternalType.BOOLEAN != getAttributes().typeOf(Attribute.TRANSFORMABLE))
         {
-            setZoomable(true);
+            setTransformable(true);
         }
     }
 
@@ -402,9 +402,9 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
      * 
      * @return boolean
      */
-    public boolean isZoomable()
+    public boolean isTransformable()
     {
-        return getAttributes().isZoomable();
+        return getAttributes().isTransformable();
     }
 
     /**
@@ -415,9 +415,9 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
      * @param zoomable boolean
      * @return
      */
-    public Layer setZoomable(boolean zoomable)
+    public Layer setTransformable(boolean transformable)
     {
-        getAttributes().setZoomable(zoomable);
+        getAttributes().setTransformable(transformable);
 
         return this;
     }
@@ -533,7 +533,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
 
                     Transform transform = null;
 
-                    if (isZoomable())
+                    if (isTransformable())
                     {
                         transform = getViewport().getTransform();
                     }

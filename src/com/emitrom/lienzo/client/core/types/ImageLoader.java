@@ -26,7 +26,7 @@ public abstract class ImageLoader
 {
     protected ImageJSO m_jso;
 
-    private boolean        m_loaded = false;
+    private boolean    m_loaded = false;
 
     public ImageLoader(String url)
     {

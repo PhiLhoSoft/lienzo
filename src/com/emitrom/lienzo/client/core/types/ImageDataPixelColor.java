@@ -56,7 +56,6 @@ public final class ImageDataPixelColor extends JavaScriptObject
 
     public final native String toBrowserRGBA()
     /*-{
-		return "rgba(" + this[0] + "," + this[1] + "," + this[2] + ","
-				+ this[3] + ")";
+		return "rgba(" + this[0] + "," + this[1] + "," + this[2] + "," + this[3] + ")";
     }-*/;
 }

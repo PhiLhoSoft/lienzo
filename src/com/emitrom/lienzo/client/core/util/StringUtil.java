@@ -48,10 +48,10 @@ public class StringUtil
             {
                 break; // done
             }
-            
             if (p != i)
+            {
                 b.append(format.substring(p, i));
-            
+            }
             String nstr = format.substring(i + 1, i2);
 
             try

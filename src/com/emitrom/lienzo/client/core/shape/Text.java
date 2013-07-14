@@ -20,13 +20,21 @@ package com.emitrom.lienzo.client.core.shape;
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
 import com.emitrom.lienzo.client.core.LienzoGlobals;
+import com.emitrom.lienzo.client.core.Context2D.GradientJSO;
 import com.emitrom.lienzo.client.core.shape.json.IFactory;
 import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
+import com.emitrom.lienzo.client.core.types.LinearGradient;
+import com.emitrom.lienzo.client.core.types.PatternGradient;
+import com.emitrom.lienzo.client.core.types.RadialGradient;
 import com.emitrom.lienzo.client.core.types.TextMetrics;
+import com.emitrom.lienzo.client.core.types.LinearGradient.LinearGradientJSO;
+import com.emitrom.lienzo.client.core.types.PatternGradient.PatternGradientJSO;
+import com.emitrom.lienzo.client.core.types.RadialGradient.RadialGradientJSO;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.emitrom.lienzo.shared.core.types.TextAlign;
 import com.emitrom.lienzo.shared.core.types.TextBaseLine;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONObject;
 
 /**
@@ -145,18 +153,15 @@ public class Text extends Shape<Text>
         return true;
     }
 
-    @Override
     protected void fill(Context2D context, Attributes attr, double alpha)
     {
-        String fill = attr.getFillColor();
+        boolean filled = attr.isDefined(Attribute.FILL);
 
-        if ((null != fill) || (attr.isFillShapeForSelection()))
+        if ((filled) || (attr.isFillShapeForSelection()))
         {
             if (context.isSelection())
             {
                 context.save();
-
-                context.beginPath();
 
                 context.setGlobalAlpha(1);
 
@@ -164,32 +169,67 @@ public class Text extends Shape<Text>
 
                 context.fillText(getText(), 0, 0);
 
-                context.closePath();
-
                 context.restore();
 
                 setWasFilledFlag(true);
+
+                return;
             }
-            else if (null != fill)
+            if (false == filled)
             {
-                context.save();
+                return;
+            }
+            context.save();
 
-                context.beginPath();
+            doApplyShadow(context, attr);
 
-                doApplyShadow(context, attr);
+            context.setGlobalAlpha(alpha);
 
-                context.setGlobalAlpha(alpha);
+            String fill = attr.getFillColor();
 
+            if (null != fill)
+            {
                 context.setFillColor(fill);
 
                 context.fillText(getText(), 0, 0);
 
-                context.closePath();
-
-                context.restore();
-
                 setWasFilledFlag(true);
             }
+            else
+            {
+                JavaScriptObject grad = attr.getObject(Attribute.FILL.getProperty());
+
+                if (null != grad)
+                {
+                    GradientJSO base = grad.cast();
+
+                    if (LinearGradient.TYPE.equals(base.getType()))
+                    {
+                        context.setFillGradient(new LinearGradient((LinearGradientJSO) base));
+
+                        context.fillText(getText(), 0, 0);
+
+                        setWasFilledFlag(true);
+                    }
+                    else if (RadialGradient.TYPE.equals(base.getType()))
+                    {
+                        context.setFillGradient(new RadialGradient((RadialGradientJSO) base));
+
+                        context.fillText(getText(), 0, 0);
+
+                        setWasFilledFlag(true);
+                    }
+                    else if (PatternGradient.TYPE.equals(base.getType()))
+                    {
+                        context.setFillGradient(new PatternGradient((PatternGradientJSO) base));
+
+                        context.fillText(getText(), 0, 0);
+
+                        setWasFilledFlag(true);
+                    }
+                }
+            }
+            context.restore();
         }
     }
 

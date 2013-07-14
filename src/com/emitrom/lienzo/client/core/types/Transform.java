@@ -18,7 +18,7 @@
 package com.emitrom.lienzo.client.core.types;
 
 import com.emitrom.lienzo.client.core.types.Point2D.Point2DJSO;
-import com.emitrom.lienzo.client.core.util.GeoException;
+import com.emitrom.lienzo.client.core.util.GeometryException;
 import com.emitrom.lienzo.client.core.util.Matrix;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONArray;
@@ -58,7 +58,7 @@ public final class Transform
      * @param m02 the X coordinate translation element of the 3x3 matrix
      * @param m12 the Y coordinate translation element of the 3x3 matrix
      */
-    public Transform(double m00, double m10, double m01, double m11, double m02,double m12)
+    public Transform(double m00, double m10, double m01, double m11, double m02, double m12)
     {
         m_jso = TransformJSO.makeFromDoubles(m00, m10, m01, m11, m02, m12);
     }
@@ -263,13 +263,14 @@ public final class Transform
      * transform has no inverse, in which case an exception will be
      * thrown if the <code>invert</code> method is called.
      * @see #getDeterminant
-     * @exception GeoException if the matrix cannot be inverted.
+     * @exception GeometryException if the matrix cannot be inverted.
      * @return a new Transform
      */
-    public final Transform getInverse() throws GeoException
+    public final Transform getInverse() throws GeometryException
     {
-        if (Math.abs(m_jso.getDeterminant()) <= Double.MIN_VALUE) {
-            throw new GeoException("Can't invert this matrix - determinant is near 0");
+        if (Math.abs(m_jso.getDeterminant()) <= Double.MIN_VALUE)
+        {
+            throw new GeometryException("Can't invert this matrix - determinant is near 0");
         }
         return new Transform(m_jso.getInverse());
     }
@@ -310,11 +311,14 @@ public final class Transform
      * @param x
      * @param y
      */
-    public Transform scaleAboutPoint(double scale, double x, double y) 
+    public Transform scaleAboutPoint(double scale, double x, double y)
     {
         translate(x, y);
+        
         scale(scale, scale);
+        
         translate(-x, -y);
+        
         return this;
     }
 
@@ -324,67 +328,66 @@ public final class Transform
      * @return a double value that is the X coordinate of the scaling
      *  element of the affine transformation matrix.
      */
-    public double getScaleX() 
+    public double getScaleX()
     {
         return get(0);
     }
-    
+
     /**
      * Returns the Y coordinate scaling element (m11) of the 3x3
      * affine transformation matrix.
      * @return a double value that is the Y coordinate of the scaling
      *  element of the affine transformation matrix.
      */
-    public double getScaleY() 
+    public double getScaleY()
     {
         return get(3);
     }
-    
+
     /**
     * Returns the X coordinate shearing element (m01) of the 3x3
     * affine transformation matrix.
     * @return a double value that is the X coordinate of the shearing
     *  element of the affine transformation matrix.
     */
-   public double getShearX() 
-   {
-       return get(2);
-   }
+    public double getShearX()
+    {
+        return get(2);
+    }
 
-   /**
-    * Returns the Y coordinate shearing element (m10) of the 3x3
-    * affine transformation matrix.
-    * @return a double value that is the Y coordinate of the shearing
-    *  element of the affine transformation matrix.
-    */
-   public double getShearY() 
-   {
-       return get(1);
-   }
+    /**
+     * Returns the Y coordinate shearing element (m10) of the 3x3
+     * affine transformation matrix.
+     * @return a double value that is the Y coordinate of the shearing
+     *  element of the affine transformation matrix.
+     */
+    public double getShearY()
+    {
+        return get(1);
+    }
 
-   /**
-    * Returns the X coordinate of the translation element (m02) of the
-    * 3x3 affine transformation matrix.
-    * @return a double value that is the X coordinate of the translation
-    *  element of the affine transformation matrix.
-    */
-   public double getTranslateX() 
-   {
-       return get(4);
-   }
+    /**
+     * Returns the X coordinate of the translation element (m02) of the
+     * 3x3 affine transformation matrix.
+     * @return a double value that is the X coordinate of the translation
+     *  element of the affine transformation matrix.
+     */
+    public double getTranslateX()
+    {
+        return get(4);
+    }
 
-   /**
-    * Returns the Y coordinate of the translation element (m12) of the
-    * 3x3 affine transformation matrix.
-    * @return a double value that is the Y coordinate of the translation
-    *  element of the affine transformation matrix. 
-    */
-   public double getTranslateY() 
-   {
-       return get(5);
-   }
+    /**
+     * Returns the Y coordinate of the translation element (m12) of the
+     * 3x3 affine transformation matrix.
+     * @return a double value that is the Y coordinate of the translation
+     *  element of the affine transformation matrix. 
+     */
+    public double getTranslateY()
+    {
+        return get(5);
+    }
 
-    
     /**
      * Returns the underlying matrix values.
      * 
@@ -403,8 +406,8 @@ public final class Transform
     public final TransformJSO getJSO()
     {
         return m_jso;
-    }    
-    
+    }
+
     /**
      * Returns a string representation of the underlying values for debugging purposes.
      * The values are: [m00, m10, m01, m11, m02, m12]
@@ -445,22 +448,22 @@ public final class Transform
         // ( dx2 + ey2 + f) = y2'
         // (ax3 + by3 + c ) = x3'
         // ( dx3 + ey3 + f) = y3'
-    
+
         Point2D p1 = src.getPoint(0);
         Point2D p2 = src.getPoint(1);
         Point2D p3 = src.getPoint(2);
-    
+
         Point2D p1_ = target.getPoint(0);
         Point2D p2_ = target.getPoint(1);
         Point2D p3_ = target.getPoint(2);
-    
+
         double[][] eq = { { p1.getX(), p1.getY(), 1, 0, 0, 0 }, { 0, 0, 0, p1.getX(), p1.getY(), 1 }, { p2.getX(), p2.getY(), 1, 0, 0, 0 }, { 0, 0, 0, p2.getX(), p2.getY(), 1 }, { p3.getX(), p3.getY(), 1, 0, 0, 0 }, { 0, 0, 0, p3.getX(), p3.getY(), 1 }, };
-    
+
         double[][] s = { { p1_.getX(), p1_.getY(), p2_.getX(), p2_.getY(), p3_.getX(), p3_.getY() } };
         Matrix m = new Matrix(eq);
         Matrix rhs = new Matrix(s).transpose();
         Matrix T = m.solve(rhs);
-    
+
         double[][] d = T.getData();
         return new Transform(d[0][0], d[3][0], d[1][0], d[4][0], d[2][0], d[5][0]);
     }
@@ -483,7 +486,6 @@ public final class Transform
         {
             return null;
         }
-        
         double scaleX = viewportWidth / width;
 
         double scaleY = viewportHeight / height;
@@ -504,7 +506,6 @@ public final class Transform
         }
         else
         {
-
             scale = scaleX;
 
             double dh = viewportHeight / scale - height;
@@ -513,7 +514,6 @@ public final class Transform
 
             height += dh;
         }
-
         // x' = m[0] + x*m[1] y' = m[2] + y*m[3]
 
         double m02 = -x * scale;
@@ -522,7 +522,7 @@ public final class Transform
 
         return new Transform(scale, 0, 0, scale, m02, m12);
     }
-    
+
     /**
      * Javascript class to store the Transform matrix values.
      * It's an array with 6 values:
@@ -539,46 +539,46 @@ public final class Transform
 
         public static final native TransformJSO make()
         /*-{
-            return [ 1, 0, 0, 1, 0, 0 ];
+			return [ 1, 0, 0, 1, 0, 0 ];
         }-*/;
 
         public static final native TransformJSO makeFromDoubles(double m00, double m10, double m01, double m11, double m02, double m12)
         /*-{
-            return [ m00, m10, m01, m11, m02, m12 ];
+			return [ m00, m10, m01, m11, m02, m12 ];
         }-*/;
 
         public final native void translate(double x, double y)
         /*-{
-            this[4] += this[0] * x + this[2] * y;
+			this[4] += this[0] * x + this[2] * y;
 
-            this[5] += this[1] * x + this[3] * y;
+			this[5] += this[1] * x + this[3] * y;
         }-*/;
 
         public final native TransformJSO copy()
         /*-{
-            return [this[0], this[1], this[2], this[3], this[4], this[5]];
+			return [ this[0], this[1], this[2], this[3], this[4], this[5] ];
         }-*/;
 
         public final native void scale(double sx, double sy)
         /*-{
-            this[0] *= sx;
+			this[0] *= sx;
 
-            this[3] *= sy;
+			this[3] *= sy;
         }-*/;
 
         public final native void shear(double shx, double shy)
         /*-{
-            var m00 = this[0];
+			var m00 = this[0];
 
-            var m10 = this[1];
+			var m10 = this[1];
 
-            this[0] += shy * this[2];
+			this[0] += shy * this[2];
 
-            this[1] += shy * this[3];
+			this[1] += shy * this[3];
 
-            this[2] += shx * m00;
+			this[2] += shx * m00;
 
-            this[3] += shx * m10;
+			this[3] += shx * m10;
         }-*/;
 
         public final native void rotate(double rad)
@@ -606,69 +606,64 @@ public final class Transform
 
         public final native void multiply(TransformJSO transform)
         /*-{
-            var m11 = this[0] * transform[0] + this[2] * transform[1];
+			var m11 = this[0] * transform[0] + this[2] * transform[1];
 
-            var m12 = this[1] * transform[0] + this[3] * transform[1];
+			var m12 = this[1] * transform[0] + this[3] * transform[1];
 
-            var m21 = this[0] * transform[2] + this[2] * transform[3];
+			var m21 = this[0] * transform[2] + this[2] * transform[3];
 
-            var m22 = this[1] * transform[2] + this[3] * transform[3];
+			var m22 = this[1] * transform[2] + this[3] * transform[3];
 
-            var dx = this[0] * transform[4] + this[2] * transform[5] + this[4];
+			var dx = this[0] * transform[4] + this[2] * transform[5] + this[4];
 
-            var dy = this[1] * transform[4] + this[3] * transform[5] + this[5];
+			var dy = this[1] * transform[4] + this[3] * transform[5] + this[5];
 
-            this[0] = m11;
+			this[0] = m11;
 
-            this[1] = m12;
+			this[1] = m12;
 
-            this[2] = m21;
+			this[2] = m21;
 
-            this[3] = m22;
+			this[3] = m22;
 
-            this[4] = dx;
+			this[4] = dx;
 
-            this[5] = dy;
+			this[5] = dy;
         }-*/;
-        
+
         public final native double getDeterminant()
         /*-{
-            return this[0] * this[3] - this[2] * this[1]; // m00 * m11 - m01 * m10
+			return this[0] * this[3] - this[2] * this[1]; // m00 * m11 - m01 * m10
         }-*/;
-        
+
         public final native TransformJSO getInverse()
         /*-{
-            //[0] m00, [1] m10, [2] m01, [3] m11, [4] m02, [5] m12
-            var m00 = this[0];
-            var m10 = this[1];
-            var m01 = this[2];
-            var m11 = this[3];
-            var m02 = this[4];
-            var m12 = this[5];
-            
-            var det = m00 * m11 - m01 * m10;
-            
-            return [
-                m11 / det,
-                -m10 / det,
-                -m01 / det,
-                m00 / det,
-                (m01 * m12 - m11 * m02) / det,
-                (m10 * m02 - m00 * m12) / det
-            ];
+			//[0] m00, [1] m10, [2] m01, [3] m11, [4] m02, [5] m12
+			var m00 = this[0];
+			var m10 = this[1];
+			var m01 = this[2];
+			var m11 = this[3];
+			var m02 = this[4];
+			var m12 = this[5];
+
+			var det = m00 * m11 - m01 * m10;
+
+			return [ m11 / det, -m10 / det, -m01 / det, m00 / det,
+					(m01 * m12 - m11 * m02) / det,
+					(m10 * m02 - m00 * m12) / det ];
         }-*/;
 
         public final native double get(int i)
         /*-{
 			return this[i];
         }-*/;
-        
+
         public final native void transform(Point2DJSO src, Point2DJSO target)
         /*-{
-            var x = src.x;
-            var y = src.y;
-            target.x = x * this[0] + y * this[2] + this[4];
-            target.y = x * this[1] + y * this[3] + this[5];
+			var x = src.x;
+			var y = src.y;
+			target.x = x * this[0] + y * this[2] + this[4];
+			target.y = x * this[1] + y * this[3] + this[5];
         }-*/;
     }
 }

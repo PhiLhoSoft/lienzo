@@ -53,17 +53,23 @@ import com.google.gwt.json.client.JSONValue;
 public class GridLayer extends Layer
 {
     private static final int X           = 0;
+
     private static final int Y           = 1;
 
     private static final int PRIMARY_X   = 0;
+
     private static final int PRIMARY_Y   = 1;
+
     private static final int SECONDARY_X = 2;
+
     private static final int SECONDARY_Y = 3;
 
     private double[]         m_sizes     = { 10, 10, 5, 5 };
+
     private Line[]           m_lines     = new Line[4];
+
     // NOTE: we can't put Lines in Attributes
-    
+
     /**
      * Creates an empty GridLayer with no lines.
      * Horizontal and/or vertical lines can be added with 
@@ -74,7 +80,7 @@ public class GridLayer extends Layer
     {
         setNodeType(NodeType.GRID_LAYER);
     }
-    
+
     /**
      * Creates a GridLayer with primary lines only.
      * 
@@ -84,10 +90,13 @@ public class GridLayer extends Layer
     public GridLayer(double size, Line line)
     {
         setNodeType(NodeType.GRID_LAYER);
-        
+
         setPrimarySizeX(size);
+
         setPrimarySizeY(size);
+
         setPrimaryLineX(line);
+
         setPrimaryLineY(line);
     }
 
@@ -105,21 +114,25 @@ public class GridLayer extends Layer
         this(primarySize, primaryLine);
 
         setSecondarySizeX(secondarySize);
+
         setSecondarySizeY(secondarySize);
+
         setSecondaryLineX(secondaryLine);
+
         setSecondaryLineY(secondaryLine);
     }
-    
+
     protected GridLayer(JSONObject node, Line[] lines, double[] sizes)
     {
         super(node);
-        
+
         setNodeType(NodeType.GRID_LAYER);
 
         m_lines = lines;
-        m_sizes = sizes;        
+
+        m_sizes = sizes;
     }
-    
+
     /**
      * Returns the width of the primary grid cells.
      * The default value is 10.
@@ -141,7 +154,7 @@ public class GridLayer extends Layer
     public GridLayer setPrimarySizeX(double primaryX)
     {
         m_sizes[PRIMARY_X] = primaryX;
-        
+
         return this;
     }
 
@@ -155,7 +168,7 @@ public class GridLayer extends Layer
     {
         return m_sizes[PRIMARY_Y];
     }
-    
+
     /**
      * Sets the width of the primary grid cells.
      * The default value is 10.
@@ -166,7 +179,7 @@ public class GridLayer extends Layer
     public GridLayer setPrimarySizeY(double primaryY)
     {
         m_sizes[PRIMARY_Y] = primaryY;
-        
+
         return this;
     }
 
@@ -191,7 +204,7 @@ public class GridLayer extends Layer
     public GridLayer setPrimaryLineX(Line primaryLineX)
     {
         m_lines[PRIMARY_X] = primaryLineX;
-        
+
         return this;
     }
 
@@ -216,7 +229,7 @@ public class GridLayer extends Layer
     public GridLayer setPrimaryLineY(Line primaryLineY)
     {
         m_lines[PRIMARY_Y] = primaryLineY;
-        
+
         return this;
     }
 
@@ -241,7 +254,7 @@ public class GridLayer extends Layer
     public GridLayer setSecondarySizeX(double secondaryX)
     {
         m_sizes[SECONDARY_X] = secondaryX;
-        
+
         return this;
     }
 
@@ -266,7 +279,7 @@ public class GridLayer extends Layer
     public GridLayer setSecondarySizeY(double secondaryY)
     {
         m_sizes[SECONDARY_Y] = secondaryY;
-        
+
         return this;
     }
 
@@ -291,7 +304,7 @@ public class GridLayer extends Layer
     public GridLayer setSecondaryLineX(Line secondaryLineX)
     {
         m_lines[SECONDARY_X] = secondaryLineX;
-        
+
         return this;
     }
 
@@ -321,124 +334,157 @@ public class GridLayer extends Layer
     @Override
     protected void drawWithoutTransforms(Context2D context)
     {
-        if (!isVisible())
+        if (false == isVisible())
+        {
             return;
-
+        }
         Viewport vp = getViewport();
+
         int vw = vp.getWidth();
+
         int vh = vp.getHeight();
+
         Point2D a = new Point2D(0, 0);
+
         Point2D b = new Point2D(vw, vh);
+
         double scaleX = 1, scaleY = 1;
 
-        Transform t = isZoomable() ? vp.getTransform() : getTransform();
+        Transform t = isTransformable() ? vp.getTransform() : getTransform();
+
         if (t != null)
         {
             scaleX = t.getScaleX();
+
             scaleY = t.getScaleY();
 
             t = t.getInverse();
+
             t.transform(a, a);
+
             t.transform(b, b);
         }
-
         double x1 = a.getX();
+
         double y1 = a.getY();
+
         double x2 = b.getX();
+
         double y2 = b.getY();
 
         for (int direction = X; direction <= Y; direction++)
         {
             boolean vertical = (direction == X);
+
             double scale = vertical ? scaleX : scaleY;
+
             double min = vertical ? x1 : y1;
+
             double max = vertical ? x2 : y2;
 
             for (int primSec = 0; primSec <= 1; primSec++)
             {
                 int index = primSec * 2 + direction;
+
                 boolean isSecondary = (primSec == 1);
 
                 if (m_lines[index] == null)
+                {
                     continue;
-
+                }
                 int n = 0;
+
                 if (isSecondary)
-                {                    
+                {
                     // n = primarySize div secondary
                     // ASSUMPTION: primarySize is a multiple of secondarySize
+
                     n = (int) Math.round(m_sizes[direction] / m_sizes[index]);
                 }
-
                 Line line = m_lines[index];
+
                 double size = m_sizes[index];
 
                 double previousLineWidth = line.getStrokeWidth();
+
                 line.setStrokeWidth(previousLineWidth / scale);
 
                 DashArray previousDashes = line.getDashArray();
+
                 if (previousDashes != null)
                 {
                     double[] d = previousDashes.getNormalizedArray();
+
                     DashArray dashes = new DashArray();
+
                     for (int i = 0; i < d.length; i++)
                     {
                         dashes.push(d[i] / scale);
                     }
                     line.setDashArray(dashes);
                 }
-
                 long n1 = Math.round(min / size);
-                if (n1 * size < min)
-                    n1++;
-                long n2 = Math.round(max / size);
-                if (n2 * size > max)
-                    n2--;
 
+                if (n1 * size < min)
+                {
+                    n1++;
+                }
+                long n2 = Math.round(max / size);
+
+                if (n2 * size > max)
+                {
+                    n2--;
+                }
                 Point2DArray points = line.getPoints();
+
                 Point2D p1 = points.getPoint(0);
+
                 Point2D p2 = points.getPoint(1);
+
                 if (vertical)
                 {
                     p1.setY(y1);
+
                     p2.setY(y2);
                 }
                 else
                 {
                     p1.setX(x1);
+
                     p2.setX(x2);
                 }
-
                 for (long ni = n1; ni <= n2; ni++)
                 {
                     if (isSecondary && (ni % n == 0)) // skip primary lines
                     {
                         continue;
                     }
-
                     if (vertical)
                     {
                         double x = ni * size;
+
                         p1.setX(x);
+
                         p2.setX(x);
                     }
                     else
                     {
                         double y = ni * size;
+
                         p1.setY(y);
+
                         p2.setY(y);
                     }
                     line.drawWithTransforms(context);
                 }
-
                 line.setStrokeWidth(previousLineWidth); // restore stroke width
+
                 if (previousDashes != null)
                 {
                     line.setDashArray(previousDashes);
                 }
             }
         }
-
         // Draw children (if any)
         super.drawWithoutTransforms(context);
     }
@@ -446,10 +492,12 @@ public class GridLayer extends Layer
     @Override
     public JSONObject toJSONObject()
     {
-        JSONObject obj = super.toJSONObject();        
+        JSONObject obj = super.toJSONObject();
+
         JSONArray lines = new JSONArray();
+
         JSONArray sizes = new JSONArray();
-        
+
         for (int i = 0; i < 4; i++)
         {
             if (m_lines[i] == null)
@@ -462,13 +510,13 @@ public class GridLayer extends Layer
             }
             sizes.set(i, new JSONNumber(m_sizes[i]));
         }
-        
         obj.put("lines", lines);
-        obj.put("sizes", sizes); //TODO could put sizes in Attributes
-        
+
+        obj.put("sizes", sizes); // TODO could put sizes in Attributes
+
         return obj;
     }
-    
+
     public static class GridLayerFactory extends LayerFactory
     {
         public GridLayerFactory()
@@ -480,42 +528,51 @@ public class GridLayer extends Layer
         public GridLayer create(JSONObject node, ValidationContext ctx) throws ValidationException
         {
             Line[] lines = new Line[4];
+
             double[] sizes = { 10, 10, 5, 5 };
-            
+
             JSONValue aval = node.get("lines");
+
             if (aval != null)
             {
                 JSONArray arr = aval.isArray();
+
                 if (arr != null)
                 {
                     for (int i = 0; i < 4 && i < arr.size(); i++)
                     {
                         JSONValue jval = arr.get(i);
+
                         if (jval != null)
                         {
                             JSONObject jobj = jval.isObject();
+
                             if (jobj != null)
                             {
                                 Line line = (Line) JSONDeserializer.getInstance().fromJSON(jobj, ctx);
+
                                 lines[i] = line;
                             }
                         }
                     }
                 }
             }
-            
             aval = node.get("sizes");
+
             if (aval != null)
             {
                 JSONArray arr = aval.isArray();
+
                 if (arr != null)
                 {
                     for (int i = 0; i < 4 && i < arr.size(); i++)
                     {
                         JSONValue jval = arr.get(i);
+
                         if (jval != null)
                         {
                             JSONNumber jnum = jval.isNumber();
+
                             if (jnum != null)
                             {
                                 sizes[i] = jnum.doubleValue();
@@ -524,8 +581,7 @@ public class GridLayer extends Layer
                     }
                 }
             }
-            
             return new GridLayer(node, lines, sizes);
-        }            
+        }
     }
 }

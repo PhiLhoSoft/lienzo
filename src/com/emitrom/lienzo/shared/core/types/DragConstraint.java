@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * Enum to be used to constrain the Dragging Area of a {@link ShapeType}
  */

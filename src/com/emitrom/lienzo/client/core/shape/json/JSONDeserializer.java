@@ -248,7 +248,7 @@ public final class JSONDeserializer
             for (Attribute attr : factory.getRequiredAttributes())
             {
                 String attrName = attr.getProperty();
-                
+
                 ctx.push(attrName);
 
                 if (false == keys.contains(attrName))

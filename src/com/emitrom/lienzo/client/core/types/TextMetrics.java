@@ -38,7 +38,7 @@ public class TextMetrics extends JavaScriptObject
     /*-{
 		this.width = width;
     }-*/;
-    
+
     /**
      * Return the width of the rendered text.
      * 

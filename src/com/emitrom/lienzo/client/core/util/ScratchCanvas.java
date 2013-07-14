@@ -116,7 +116,8 @@ public final class ScratchCanvas
 		return element.toDataURL();
     }-*/;
 
-    //TODO other arguments, e.g. for image/jpeg  The second argument, if it is a number in the range 0.0 to 1.0 inclusive, must be treated as the desired quality level. If it is not a number or is outside that range, the user agent must use its default value, as if the argument had been omitted.
+    // TODO other arguments, e.g. for image/jpeg The second argument, if it is a number in the range 0.0 to 1.0 inclusive, must be treated as the desired quality level. If it is not a number or is outside that range, the user agent must use its default value, as if the argument had been omitted.
+
     private static native final String toDataURL(CanvasElement element, String mimetype)
     /*-{
 		return element.toDataURL(mimetype);

@@ -24,13 +24,13 @@ import java.util.List;
 /**
  * Serialization mode of a Picture.
  */
-public enum SerializationMode implements EnumWithValue
+public enum PictureSerializationMode implements EnumWithValue
 {
     URL("url"), DATA_URL("data-url"), RESOURCE_ID("resource-id");
 
     private final String m_value;
 
-    private SerializationMode(String value)
+    private PictureSerializationMode(String value)
     {
         m_value = value;
     }
@@ -40,15 +40,15 @@ public enum SerializationMode implements EnumWithValue
         return m_value;
     }
 
-    public static final SerializationMode lookup(String key)
+    public static final PictureSerializationMode lookup(String key)
     {
         if ((null != key) && (false == (key = key.trim()).isEmpty()))
         {
-            SerializationMode[] values = SerializationMode.values();
+            PictureSerializationMode[] values = PictureSerializationMode.values();
 
             for (int i = 0; i < values.length; i++)
             {
-                SerializationMode value = values[i];
+                PictureSerializationMode value = values[i];
 
                 if (value.getValue().equals(key))
                 {
@@ -63,7 +63,7 @@ public enum SerializationMode implements EnumWithValue
     {
         ArrayList<String> keys = new ArrayList<String>();
 
-        SerializationMode[] values = SerializationMode.values();
+        PictureSerializationMode[] values = PictureSerializationMode.values();
 
         for (int i = 0; i < values.length; i++)
         {
@@ -72,8 +72,8 @@ public enum SerializationMode implements EnumWithValue
         return keys;
     }
 
-    public static final List<SerializationMode> getValues()
+    public static final List<PictureSerializationMode> getValues()
     {
-        return Arrays.asList(SerializationMode.values());
+        return Arrays.asList(PictureSerializationMode.values());
     }
 }

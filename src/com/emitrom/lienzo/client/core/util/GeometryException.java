@@ -21,14 +21,14 @@ import com.emitrom.lienzo.client.core.types.Point2D;
 import com.emitrom.lienzo.client.core.types.Transform;
 
 /**
- * GeoException is thrown by various geometry related classes, 
+ * GeometryException is thrown by various geometry related classes, 
  * such as {@link Transform} and {@link Point2D}
  */
-public class GeoException extends RuntimeException
+public class GeometryException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
 
-    public GeoException(String msg)
+    public GeometryException(String msg)
     {
         super(msg);
     }

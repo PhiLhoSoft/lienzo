@@ -92,7 +92,7 @@ public enum FillRepeat implements EnumWithValue
     {
         return Arrays.asList(FillRepeat.values());
     }
-    
+
     private FillRepeat(String value)
     {
         m_value = value;

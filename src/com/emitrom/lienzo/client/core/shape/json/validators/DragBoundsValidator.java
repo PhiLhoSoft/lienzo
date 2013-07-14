@@ -26,11 +26,11 @@ public class DragBoundsValidator extends ObjectValidator
         super("DragBounds");
 
         addAttribute("x1", NumberValidator.INSTANCE, false);
-        
+
         addAttribute("y1", NumberValidator.INSTANCE, false);
-        
+
         addAttribute("x2", NumberValidator.INSTANCE, false);
-        
+
         addAttribute("y2", NumberValidator.INSTANCE, false);
     }
 }

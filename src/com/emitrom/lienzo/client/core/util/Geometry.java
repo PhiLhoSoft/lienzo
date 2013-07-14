@@ -23,39 +23,37 @@ import com.emitrom.lienzo.client.core.types.Point2D;
  * Static utility methods related to geometry and other math.
  *
  */
-public class Geo
+public class Geometry
 {
-    private static final double DEG_TO_RAD = Math.PI / 180;
-
     /**
      * Converts angle from degrees to radians.
      * 
-     * @param angleInDegrees
+     * @param angdeg
      * 
      * @return Angle converted from degrees to radians.
      */
-    public static double degToRad(double angleInDegrees)
+    public static double toRadians(double angdeg)
     {
-        return angleInDegrees * DEG_TO_RAD;
+        return Math.toRadians(angdeg);
     }
 
     /**
      * Converts angle from radians to degrees.
      * 
-     * @param angleInRadians
+     * @param angrad
      * 
      * @return Angle converted from radians to degrees.
      */
-    public static double radToDeg(double angleInRadians)
+    public static double toDegrees(double angrad)
     {
-        return angleInRadians / DEG_TO_RAD;
+        return Math.toDegrees(angrad);
     }
 
     public static double slope(Point2D a, Point2D b)
     {
         return slope(b.getX(), a.getX(), b.getY(), a.getY());
     }
-    
+
     public static double slope(double x1, double y1, double x2, double y2)
     {
         final double dx = (x2 - x1);

@@ -20,7 +20,8 @@ package com.emitrom.lienzo.client.core.util;
 /**
  * A Utility class to log to the Console.
  */
-public final class Console {
+public final class Console
+{
     /**
      * Log a message to the browser's console window.
      * 

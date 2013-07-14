@@ -54,7 +54,7 @@ public abstract class AbstractFactory<T extends IJSONSerializable<T>> implements
     {
         m_typeName = typeName;
     }
-    
+
     @Override
     public String getTypeName()
     {
@@ -65,13 +65,12 @@ public abstract class AbstractFactory<T extends IJSONSerializable<T>> implements
     {
         // Allow setting the attribute twice to override the requiredness
         // with a different value.
-        if (!m_attributeMap.containsKey(attr.getProperty()))
-            m_attributeMap.put(attr.getProperty(), attr);
+        
+        if (!m_attributeMap.containsKey(attr.getProperty())) m_attributeMap.put(attr.getProperty(), attr);
 
         if (required)
         {
-            if (!m_requiredAttributes.contains(attr))
-                m_requiredAttributes.add(attr);
+            if (!m_requiredAttributes.contains(attr)) m_requiredAttributes.add(attr);
         }
         else
         {
@@ -87,7 +86,7 @@ public abstract class AbstractFactory<T extends IJSONSerializable<T>> implements
     {
         addAttribute(attr, false);
     }
-    
+
     public Collection<Attribute> getAttributeSheet()
     {
         return Collections.unmodifiableCollection(m_attributeMap.values());

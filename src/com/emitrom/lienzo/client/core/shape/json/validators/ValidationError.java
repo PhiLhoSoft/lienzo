@@ -17,7 +17,6 @@
 
 package com.emitrom.lienzo.client.core.shape.json.validators;
 
-
 /**
  * ValidationError defines an error that was found during the 
  * deserialization process of a Node from a JSON string.

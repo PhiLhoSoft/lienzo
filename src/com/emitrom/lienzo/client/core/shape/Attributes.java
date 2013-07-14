@@ -46,7 +46,7 @@ import com.emitrom.lienzo.shared.core.types.ArrowType;
 import com.emitrom.lienzo.shared.core.types.DragConstraint;
 import com.emitrom.lienzo.shared.core.types.LineCap;
 import com.emitrom.lienzo.shared.core.types.LineJoin;
-import com.emitrom.lienzo.shared.core.types.SerializationMode;
+import com.emitrom.lienzo.shared.core.types.PictureSerializationMode;
 import com.emitrom.lienzo.shared.core.types.TextAlign;
 import com.emitrom.lienzo.shared.core.types.TextBaseLine;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -79,18 +79,18 @@ public class Attributes extends JavaScriptObject
         put(Attribute.CLEAR_LAYER_BEFORE_DRAW.getProperty(), clear);
     }
 
-    public final boolean isZoomable()
+    public final boolean isTransformable()
     {
-        if (isDefined(Attribute.ZOOMABLE))
+        if (isDefined(Attribute.TRANSFORMABLE))
         {
-            return getBoolean(Attribute.ZOOMABLE.getProperty());
+            return getBoolean(Attribute.TRANSFORMABLE.getProperty());
         }
         return true;
     }
 
-    public final void setZoomable(boolean zoomable)
+    public final void setTransformable(boolean transformable)
     {
-        put(Attribute.ZOOMABLE.getProperty(), zoomable);
+        put(Attribute.TRANSFORMABLE.getProperty(), transformable);
     }
 
     public final void setFillColor(String fill)
@@ -160,18 +160,17 @@ public class Attributes extends JavaScriptObject
         {
             return null;
         }
-
         String type = getString("type", obj);
 
-        if ("LinearGradient".equals(type))
+        if (LinearGradient.TYPE.equals(type))
         {
             return new LinearGradient((LinearGradientJSO) obj);
         }
-        else if ("RadialGradient".equals(type))
+        else if (RadialGradient.TYPE.equals(type))
         {
             return new RadialGradient((RadialGradientJSO) obj);
         }
-        else if ("PatternGradient".equals(type))
+        else if (PatternGradient.TYPE.equals(type))
         {
             return new PatternGradient((PatternGradientJSO) obj);
         }
@@ -1015,7 +1014,7 @@ public class Attributes extends JavaScriptObject
         return getString(Attribute.RESOURCE_ID.getProperty());
     }
 
-    public final void setSerializationMode(SerializationMode mode)
+    public final void setSerializationMode(PictureSerializationMode mode)
     {
         if (null != mode)
         {
@@ -1027,9 +1026,9 @@ public class Attributes extends JavaScriptObject
         }
     }
 
-    public final SerializationMode getSerializationMode()
+    public final PictureSerializationMode getSerializationMode()
     {
-        return SerializationMode.lookup(getString(Attribute.SERIALIZATION_MODE.getProperty()));
+        return PictureSerializationMode.lookup(getString(Attribute.SERIALIZATION_MODE.getProperty()));
     }
 
     public final void setBaseWidth(double baseWidth)

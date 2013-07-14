@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.client.core.shape.json.validators;
 
 import com.google.gwt.json.client.JSONArray;
@@ -22,17 +23,17 @@ import com.google.gwt.json.client.JSONValue;
 public class TransformValidator extends ArrayValidator
 {
     public static final TransformValidator INSTANCE = new TransformValidator();
-    
+
     public TransformValidator()
     {
         super(NumberValidator.INSTANCE);
     }
-    
+
     @Override
     public void validate(JSONValue jval, ValidationContext ctx) throws ValidationException
     {
         super.validate(jval, ctx);
-        
+
         if (null != jval)
         {
             JSONArray jarr = jval.isArray();
@@ -48,18 +49,17 @@ public class TransformValidator extends ArrayValidator
                     for (int i = 0; i < 6; i++)
                     {
                         ctx.pushIndex(i);
-                        
+
                         JSONValue val = jarr.get(i);
-                        
+
                         if (val == null || val.isNumber() == null)
                         {
                             ctx.addBadTypeError("Number");
                         }
-                        
                         ctx.pop(); // i
                     }
                 }
             }
         }
-    } 
+    }
 }

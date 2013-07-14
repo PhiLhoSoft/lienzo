@@ -161,7 +161,7 @@ public final class FactoryRegistry
         registry.registerFactory(new Ring.RingFactory());
 
         registry.registerFactory(new Chord.ChordFactory());
-        
+
         registry.registerFactory(new IsoscelesTrapezoid.IsoscelesTrapezoidFactory());
 
         // Container Types

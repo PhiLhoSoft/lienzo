@@ -17,6 +17,7 @@
 
 package com.emitrom.lienzo.client.core.shape.json.validators;
 
+import com.emitrom.lienzo.client.core.types.LinearGradient;
 import com.google.gwt.json.client.JSONValue;
 
 public class LinearGradientValidator extends ObjectValidator
@@ -25,7 +26,7 @@ public class LinearGradientValidator extends ObjectValidator
 
     public LinearGradientValidator()
     {
-        super("LinearGradient");
+        super(LinearGradient.TYPE);
 
         addAttribute("type", StringValidator.INSTANCE, true); // must be "LinearGradient"
 
@@ -41,6 +42,6 @@ public class LinearGradientValidator extends ObjectValidator
     {
         super.validate(jval, ctx);
 
-        checkHardcodedAttribute("type", "LinearGradient", jval, ctx);
+        checkHardcodedAttribute("type", LinearGradient.TYPE, jval, ctx);
     }
 }

@@ -24,8 +24,8 @@ import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
 import com.emitrom.lienzo.client.core.types.Point2D;
 import com.emitrom.lienzo.client.core.types.Point2DArray;
-import com.emitrom.lienzo.client.core.util.Geo;
-import com.emitrom.lienzo.client.core.util.GeoException;
+import com.emitrom.lienzo.client.core.util.Geometry;
+import com.emitrom.lienzo.client.core.util.GeometryException;
 import com.emitrom.lienzo.shared.core.types.ArrowType;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.google.gwt.json.client.JSONObject;
@@ -368,7 +368,7 @@ public class Arrow extends Shape<Arrow>
             try
             {
                 ArrowType type = getArrowType();
-                double a = Geo.degToRad(getArrowAngle());
+                double a = Geometry.toRadians(getArrowAngle());
                 double sina = Math.sin(a);
                 double cosa = Math.cos(a);
                 // NOTE: b is not the base angle here, it's the corner EAB
@@ -376,7 +376,7 @@ public class Arrow extends Shape<Arrow>
                 // intersection of the midline (thru S and E)
                 // and the line thru point [1] and [2].
                 double b_degrees = 180 - getBaseAngle() - getArrowAngle();
-                double b = Geo.degToRad(b_degrees);
+                double b = Geometry.toRadians(b_degrees);
                 double sinb = Math.sin(b);
                 double cosb = Math.cos(b);
                 double w = getBaseWidth();
@@ -495,7 +495,7 @@ public class Arrow extends Shape<Arrow>
                     arr.push(s);
                 }
             }
-            catch (GeoException e)
+            catch (GeometryException e)
             {
                 // This can happen e.g. when S and E are the same point.
                 // Leave m_polygon array empty and the draw code will simply not draw it.

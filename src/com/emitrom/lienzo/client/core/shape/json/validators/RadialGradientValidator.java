@@ -17,6 +17,7 @@
 
 package com.emitrom.lienzo.client.core.shape.json.validators;
 
+import com.emitrom.lienzo.client.core.types.RadialGradient;
 import com.google.gwt.json.client.JSONValue;
 
 public class RadialGradientValidator extends ObjectValidator
@@ -25,7 +26,7 @@ public class RadialGradientValidator extends ObjectValidator
 
     public RadialGradientValidator()
     {
-        super("RadialGradient");
+        super(RadialGradient.TYPE);
 
         addAttribute("type", StringValidator.INSTANCE, true); // must be "RadialGradient"
 
@@ -41,6 +42,6 @@ public class RadialGradientValidator extends ObjectValidator
     {
         super.validate(jval, ctx);
 
-        checkHardcodedAttribute("type", "RadialGradient", jval, ctx);
+        checkHardcodedAttribute("type", RadialGradient.TYPE, jval, ctx);
     }
 }

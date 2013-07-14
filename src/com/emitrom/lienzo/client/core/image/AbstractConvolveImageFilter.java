@@ -22,7 +22,7 @@ import com.google.gwt.canvas.dom.client.CanvasPixelArray;
 
 public abstract class AbstractConvolveImageFilter implements ImageDataFilter
 {
-    private final double[] m_weights; // changed back because shappen filter stopped working, TODO: reinvestigate
+    private final double[] m_weights; // changed back because sharpen filter stopped working, TODO: reinvestigate
 
     protected AbstractConvolveImageFilter(double[] weights)
     {

@@ -1,3 +1,19 @@
+/*
+   Copyright (c) 2013 Emitrom LLC. All rights reserved. 
+   For licensing questions, please contact us at licensing@emitrom.com
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+ */
 
 package com.emitrom.lienzo.client.core.shape;
 
@@ -17,6 +33,22 @@ import com.google.gwt.json.client.JSONObject;
 
 public class Path extends Shape<Path> implements IPathPartBuilder<Path>
 {
+    public static class PathFactory extends ShapeFactory<Path>
+    {
+        public PathFactory()
+        {
+            super(ShapeType.PATH);
+
+            addAttribute(Attribute.PATH_PARTS, true);
+        }
+
+        @Override
+        public Path create(JSONObject node, ValidationContext ctx)
+        {
+            return new Path(node);
+        }
+    }
+
     public Path()
     {
         super(ShapeType.PATH);
@@ -38,97 +70,55 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     }
 
     @Override
-    public Path m(double x, double y)
+    public IFactory<?> getFactory()
     {
-        getAttributes().getPathParts().m(x, y);
+        return new PathFactory();
+    }
+
+    @Override
+    public Path h(double x)
+    {
+        getAttributes().getPathParts().h(x);
 
         return this;
     }
 
     @Override
-    public Path m(Point2D point)
+    public Path h(double x, double... xs)
     {
-        getAttributes().getPathParts().m(point);
+        getAttributes().getPathParts().h(x, xs);
 
         return this;
     }
 
     @Override
-    public Path m(Point2DArray points)
+    public Path h(double[] xs)
     {
-        getAttributes().getPathParts().m(points);
+        getAttributes().getPathParts().h(xs);
 
         return this;
     }
 
     @Override
-    public Path m(Point2D point, Point2D... points)
+    public Path H(double x)
     {
-        getAttributes().getPathParts().m(point, points);
+        getAttributes().getPathParts().H(x);
 
         return this;
     }
 
     @Override
-    public Path m(Point2D[] points)
+    public Path H(double x, double... xs)
     {
-        getAttributes().getPathParts().m(points);
+        getAttributes().getPathParts().H(x, xs);
 
         return this;
     }
 
     @Override
-    public Path m(List<Point2D> points)
+    public Path H(double[] xs)
     {
-        getAttributes().getPathParts().m(points);
-
-        return this;
-    }
-
-    @Override
-    public Path M(double x, double y)
-    {
-        getAttributes().getPathParts().M(x, y);
-
-        return this;
-    }
-
-    @Override
-    public Path M(Point2D point)
-    {
-        getAttributes().getPathParts().M(point);
-
-        return this;
-    }
-
-    @Override
-    public Path M(Point2DArray points)
-    {
-        getAttributes().getPathParts().M(points);
-
-        return this;
-    }
-
-    @Override
-    public Path M(Point2D point, Point2D... points)
-    {
-        getAttributes().getPathParts().M(point, points);
-
-        return this;
-    }
-
-    @Override
-    public Path M(Point2D[] points)
-    {
-        getAttributes().getPathParts().M(points);
-
-        return this;
-    }
-
-    @Override
-    public Path M(List<Point2D> points)
-    {
-        getAttributes().getPathParts().M(points);
+        getAttributes().getPathParts().H(xs);
 
         return this;
     }
@@ -142,17 +132,17 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     }
 
     @Override
-    public Path l(Point2D point)
+    public Path l(List<Point2D> points)
     {
-        getAttributes().getPathParts().l(point);
+        getAttributes().getPathParts().l(points);
 
         return this;
     }
 
     @Override
-    public Path l(Point2DArray points)
+    public Path l(Point2D point)
     {
-        getAttributes().getPathParts().l(points);
+        getAttributes().getPathParts().l(point);
 
         return this;
     }
@@ -174,7 +164,7 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     }
 
     @Override
-    public Path l(List<Point2D> points)
+    public Path l(Point2DArray points)
     {
         getAttributes().getPathParts().l(points);
 
@@ -190,17 +180,17 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     }
 
     @Override
-    public Path L(Point2D point)
+    public Path L(List<Point2D> points)
     {
-        getAttributes().getPathParts().L(point);
+        getAttributes().getPathParts().L(points);
 
         return this;
     }
 
     @Override
-    public Path L(Point2DArray points)
+    public Path L(Point2D point)
     {
-        getAttributes().getPathParts().L(points);
+        getAttributes().getPathParts().L(point);
 
         return this;
     }
@@ -222,7 +212,7 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     }
 
     @Override
-    public Path L(List<Point2D> points)
+    public Path L(Point2DArray points)
     {
         getAttributes().getPathParts().L(points);
 
@@ -230,17 +220,99 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     }
 
     @Override
-    public Path z()
+    public Path m(double x, double y)
     {
-        getAttributes().getPathParts().z();
+        getAttributes().getPathParts().m(x, y);
 
         return this;
     }
 
     @Override
-    public IFactory<?> getFactory()
+    public Path m(List<Point2D> points)
     {
-        return new PathFactory();
+        getAttributes().getPathParts().m(points);
+
+        return this;
+    }
+
+    @Override
+    public Path m(Point2D point)
+    {
+        getAttributes().getPathParts().m(point);
+
+        return this;
+    }
+
+    @Override
+    public Path m(Point2D point, Point2D... points)
+    {
+        getAttributes().getPathParts().m(point, points);
+
+        return this;
+    }
+
+    @Override
+    public Path m(Point2D[] points)
+    {
+        getAttributes().getPathParts().m(points);
+
+        return this;
+    }
+
+    @Override
+    public Path m(Point2DArray points)
+    {
+        getAttributes().getPathParts().m(points);
+
+        return this;
+    }
+
+    @Override
+    public Path M(double x, double y)
+    {
+        getAttributes().getPathParts().M(x, y);
+
+        return this;
+    }
+
+    @Override
+    public Path M(List<Point2D> points)
+    {
+        getAttributes().getPathParts().M(points);
+
+        return this;
+    }
+
+    @Override
+    public Path M(Point2D point)
+    {
+        getAttributes().getPathParts().M(point);
+
+        return this;
+    }
+
+    @Override
+    public Path M(Point2D point, Point2D... points)
+    {
+        getAttributes().getPathParts().M(point, points);
+
+        return this;
+    }
+
+    @Override
+    public Path M(Point2D[] points)
+    {
+        getAttributes().getPathParts().M(points);
+
+        return this;
+    }
+
+    @Override
+    public Path M(Point2DArray points)
+    {
+        getAttributes().getPathParts().M(points);
+
+        return this;
     }
 
     @Override
@@ -251,22 +323,6 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
         context.drawPath(attr.getPathParts());
 
         return true;
-    }
-
-    public static class PathFactory extends ShapeFactory<Path>
-    {
-        public PathFactory()
-        {
-            super(ShapeType.PATH);
-
-            addAttribute(Attribute.PATH_PARTS, true);
-        }
-
-        @Override
-        public Path create(JSONObject node, ValidationContext ctx)
-        {
-            return new Path(node);
-        }
     }
 
     @Override
@@ -297,6 +353,70 @@ public class Path extends Shape<Path> implements IPathPartBuilder<Path>
     public Path Q(Point2D cp, Point2D ep)
     {
         getAttributes().getPathParts().Q(cp, ep);
+
+        return this;
+    }
+
+    @Override
+    public Path v(double y)
+    {
+        getAttributes().getPathParts().v(y);
+
+        return this;
+    }
+
+    @Override
+    public Path v(double y, double... ys)
+    {
+        getAttributes().getPathParts().v(y, ys);
+
+        return this;
+    }
+
+    @Override
+    public Path v(double[] ys)
+    {
+        getAttributes().getPathParts().v(ys);
+
+        return this;
+    }
+
+    @Override
+    public Path V(double y)
+    {
+        getAttributes().getPathParts().V(y);
+
+        return this;
+    }
+
+    @Override
+    public Path V(double y, double... ys)
+    {
+        getAttributes().getPathParts().V(y, ys);
+
+        return this;
+    }
+
+    @Override
+    public Path V(double[] ys)
+    {
+        getAttributes().getPathParts().V(ys);
+
+        return this;
+    }
+
+    @Override
+    public Path z()
+    {
+        getAttributes().getPathParts().z();
+
+        return this;
+    }
+
+    @Override
+    public Path Z()
+    {
+        getAttributes().getPathParts().Z();
 
         return this;
     }

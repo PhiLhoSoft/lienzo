@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.shared.core.types;
 
 /**
@@ -28,28 +29,28 @@ public interface IColor
      * @return int between 0 and 255
      */
     public int getR();
-    
+
     /**
      * Returns the Green component of the RGB color.
      * 
      * @return int between 0 and 255
      */
     public int getG();
-    
+
     /**
      * Returns the Blue component of the RGB color.
      * 
      * @return int between 0 and 255
      */
     public int getB();
-    
+
     /**
      * Returns the Alpha component (transparency) of the RGB color, between 0 and 1.
      * 
      * @return double between 0 and 1
      */
     public double getA();
-    
+
     /**
      * Returns a CCS compliant color string that can be set as a color on
      * an HTML5 canvas.

@@ -14,11 +14,12 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.client.core.event;
 
 import com.google.gwt.event.shared.EventHandler;
 
 public interface ResizeEndHandler extends EventHandler
 {
-	public void onResizeEnd(int width, int height);
+    public void onResizeEnd(int width, int height);
 }

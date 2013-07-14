@@ -36,7 +36,9 @@ import com.emitrom.lienzo.shared.core.types.DragConstraint;
 public class DefaultDragConstraintEnforcer implements DragConstraintEnforcer
 {
     private DragBounds     m_bounds;
+
     private DragConstraint m_constraint;
+
     private double         m_dx1, m_dx2, m_dy1, m_dy2;
 
     @Override
@@ -47,19 +49,20 @@ public class DefaultDragConstraintEnforcer implements DragConstraintEnforcer
         m_constraint = attr.getDragConstraint();
 
         m_bounds = attr.getDragBounds();
+        
         if (m_bounds != null)
         {
             double x = attr.getX();
+            
             double y = attr.getY();
 
-            if (m_bounds.isX1())
-                m_dx1 = m_bounds.getX1() - x;
-            if (m_bounds.isX2())
-                m_dx2 = m_bounds.getX2() - x;
-            if (m_bounds.isY1())
-                m_dy1 = m_bounds.getY1() - y;
-            if (m_bounds.isY2())
-                m_dy2 = m_bounds.getY2() - y;
+            if (m_bounds.isX1()) m_dx1 = m_bounds.getX1() - x;
+            
+            if (m_bounds.isX2()) m_dx2 = m_bounds.getX2() - x;
+            
+            if (m_bounds.isY1()) m_dy1 = m_bounds.getY1() - y;
+            
+            if (m_bounds.isY2()) m_dy2 = m_bounds.getY2() - y;
         }
     }
 
@@ -67,6 +70,7 @@ public class DefaultDragConstraintEnforcer implements DragConstraintEnforcer
     public void adjust(Point2D dxy)
     {
         double dx = dxy.getX();
+        
         double dy = dxy.getY();
 
         switch (m_constraint)
@@ -87,21 +91,16 @@ public class DefaultDragConstraintEnforcer implements DragConstraintEnforcer
                 break;
             }
         }
-
         if (m_bounds != null)
         {
-            if (m_bounds.isX1() && dx < m_dx1)
-                dx = m_dx1;
-            else if (m_bounds.isX2() && dx > m_dx2)
-                dx = m_dx2;
+            if (m_bounds.isX1() && dx < m_dx1) dx = m_dx1;
+            else if (m_bounds.isX2() && dx > m_dx2) dx = m_dx2;
 
-            if (m_bounds.isY1() && dy < m_dy1)
-                dy = m_dy1;
-            else if (m_bounds.isY2() && dy > m_dy2)
-                dy = m_dy2;
+            if (m_bounds.isY1() && dy < m_dy1) dy = m_dy1;
+            else if (m_bounds.isY2() && dy > m_dy2) dy = m_dy2;
         }
-
         dxy.setX(dx);
+        
         dxy.setY(dy);
     }
 }

@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  */
+
 package com.emitrom.lienzo.client.core.shape.json;
 
 import java.util.Collection;
@@ -50,7 +51,7 @@ public interface IFactory<T extends IJSONSerializable<T>>
      * @return String e.g. "Circle" for the Circle class
      */
     public String getTypeName();
-    
+
     /**
      * Creates a new object of type T from a JSONObject.
      * 
@@ -67,11 +68,11 @@ public interface IFactory<T extends IJSONSerializable<T>>
      * @return Collection&lt;Attribute&gt;
      */
     public Collection<Attribute> getAttributeSheet();
-    
+
     /**
      * Returns a collection of the required attributes that this type supports.
      * @return Collection&lt;Attribute&gt;
-     */     
+     */
     public Collection<Attribute> getRequiredAttributes();
 
     /**

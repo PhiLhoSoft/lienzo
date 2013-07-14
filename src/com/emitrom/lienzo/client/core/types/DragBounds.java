@@ -40,9 +40,13 @@ public final class DragBounds
     public DragBounds(double x1, double y1, double x2, double y2)
     {
         this(DragBoundsJSO.make());
+
         setX1(x1);
+
         setY1(y1);
+
         setX2(x2);
+
         setY2(y2);
     }
 
@@ -58,7 +62,7 @@ public final class DragBounds
 
         return this;
     }
-    
+
     /**
      * Gets the "x1" boundary coordinate for the Shape.
      * 
@@ -66,7 +70,7 @@ public final class DragBounds
      */
     public final double getX1()
     {
-    	return m_jso.getX1();
+        return m_jso.getX1();
     }
 
     /**
@@ -81,7 +85,7 @@ public final class DragBounds
 
         return this;
     }
-    
+
     /**
      * Gets the "x2" boundary coordinate for the Shape.
      * 
@@ -89,7 +93,7 @@ public final class DragBounds
      */
     public final double getX2()
     {
-    	return m_jso.getX2();
+        return m_jso.getX2();
     }
 
     /**
@@ -104,7 +108,7 @@ public final class DragBounds
 
         return this;
     }
-    
+
     /**
      * Gets the "y1" boundary coordinate for the Shape.
      * 
@@ -112,7 +116,7 @@ public final class DragBounds
      */
     public final double getY1()
     {
-    	return m_jso.getY1();
+        return m_jso.getY1();
     }
 
     /**
@@ -127,7 +131,7 @@ public final class DragBounds
 
         return this;
     }
-    
+
     /**
      * Gets the "y1" boundary coordinate for the Shape.
      * 
@@ -135,7 +139,7 @@ public final class DragBounds
      */
     public final double getY2()
     {
-    	return m_jso.getY2();
+        return m_jso.getY2();
     }
 
     /**
@@ -234,7 +238,7 @@ public final class DragBounds
         /*-{
 			this.x1 = x1;
         }-*/;
-        
+
         final native double getX1()
         /*-{
 			return this.x1;
@@ -244,7 +248,7 @@ public final class DragBounds
         /*-{
 			this.x2 = x2;
         }-*/;
-        
+
         final native double getX2()
         /*-{
 			return this.x2;
@@ -254,7 +258,7 @@ public final class DragBounds
         /*-{
 			this.y1 = y1;
         }-*/;
-        
+
         final native double getY1()
         /*-{
 			return this.y1;
@@ -264,11 +268,10 @@ public final class DragBounds
         /*-{
 			this.y2 = y2;
         }-*/;
-        
+
         final native double getY2()
         /*-{
 			return this.y2;
         }-*/;
-
     }
 }

@@ -98,9 +98,11 @@ public class ImageProxy
     {
         final String url = m_picture.getURL();
 
+        final long start = System.currentTimeMillis();
+
         m_category = m_picture.getPictureCategory();
 
-        Console.log("registering " + url + " loaded=" + m_loaded);
+        Console.log("registering " + url + " loaded=" + m_loaded + " time=" + (System.currentTimeMillis() - start));
 
         PictureLoader.getInstance().registerProxy(m_category, this);
 
@@ -125,7 +127,7 @@ public class ImageProxy
             @Override
             public void onLoaded(ImageLoader image)
             {
-                Console.log("loaded " + url);
+                Console.log("loaded " + url + " time=" + (System.currentTimeMillis() - start));
 
                 m_imageJSO = image.getJSO();
 
@@ -181,7 +183,7 @@ public class ImageProxy
                     {
                         m_selectionImageJSO = image.getJSO();
 
-                        Console.log("loaded selection image " + url);
+                        Console.log("loaded selection image " + url + " time=" + (System.currentTimeMillis() - start));
 
                         doneLoading();
                     }

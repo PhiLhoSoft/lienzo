@@ -20,6 +20,7 @@ package com.emitrom.lienzo.client.core.image;
 import com.emitrom.lienzo.client.core.types.ImageData;
 import com.emitrom.lienzo.shared.core.types.IColor;
 import com.google.gwt.canvas.dom.client.CanvasPixelArray;
+import com.google.gwt.core.client.JavaScriptObject;
 
 /**
  * An Image filter to convert all pixels in the CanvasPixelArray to an RGB color.
@@ -32,11 +33,13 @@ import com.google.gwt.canvas.dom.client.CanvasPixelArray;
  */
 public class RGBImageDataFilter implements ImageDataFilter
 {
-    private int m_r;
+    private int     m_r;
 
-    private int m_g;
+    private int     m_g;
 
-    private int m_b;
+    private int     m_b;
+
+    private boolean m_isnative = true;
 
     public RGBImageDataFilter()
     {
@@ -115,6 +118,18 @@ public class RGBImageDataFilter implements ImageDataFilter
         return this;
     }
 
+    public boolean isNative()
+    {
+        return m_isnative;
+    }
+
+    public RGBImageDataFilter setNative(boolean isnative)
+    {
+        m_isnative = isnative;
+
+        return this;
+    }
+
     /**
      * Return an {@link ImageData} that is transformed based on the passed in RGB color.
      */
@@ -135,14 +150,35 @@ public class RGBImageDataFilter implements ImageDataFilter
         {
             return source;
         }
-        for (int i = 0; i < length; i += PIXEL_SZ)
+        if (isNative())
         {
-            data.set(i + R_OFFSET, getR());
+            filter0(data, length, getR(), getG(), getB());
+        }
+        else
+        {
+            for (int i = 0; i < length; i += PIXEL_SZ)
+            {
+                data.set(i + R_OFFSET, getR());
 
-            data.set(i + G_OFFSET, getG());
+                data.set(i + G_OFFSET, getG());
 
-            data.set(i + B_OFFSET, getB());
+                data.set(i + B_OFFSET, getB());
+            }
         }
         return source;
     }
+
+    private final native void filter0(JavaScriptObject pixa, int length, int r, int g, int b)
+    /*-{
+		var data = pixa;
+
+		for ( var i = 0; i < length; i += 4) {
+
+			data[i + 0] = r;
+
+			data[i + 1] = g;
+
+			data[i + 2] = b;
+		}
+    }-*/;
 }

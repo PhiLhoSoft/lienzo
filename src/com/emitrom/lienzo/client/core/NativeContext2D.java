@@ -532,4 +532,44 @@ public final class NativeContext2D extends JavaScriptObject
 		}
 		return closed;
     }-*/;
+    
+    public final native boolean drawPath0(PathPartArrayJSO path)
+    /*-{
+        var cpx = 0;
+        
+        var cpy = 0;
+        
+        var last = undefined;
+        
+        var closed = false;
+
+        for ( var i = 0; ((i < path.length) && (closed == false)); i++) {
+            var part = path[i];
+
+            switch (part.type) {
+            case "m":
+            case "M":
+                this.moveTo(part.data[0].x, part.data[0].y);
+                break;
+
+            case "l":
+            case "L":
+                this.lineTo(part.data[0].x, part.data[0].y);
+                break;
+
+            case "q":
+            case "Q":
+                this.quadraticCurveTo(part.data[0].x, part.data[0].y,
+                        part.data[1].x, part.data[1].y);
+                break;
+
+            case "z":
+            case "Z":
+                this.closePath();
+                closed = true;
+                break;
+            }
+        }
+        return closed;
+    }-*/;
 }

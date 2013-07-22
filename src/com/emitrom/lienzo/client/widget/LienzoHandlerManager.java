@@ -185,13 +185,13 @@ final class LienzoHandlerManager
 
                 NodeMouseMoveEvent nodeEvent = new NodeMouseMoveEvent(event);
 
-                if (m_mediators.handleEvent(nodeEvent))
-                {
-                    return;
-                }
                 if ((m_dragging) && (m_dragging_using_touches))
                 {
                     return; // Ignore weird Mouse Move (0,0) in the middle of a Touch Drag on iOS/Safari
+                }
+                if (m_mediators.handleEvent(nodeEvent))
+                {
+                    return;
                 }
                 onNodeMouseMove(nodeEvent);
             }
@@ -201,8 +201,6 @@ final class LienzoHandlerManager
             @Override
             public void onMouseUp(MouseUpEvent event)
             {
-                event.preventDefault();
-
                 NodeMouseUpEvent nodeEvent = new NodeMouseUpEvent(event);
 
                 if (m_mediators.handleEvent(nodeEvent))
@@ -233,8 +231,6 @@ final class LienzoHandlerManager
             @Override
             public void onMouseOut(MouseOutEvent event)
             {
-                event.preventDefault();
-
                 NodeMouseOutEvent nodeEvent = new NodeMouseOutEvent(event);
 
                 if (m_mediators.handleEvent(nodeEvent))
@@ -249,8 +245,6 @@ final class LienzoHandlerManager
             @Override
             public void onMouseOver(MouseOverEvent event)
             {
-                event.preventDefault();
-
                 NodeMouseOverEvent nodeEvent = new NodeMouseOverEvent(event);
 
                 if (m_mediators.handleEvent(nodeEvent))

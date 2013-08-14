@@ -259,15 +259,18 @@ final class LienzoHandlerManager
             @Override
             public void onMouseWheel(MouseWheelEvent event)
             {
-                event.preventDefault();
-
                 NodeMouseWheelEvent nodeEvent = new NodeMouseWheelEvent(event);
 
                 if (false == m_mediators.handleEvent(nodeEvent))
                 {
                     fireEvent(nodeEvent);
                 }
-                event.stopPropagation();
+                else
+                {
+                    event.preventDefault();
+
+                    event.stopPropagation();
+                }
             }
         });
         m_lienzo.addTouchCancelHandler(new TouchCancelHandler()

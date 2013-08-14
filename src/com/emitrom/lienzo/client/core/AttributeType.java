@@ -108,8 +108,6 @@ public class AttributeType
 
     public static AttributeType    STROKE_TYPE              = COLOR_TYPE;
 
-    public static AttributeType    PATH_PARTS_ARRAY_TYPE    = new AttributeType(new ArrayValidator(NumberValidator.INSTANCE));
-
     private AttributeTypeValidator m_validator;
 
     protected AttributeType(AttributeTypeValidator validator)

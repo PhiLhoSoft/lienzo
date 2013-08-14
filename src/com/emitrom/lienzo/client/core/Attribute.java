@@ -168,10 +168,6 @@ public class Attribute
 
     public static final Attribute         BOTTOM_WIDTH                     = new Attribute("bottomWidth", M.widthLabel(), M.widthDescription(), AttributeType.NUMBER_TYPE);
 
-    public static final Attribute         PATH_PARTS                       = new Attribute("pathParts", M.widthLabel(), M.widthDescription(), AttributeType.PATH_PARTS_ARRAY_TYPE);
-
-    public static final Attribute         PATH_STRING                      = new Attribute("path", M.widthLabel(), M.widthDescription(), AttributeType.STRING_TYPE);
-
     private final String                  m_property;
 
     private final String                  m_label;

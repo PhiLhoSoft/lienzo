@@ -22,7 +22,6 @@ import java.util.Collection;
 
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.LienzoGlobals;
-import com.emitrom.lienzo.client.core.shape.path.PathPartArray;
 import com.emitrom.lienzo.client.core.types.DashArray;
 import com.emitrom.lienzo.client.core.types.DashArray.DashArrayJSO;
 import com.emitrom.lienzo.client.core.types.DragBounds;
@@ -1257,29 +1256,6 @@ public class Attributes extends JavaScriptObject
     public final double getDashOffset()
     {
         return getDouble(Attribute.DASH_OFFSET.getProperty());
-    }
-
-    public final PathPartArray getPathParts()
-    {
-        JsArray<JavaScriptObject> parts = getArrayOfJSO(Attribute.PATH_PARTS.getProperty());
-
-        if (null != parts)
-        {
-            return new PathPartArray(parts);
-        }
-        return null;
-    }
-
-    public final void setPathParts(PathPartArray parts)
-    {
-        if (null != parts)
-        {
-            put(Attribute.PATH_PARTS.getProperty(), parts.getJSO());
-        }
-        else
-        {
-            put(Attribute.PATH_PARTS.getProperty(), new PathPartArray().getJSO());
-        }
     }
 
     public final void put(String name, String value)

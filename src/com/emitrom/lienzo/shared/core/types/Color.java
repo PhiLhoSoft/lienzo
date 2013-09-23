@@ -100,6 +100,41 @@ public class Color implements IColor
         return new Color(r, g, b, getA());
     }
 
+    public Color percent(double percent)
+    {
+        if (percent < -1)
+        {
+            return new Color(0, 0, 0, getA());
+        }
+        if (percent > 1)
+        {
+            return new Color(255, 255, 255, getA());
+        }
+        if (percent < 0)
+        {
+            percent = 1 + percent;
+
+            int r = Math.max(0, Math.min(255, (int) ((getR() * percent) + 0.5)));
+
+            int g = Math.max(0, Math.min(255, (int) ((getG() * percent) + 0.5)));
+
+            int b = Math.max(0, Math.min(255, (int) ((getB() * percent) + 0.5)));
+
+            return new Color(r, g, b, getA());
+        }
+        else if (percent > 0)
+        {
+            int r = Math.max(0, Math.min(255, (int) (((255 - getR()) * percent) + getR() + 0.5)));
+
+            int g = Math.max(0, Math.min(255, (int) (((255 - getG()) * percent) + getG() + 0.5)));
+
+            int b = Math.max(0, Math.min(255, (int) (((255 - getB()) * percent) + getB() + 0.5)));
+
+            return new Color(r, g, b, getA());
+        }
+        return new Color(getR(), getG(), getB(), getA());
+    }
+
     /**
      * Generates a unique hex key color (e.g. "#1234AF").
      * This is used internally.

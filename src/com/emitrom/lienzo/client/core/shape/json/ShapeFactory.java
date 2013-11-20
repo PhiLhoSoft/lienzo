@@ -40,6 +40,7 @@ public abstract class ShapeFactory<T extends IJSONSerializable<T>> extends NodeF
         addAttribute(Attribute.ALPHA);
         addAttribute(Attribute.FILL);
         addAttribute(Attribute.STROKE);
+        addAttribute(Attribute.STROKE_WIDTH);
         addAttribute(Attribute.DRAGGABLE);
         addAttribute(Attribute.SCALE);
         addAttribute(Attribute.SHEAR);

@@ -114,6 +114,8 @@ public class RGBIgnoreAlphaImageDataFilter extends RGBImageDataFilter implements
 				data[i + 1] = g;
 
 				data[i + 2] = b;
+				
+				data[i + 3] = 255;
 			}
 		}
     }-*/;

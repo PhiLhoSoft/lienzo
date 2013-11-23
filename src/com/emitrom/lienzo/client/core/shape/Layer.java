@@ -945,6 +945,8 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
             super(NodeType.LAYER);
 
             addAttribute(Attribute.CLEAR_LAYER_BEFORE_DRAW);
+            
+            addAttribute(Attribute.TRANSFORMABLE);
         }
 
         @Override

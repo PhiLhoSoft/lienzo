@@ -68,6 +68,10 @@ public class DragContext
 
     private DragConstraintEnforcer m_dragConstraints;
 
+    private double                 m_nodeX;
+
+    private double                 m_nodeY;
+
     /**
      * Starts a drag operation for the specified node.
      * 
@@ -77,6 +81,10 @@ public class DragContext
     public DragContext(INodeXYEvent event, IPrimitive<?> node)
     {
         m_node = node;
+        
+        m_nodeX = node.getX();
+        
+        m_nodeY = node.getY();
 
         m_eventX = m_dragStartX = event.getX();
         
@@ -108,9 +116,7 @@ public class DragContext
     {
         context.save();
         
-        context.transform(m_localToGlobal);
-        
-        context.translate(m_localAdjusted.getX(), m_localAdjusted.getY());
+        context.transform(m_localToGlobal);        
 
         m_node.drawWithTransforms(context);
 
@@ -144,6 +150,10 @@ public class DragContext
         // Let the constraints adjust the location if necessary
         
         if (m_dragConstraints != null) m_dragConstraints.adjust(m_localAdjusted);
+        
+        m_node.setX(m_nodeX + m_localAdjusted.getX());
+        
+        m_node.setY(m_nodeY + m_localAdjusted.getY());
     }
 
     /**
@@ -156,11 +166,22 @@ public class DragContext
     {
         // update X,Y attributes
         
-        m_node.setX(m_node.getX() + m_localAdjusted.getX());
+        m_node.setX(m_nodeX + m_localAdjusted.getX());
         
-        m_node.setY(m_node.getY() + m_localAdjusted.getY());
+        m_node.setY(m_nodeY + m_localAdjusted.getY());
     }
 
+    /**
+     * Moves the Node back to where it was before the drag operation.
+     * Use this to undo the drag.
+     */
+    public void reset()
+    {
+        m_node.setX(m_nodeX);
+        
+        m_node.setY(m_nodeY);
+    }
+    
     /**
      * Returns x0 in global coordinates - i.e. event(x,y) at start of drag operation
      * 

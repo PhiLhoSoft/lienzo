@@ -5,8 +5,8 @@
 	<packaging>jar</packaging>
 	<name>Lienzo Core</name>
 	<version>1.2-SNAPSHOT</version>
-	<description>Lienzo by Emitrom</description>
-	<url>http://www.emitrom.com/lienzo</url>
+	<description>Lienzo</description>
+	<url>https://github.com/emitrom/lienzo</url>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -15,9 +15,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:git:emitrom@bitbucket.org/emitrom/lienzo.git</connection>
-		<developerConnection>scm:git:emitrom@bitbucket.org/emitrom/lienzo.git</developerConnection>
-		<url>emitrom@bitbucket.org/emitrom/lienzo.git</url>
+		<connection>scm:git:lienzo@github.com/emitrom/lienzo.git</connection>
+		<developerConnection>scm:git:lienzo@github.com/emitrom/lienzo.git</developerConnection>
+		<url>lienzo@github.com/emitrom/lienzo.git</url>
 	</scm>
 	<developers>
 		<developer>

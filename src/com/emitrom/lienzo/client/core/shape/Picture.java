@@ -556,12 +556,16 @@ public class Picture extends Shape<Picture>
 
         if (context.isSelection())
         {
+            context.setGlobalAlpha(1);
+            
             m_proxy.drawSelectionImage(context);
 
             context.restore();
         }
         else
         {
+            context.setGlobalAlpha(alpha);
+            
             doApplyShadow(context, attr);
 
             m_proxy.drawImage(context);

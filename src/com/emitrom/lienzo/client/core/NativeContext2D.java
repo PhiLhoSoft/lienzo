@@ -20,7 +20,6 @@ package com.emitrom.lienzo.client.core;
 import com.emitrom.lienzo.client.core.types.DashArray;
 import com.emitrom.lienzo.client.core.types.DashArray.DashArrayJSO;
 import com.emitrom.lienzo.client.core.types.ImageData;
-import com.emitrom.lienzo.client.core.types.ImageDataPixelColor;
 import com.emitrom.lienzo.client.core.types.ImageLoader.ImageJSO;
 import com.emitrom.lienzo.client.core.types.LinearGradient;
 import com.emitrom.lienzo.client.core.types.LinearGradient.LinearGradientJSO;
@@ -48,7 +47,6 @@ public final class NativeContext2D extends JavaScriptObject
 {
     protected NativeContext2D()
     {
-
     }
 
     public final native void save()
@@ -348,13 +346,6 @@ public final class NativeContext2D extends JavaScriptObject
 		return this.isPointInPath(x, y);
     }-*/;
 
-    public final native ImageDataPixelColor getImageDataPixelColor(int x, int y)
-    /*-{
-		var rgba = this.getImageData(x, y, 1, 1);
-
-		return rgba.data;
-    }-*/;
-
     public final native ImageData getImageData(int x, int y, int width, int height)
     /*-{
 		var rgba = this.getImageData(x, y, width, height);
@@ -496,5 +487,14 @@ public final class NativeContext2D extends JavaScriptObject
 			}
 		}
 		this.LienzoSetLineDashOffset(offset);
+    }-*/;
+
+    public final native double getBackingStorePixelRatio()
+    /*-{
+		return this.webkitBackingStorePixelRatio
+				|| this.mozBackingStorePixelRatio
+				|| this.msBackingStorePixelRatio
+				|| this.oBackingStorePixelRatio || this.backingStorePixelRatio
+				|| 1;
     }-*/;
 }

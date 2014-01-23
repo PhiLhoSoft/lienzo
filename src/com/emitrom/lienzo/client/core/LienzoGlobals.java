@@ -32,29 +32,31 @@ import com.google.gwt.core.shared.GWT;
  */
 public final class LienzoGlobals
 {
-    public static final double         DEFAULT_FONT_SIZE       = 48;
+    public static final double         DEFAULT_FONT_SIZE        = 48;
 
-    public static final String         DEFAULT_FONT_STYLE      = "normal";
+    public static final String         DEFAULT_FONT_STYLE       = "normal";
 
-    public static final String         DEFAULT_FONT_FAMILY     = "Helvetica";
+    public static final String         DEFAULT_FONT_FAMILY      = "Helvetica";
 
-    private static final LienzoGlobals s_instance              = new LienzoGlobals();
+    private static final LienzoGlobals s_instance               = new LienzoGlobals();
 
-    private double                     m_strokeWidth           = 1;
+    private double                     m_strokeWidth            = 1;
 
-    private String                     m_strokeColor           = "black";
+    private double                     m_backingStorePixelRatio = 0;
 
-    private boolean                    m_fillShapeForSelection = true;
+    private String                     m_strokeColor            = "black";
 
-    private boolean                    m_globalLineDashSupport = true;
+    private boolean                    m_fillShapeForSelection  = true;
 
-    private boolean                    m_nativeLineDashSupport = false;
+    private boolean                    m_globalLineDashSupport  = true;
 
-    private boolean                    m_nativeLineDashExamine = false;
+    private boolean                    m_nativeLineDashSupport  = false;
 
-    private final boolean              m_canvasSupported       = Canvas.isSupported();
+    private boolean                    m_nativeLineDashExamine  = false;
 
-    private LayerClearMode             m_layerClearMode        = LayerClearMode.CLEAR;
+    private final boolean              m_canvasSupported        = Canvas.isSupported();
+
+    private LayerClearMode             m_layerClearMode         = LayerClearMode.CLEAR;
 
     private LienzoGlobals()
     {
@@ -164,12 +166,45 @@ public final class LienzoGlobals
         return m_layerClearMode;
     }
 
+    public final native double getDevicePixelRatio()
+    /*-{
+		return $wnd.devicePixelRatio || 1;
+    }-*/;
+
     public final void setLayerClearMode(LayerClearMode mode)
     {
         if (null != mode)
         {
             m_layerClearMode = mode;
         }
+    }
+
+    public final double getBackingStorePixelRatio()
+    {
+        if (m_backingStorePixelRatio != 0)
+        {
+            return m_backingStorePixelRatio;
+        }
+        if (isCanvasSupported())
+        {
+            try
+            {
+                ScratchCanvas scratch = new ScratchCanvas(1, 1);
+
+                m_backingStorePixelRatio = scratch.getContext().getBackingStorePixelRatio();
+            }
+            catch (Exception e)
+            {
+                m_backingStorePixelRatio = 1;
+
+                GWT.log("Backing Store Pixel Ratio failed ", e);
+            }
+        }
+        else
+        {
+            m_backingStorePixelRatio = 1;
+        }
+        return m_backingStorePixelRatio;
     }
 
     private final boolean examineNativeLineDashSupported()
@@ -223,7 +258,7 @@ public final class LienzoGlobals
             }
             catch (Exception e)
             {
-                GWT.log("Line Dash test failed", e); // FF 22 dev mode does not like line dashes
+                GWT.log("Line Dash test failed ", e); // FF 22 dev mode does not like line dashes
             }
         }
         return false;

@@ -283,7 +283,7 @@ public class Context2D
 
     public ImageDataPixelColor getImageDataPixelColor(int x, int y)
     {
-        return m_jso.getImageDataPixelColor(x, y);
+        return new ImageDataPixelColor(getImageData(x, y, 1, 1));
     }
 
     public ImageData getImageData(int x, int y, int width, int height)
@@ -367,6 +367,11 @@ public class Context2D
     public void setLineDashOffset(double offset)
     {
         m_jso.setLineDashOffset(offset);
+    }
+
+    public final double getBackingStorePixelRatio()
+    {
+        return m_jso.getBackingStorePixelRatio();
     }
 
     public static class GradientJSO extends JavaScriptObject

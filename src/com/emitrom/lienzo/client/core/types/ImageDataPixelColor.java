@@ -17,45 +17,46 @@
 
 package com.emitrom.lienzo.client.core.types;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 /**
  * A simple Red-Blue-Green-Alpha color representation.
  */
-public final class ImageDataPixelColor extends JavaScriptObject
+public final class ImageDataPixelColor
 {
-    protected ImageDataPixelColor()
-    {
+    private final ImageData m_data;
 
+    public ImageDataPixelColor(ImageData data)
+    {
+        m_data = data;
     }
 
-    public final native int getR()
-    /*-{
-		return this[0];
-    }-*/;
+    public final int getR()
+    {
+        return m_data.getRedAt(0, 0);
+    }
 
-    public final native int getG()
-    /*-{
-		return this[1]
-    }-*/;
+    public final int getG()
+    {
+        return m_data.getGreenAt(0, 0);
+    }
 
-    public final native int getB()
-    /*-{
-		return this[2];
-    }-*/;
+    public final int getB()
+    {
+        return m_data.getBlueAt(0, 0);
+    }
 
-    public final native int getA()
-    /*-{
-		return this[3];
-    }-*/;
+    public final int getA()
+    {
+        return m_data.getAlphaAt(0, 0);
+    }
 
-    public final native String toBrowserRGB()
-    /*-{
-		return "rgb(" + this[0] + "," + this[1] + "," + this[2] + ")";
-    }-*/;
+    public final String toBrowserRGB()
+    {
+        return "rgb(" + getR() + "," + getG() + "," + getB() + ")";
+    }
 
-    public final native String toBrowserRGBA()
-    /*-{
-		return "rgba(" + this[0] + "," + this[1] + "," + this[2] + "," + this[3] + ")";
-    }-*/;
+    public final String toBrowserRGBA()
+    {
+        return "rgba(" + getR() + "," + getG() + "," + getB() + "," + getA() + ")";
+
+    }
 }

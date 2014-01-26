@@ -123,7 +123,22 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
      * 
      * @return {@link SelectionLayer}
      */
-    private final SelectionLayer getSelectionLayer()
+    public final SelectionLayer getSelectionLayer()
+    {
+        if (isListening())
+        {
+            if (m_select == null)
+            {
+                m_select = new SelectionLayer();
+
+                m_select.setPixelSize(m_wide, m_high);
+            }
+            return m_select;
+        }
+        return null;
+    }
+
+    public final Layer getLayerSelectionLayer()
     {
         if (isListening())
         {
@@ -156,10 +171,14 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
             {
                 ImageDataPixelColor rgba = selection.getContext().getImageDataPixelColor(x, y); // x,y is adjusted to canvas coordinates in event dispatch
 
+                //Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") is " + rgba.toBrowserRGB());
+
                 if (rgba != null)
                 {
                     if (rgba.getA() != 255)
                     {
+                        //Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") alpha != 255 " + rgba.getA());
+
                         return null;
                     }
                     String ckey = rgba.toBrowserRGB();
@@ -873,7 +892,6 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
         @Override
         public void draw()
         {
-
         }
 
         @Override
@@ -945,7 +963,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
             super(NodeType.LAYER);
 
             addAttribute(Attribute.CLEAR_LAYER_BEFORE_DRAW);
-            
+
             addAttribute(Attribute.TRANSFORMABLE);
         }
 

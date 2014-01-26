@@ -39,13 +39,13 @@ public class ImageData extends JavaScriptObject
     /**
      * Offsets for each color use RGBA ordering.
      */
-    private static final int OFFSET_RED   = 0;
+    public static final int  OFFSET_RED   = 0;
 
-    private static final int OFFSET_GREEN = 1;
+    public static final int  OFFSET_GREEN = 1;
 
-    private static final int OFFSET_BLUE  = 2;
+    public static final int  OFFSET_BLUE  = 2;
 
-    private static final int OFFSET_ALPHA = 3;
+    public static final int  OFFSET_ALPHA = 3;
 
     protected ImageData()
     {

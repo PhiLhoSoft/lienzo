@@ -95,6 +95,11 @@ public class Context2D
     {
         m_jso.setFillColor(color);
     }
+    
+    public String getFillColor()
+    {
+        return m_jso.getFillColor();
+    }
 
     /**
      * Sets the fill color

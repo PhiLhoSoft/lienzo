@@ -53,10 +53,4 @@ public final class ImageDataPixelColor
     {
         return "rgb(" + getR() + "," + getG() + "," + getB() + ")";
     }
-
-    public final String toBrowserRGBA()
-    {
-        return "rgba(" + getR() + "," + getG() + "," + getB() + "," + getA() + ")";
-
-    }
 }

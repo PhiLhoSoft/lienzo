@@ -173,6 +173,11 @@ public final class NativeContext2D extends JavaScriptObject
     /*-{
 		this.fillStyle = fill;
     }-*/;
+    
+    public final native String getFillColor()
+    /*-{
+        return this.fillStyle;
+    }-*/;
 
     public final native void rect(double x, double y, double w, double h)
     /*-{

@@ -19,18 +19,18 @@ package com.emitrom.lienzo.client.core.shape;
 
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
-import com.emitrom.lienzo.client.core.LienzoGlobals;
 import com.emitrom.lienzo.client.core.Context2D.GradientJSO;
+import com.emitrom.lienzo.client.core.LienzoGlobals;
 import com.emitrom.lienzo.client.core.shape.json.IFactory;
 import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
 import com.emitrom.lienzo.client.core.types.LinearGradient;
-import com.emitrom.lienzo.client.core.types.PatternGradient;
-import com.emitrom.lienzo.client.core.types.RadialGradient;
-import com.emitrom.lienzo.client.core.types.TextMetrics;
 import com.emitrom.lienzo.client.core.types.LinearGradient.LinearGradientJSO;
+import com.emitrom.lienzo.client.core.types.PatternGradient;
 import com.emitrom.lienzo.client.core.types.PatternGradient.PatternGradientJSO;
+import com.emitrom.lienzo.client.core.types.RadialGradient;
 import com.emitrom.lienzo.client.core.types.RadialGradient.RadialGradientJSO;
+import com.emitrom.lienzo.client.core.types.TextMetrics;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.emitrom.lienzo.shared.core.types.TextAlign;
 import com.emitrom.lienzo.shared.core.types.TextBaseLine;
@@ -166,6 +166,8 @@ public class Text extends Shape<Text>
                 context.setGlobalAlpha(1);
 
                 context.setFillColor(getColorKey());
+
+                // Console.log("NOW FILLING TEXT" + getText() + " WITH COLOR " + getColorKey());
 
                 context.fillText(getText(), 0, 0);
 

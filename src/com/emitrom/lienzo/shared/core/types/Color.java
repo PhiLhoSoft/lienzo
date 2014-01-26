@@ -42,11 +42,11 @@ public class Color implements IColor
 
     private int        m_b;
 
-    private static int s_r = 0;
+    private static int s_r = 128;
 
-    private static int s_g = 0;
+    private static int s_g = 128;
 
-    private static int s_b = 0;
+    private static int s_b = 128;
 
     private double     m_a = 1.0;
 
@@ -143,23 +143,23 @@ public class Color implements IColor
      */
     public static final String getHexKeyColor()
     {
-        s_r++;
+        s_r += 12;
 
-        if (s_r == 256)
+        if (s_r > 255)
         {
-            s_r = 0;
+            s_r = 12;
 
-            s_g++;
+            s_g += 12;
 
-            if (s_g == 256)
+            if (s_g > 255)
             {
-                s_g = 0;
+                s_g = 12;
 
-                s_b++;
+                s_b += 12;
 
-                if (s_b == 256)
+                if (s_b > 255)
                 {
-                    s_b = 0;
+                    s_b = 12;
 
                     return getHexKeyColor();
                 }

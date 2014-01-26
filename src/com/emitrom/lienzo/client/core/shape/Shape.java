@@ -65,7 +65,7 @@ public abstract class Shape<T extends Shape<T>> extends Node<T> implements IPrim
 
     private boolean                m_fill = false;
 
-    private final String           m_hkey = Color.getRGBColorKey();
+    private final String           m_hkey = Color.getHEXColorKey();
 
     private DragConstraintEnforcer m_dragConstraintEnforcer;
 

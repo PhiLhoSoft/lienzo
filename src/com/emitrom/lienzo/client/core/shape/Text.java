@@ -167,7 +167,7 @@ public class Text extends Shape<Text>
 
                 context.setFillColor(getColorKey());
 
-                // Console.log("NOW FILLING TEXT" + getText() + " WITH COLOR " + getColorKey());
+                //Console.log("NOW FILLING TEXT" + getText() + " WITH COLOR " + getColorKey());
 
                 context.fillText(getText(), 0, 0);
 

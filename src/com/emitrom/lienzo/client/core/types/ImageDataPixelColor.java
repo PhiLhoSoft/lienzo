@@ -17,6 +17,8 @@
 
 package com.emitrom.lienzo.client.core.types;
 
+import com.emitrom.lienzo.shared.core.types.Color;
+
 /**
  * A simple Red-Blue-Green-Alpha color representation.
  */
@@ -51,6 +53,6 @@ public final class ImageDataPixelColor
 
     public final String toBrowserRGB()
     {
-        return "rgb(" + getR() + "," + getG() + "," + getB() + ")";
+        return Color.rgbToBrowserHexColor(getR(), getG(), getB());
     }
 }

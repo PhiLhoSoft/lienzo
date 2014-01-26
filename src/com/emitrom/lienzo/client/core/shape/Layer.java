@@ -171,7 +171,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
             {
                 ImageDataPixelColor rgba = selection.getContext().getImageDataPixelColor(x, y); // x,y is adjusted to canvas coordinates in event dispatch
 
-                //Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") is " + rgba.toBrowserRGB());
+                // Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") is " + rgba.toBrowserRGB());
 
                 if (rgba != null)
                 {

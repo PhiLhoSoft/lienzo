@@ -42,11 +42,11 @@ public class Color implements IColor
 
     private int        m_b;
 
-    private static int s_r = 128;
+    private static int s_r = 12;
 
-    private static int s_g = 128;
+    private static int s_g = 12;
 
-    private static int s_b = 128;
+    private static int s_b = 12;
 
     private double     m_a = 1.0;
 
@@ -136,69 +136,36 @@ public class Color implements IColor
     }
 
     /**
-     * Generates a unique hex key color (e.g. "#1234AF").
-     * This is used internally.
-     * 
-     * @return String
-     */
-    public static final String getHexKeyColor()
-    {
-        s_r += 12;
-
-        if (s_r > 255)
-        {
-            s_r = 12;
-
-            s_g += 12;
-
-            if (s_g > 255)
-            {
-                s_g = 12;
-
-                s_b += 12;
-
-                if (s_b > 255)
-                {
-                    s_b = 12;
-
-                    return getHexKeyColor();
-                }
-            }
-        }
-        return rgbToBrowserHexColor(s_r, s_g, s_b);
-    }
-
-    /**
      * Generates a unique RGB color key, e.g. "rgb(12,34,255)".
      * This is used internally.
      * 
      * @return String
      */
-    public static final String getRGBColorKey()
+    public static final String getHEXColorKey()
     {
         s_r++;
 
         if (s_r == 256)
         {
-            s_r = 0;
+            s_r = 12;
 
             s_g++;
 
             if (s_g == 256)
             {
-                s_g = 0;
+                s_g = 12;
 
                 s_b++;
 
                 if (s_b == 256)
                 {
-                    s_b = 0;
+                    s_b = 12;
 
-                    return getRGBColorKey();
+                    return getHEXColorKey();
                 }
             }
         }
-        return toBrowserRGB(s_r, s_g, s_b);
+        return rgbToBrowserHexColor(s_r, s_g, s_b);
     }
 
     /**

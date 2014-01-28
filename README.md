@@ -17,12 +17,31 @@ Lienzo provides an amazingly large number of features out the box:
 
 Downloading artifacts
 
+RELEASE:
+
 ```xml
 <dependency>
     <groupId>com.emitrom</groupId>
     <artifactId>lienzo-core</artifactId>
     <version>1.2-RELEASE</version>
 </dependency>
+```
+
+SNAPSHOT:
+
+```xml
+<repositories>
+  <repository>
+  <id>sonatype</id>
+  <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+  </repository>
+</repositories>
+
+<dependency>
+  <groupId>com.emitrom</groupId>
+  <artifactId>lienzo-core</artifactId>
+  <version>1.2-SNAPSHOT</version>
+</dependency>﻿
 ```
 
 Documentation

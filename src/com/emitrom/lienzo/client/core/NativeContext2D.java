@@ -513,4 +513,9 @@ public final class NativeContext2D extends JavaScriptObject
 				|| this.oBackingStorePixelRatio || this.backingStorePixelRatio
 				|| 1;
     }-*/;
+
+    public final native String getGlobalCompositeOperation()
+    /*-{
+		return this.globalCompositeOperation;
+    }-*/;
 }

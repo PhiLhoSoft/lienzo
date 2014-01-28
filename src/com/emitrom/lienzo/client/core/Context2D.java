@@ -95,7 +95,7 @@ public class Context2D
     {
         m_jso.setFillColor(color);
     }
-    
+
     public String getFillColor()
     {
         return m_jso.getFillColor();
@@ -314,6 +314,11 @@ public class Context2D
     public void setGlobalCompositeOperation(CompositeOperation operation)
     {
         m_jso.setGlobalCompositeOperation(operation);
+    }
+
+    public CompositeOperation getGlobalCompositeOperation()
+    {
+        return CompositeOperation.lookup(m_jso.getGlobalCompositeOperation());
     }
 
     public boolean isSelection()

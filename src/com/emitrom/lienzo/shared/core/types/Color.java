@@ -42,11 +42,11 @@ public class Color implements IColor
 
     private int        m_b;
 
-    private static int s_r = 12;
+    private static int s_r = 0;
 
-    private static int s_g = 12;
+    private static int s_g = 0;
 
-    private static int s_b = 12;
+    private static int s_b = 0;
 
     private double     m_a = 1.0;
 
@@ -147,19 +147,19 @@ public class Color implements IColor
 
         if (s_r == 256)
         {
-            s_r = 12;
+            s_r = 0;
 
             s_g++;
 
             if (s_g == 256)
             {
-                s_g = 12;
+                s_g = 0;
 
                 s_b++;
 
                 if (s_b == 256)
                 {
-                    s_b = 12;
+                    s_b = 0;
 
                     return getHEXColorKey();
                 }
@@ -596,11 +596,11 @@ public class Color implements IColor
      */
     private static final String toBrowserHexValue(int number)
     {
-        String chex = Integer.toHexString(number & 0xff).toUpperCase();
+        String chex = Integer.toHexString(number & 0xFF).toUpperCase();
 
         if (chex.length() < 2)
         {
-            return chex + "0";
+            return "0" + chex;
         }
         return chex;
     }

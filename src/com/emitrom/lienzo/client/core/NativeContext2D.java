@@ -164,6 +164,19 @@ public final class NativeContext2D extends JavaScriptObject
 		this.fillText(text, x, y);
     }-*/;
 
+    public final native void fillTextWithGradient(String text, double x, double y, double sx, double sy, double ex, double ey, String color)
+    /*-{
+		var grad = this.createLinearGradient(sx, sy, ex, ey);
+
+		grad.addColorStop(0, color);
+
+		grad.addColorStop(1, color);
+
+		this.fillStyle = grad;
+
+		this.fillText(text, x, y);
+    }-*/;
+
     public final native void fillText(String text, double x, double y, double maxWidth)
     /*-{
 		this.fillText(text, x, y, maxWidth);
@@ -173,10 +186,10 @@ public final class NativeContext2D extends JavaScriptObject
     /*-{
 		this.fillStyle = fill;
     }-*/;
-    
+
     public final native String getFillColor()
     /*-{
-        return this.fillStyle;
+		return this.fillStyle;
     }-*/;
 
     public final native void rect(double x, double y, double w, double h)
@@ -353,9 +366,7 @@ public final class NativeContext2D extends JavaScriptObject
 
     public final native ImageData getImageData(int x, int y, int width, int height)
     /*-{
-		var rgba = this.getImageData(x, y, width, height);
-
-		return rgba;
+		return this.getImageData(x, y, width, height);
     }-*/;
 
     public final native void putImageData(ImageData imageData, int x, int y)

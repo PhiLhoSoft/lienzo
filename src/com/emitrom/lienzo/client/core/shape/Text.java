@@ -31,6 +31,7 @@ import com.emitrom.lienzo.client.core.types.PatternGradient.PatternGradientJSO;
 import com.emitrom.lienzo.client.core.types.RadialGradient;
 import com.emitrom.lienzo.client.core.types.RadialGradient.RadialGradientJSO;
 import com.emitrom.lienzo.client.core.types.TextMetrics;
+import com.emitrom.lienzo.client.core.util.Console;
 import com.emitrom.lienzo.shared.core.types.ShapeType;
 import com.emitrom.lienzo.shared.core.types.TextAlign;
 import com.emitrom.lienzo.shared.core.types.TextBaseLine;
@@ -165,11 +166,11 @@ public class Text extends Shape<Text>
 
                 context.setGlobalAlpha(1);
 
-                context.setFillColor(getColorKey());
+                Layer layer = getLayer();
 
-                //Console.log("NOW FILLING TEXT" + getText() + " WITH COLOR " + getColorKey());
+                //Console.log("NOW FILLING GRAD TEXT " + getText() + " WITH COLOR " + getColorKey());
 
-                context.fillText(getText(), 0, 0);
+                context.getJSO().fillTextWithGradient(getText(), 0, 0, 0, 0, layer.getWidth(), layer.getHeight(), getColorKey());
 
                 context.restore();
 

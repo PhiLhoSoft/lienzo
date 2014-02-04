@@ -17,12 +17,9 @@
 
 package com.emitrom.lienzo.client.core.animation;
 
-import com.emitrom.lienzo.client.core.shape.Layer;
 import com.emitrom.lienzo.client.core.shape.Node;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.user.client.Timer;
 
 public class AbstractAnimation implements IAnimation, IAnimationHandle
 {
@@ -36,6 +33,8 @@ public class AbstractAnimation implements IAnimation, IAnimationHandle
 
     private boolean                  m_running = false;
 
+    private AnimationCallback        m_animate = null;
+
     protected AbstractAnimation(double duration, IAnimationCallback callback)
     {
         m_duration = duration;
@@ -46,6 +45,31 @@ public class AbstractAnimation implements IAnimation, IAnimationHandle
     protected double getBegTime()
     {
         return m_begtime;
+    }
+
+    private final AnimationCallback getAnimationCallback()
+    {
+        if (null == m_animate)
+        {
+            m_animate = new AnimationCallback()
+            {
+                @Override
+                public void execute(double time)
+                {
+                    doFrame();
+
+                    if (isRunning())
+                    {
+                        AnimationScheduler.get().requestAnimationFrame(m_animate);
+                    }
+                    else
+                    {
+                        doClose();
+                    }
+                }
+            };
+        }
+        return m_animate;
     }
 
     @Override
@@ -59,53 +83,9 @@ public class AbstractAnimation implements IAnimation, IAnimationHandle
 
         m_begtime = System.currentTimeMillis();
 
-        final CanvasElement element = getCanvasElement();
+        doStart();
 
-        final AnimationCallback animate = new AnimationCallback()
-        {
-            @Override
-            public void execute(double time)
-            {
-                doFrame();
-
-                if (isRunning())
-                {
-                    if (null != element)
-                    {
-                        AnimationScheduler.get().requestAnimationFrame(this, element);
-                    }
-                    else
-                    {
-                        AnimationScheduler.get().requestAnimationFrame(this);
-                    }
-                }
-                else
-                {
-                    doClose();
-                }
-            }
-        };
-        Timer t = new Timer()
-        {
-            @Override
-            public void run()
-            {
-                if (isRunning())
-                {
-                    doStart();
-
-                    if (null != element)
-                    {
-                        AnimationScheduler.get().requestAnimationFrame(animate, element);
-                    }
-                    else
-                    {
-                        AnimationScheduler.get().requestAnimationFrame(animate);
-                    }
-                }
-            }
-        };
-        t.schedule(0);
+        AnimationScheduler.get().requestAnimationFrame(getAnimationCallback());
 
         return this;
     }
@@ -114,6 +94,8 @@ public class AbstractAnimation implements IAnimation, IAnimationHandle
     public IAnimationHandle stop()
     {
         m_running = false;
+
+        m_animate = null;
 
         return this;
     }
@@ -136,22 +118,6 @@ public class AbstractAnimation implements IAnimation, IAnimationHandle
     public Node<?> getNode()
     {
         return m_node;
-    }
-
-    private final CanvasElement getCanvasElement()
-    {
-        Node<?> node = getNode();
-
-        if (null != node)
-        {
-            Layer layer = node.getLayer();
-
-            if (null != layer)
-            {
-                return layer.getCanvasElement();
-            }
-        }
-        return null;
     }
 
     @Override

@@ -20,6 +20,7 @@ package com.emitrom.lienzo.client.core.mediator;
 import com.emitrom.lienzo.client.core.event.NodeMouseWheelEvent;
 import com.emitrom.lienzo.client.core.types.Point2D;
 import com.emitrom.lienzo.client.core.types.Transform;
+import com.emitrom.lienzo.client.widget.LienzoPanel;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
@@ -41,6 +42,7 @@ public class MouseWheelZoomMediator extends AbstractMediator
 
     public MouseWheelZoomMediator()
     {
+        LienzoPanel.enableWindowMouseWheelScroll(true);
     }
 
     public MouseWheelZoomMediator(IEventFilter... filters)

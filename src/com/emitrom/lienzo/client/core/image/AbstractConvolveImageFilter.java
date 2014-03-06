@@ -30,7 +30,7 @@ public abstract class AbstractConvolveImageFilter implements ImageDataFilter
     }
 
     @Override
-    public ImageData filter(ImageData source)
+    public ImageData filter(ImageData source, boolean copy)
     {
         if (null == source)
         {

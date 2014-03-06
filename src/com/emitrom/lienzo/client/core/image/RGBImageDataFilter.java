@@ -134,7 +134,7 @@ public class RGBImageDataFilter implements ImageDataFilter
      * Return an {@link ImageData} that is transformed based on the passed in RGB color.
      */
     @Override
-    public ImageData filter(ImageData source)
+    public ImageData filter(ImageData source, boolean copy)
     {
         if (null == source)
         {
@@ -142,8 +142,10 @@ public class RGBImageDataFilter implements ImageDataFilter
         }
         final int length = ((source.getWidth() * source.getHeight()) * PIXEL_SZ);
 
-        source = source.copy();
-
+        if (copy)
+        {
+            source = source.copy();
+        }
         final CanvasPixelArray data = source.getData();
 
         if (null == data)
@@ -172,7 +174,7 @@ public class RGBImageDataFilter implements ImageDataFilter
     /*-{
 		var data = pixa;
 
-		for ( var i = 0; i < length; i += 4) {
+		for (var i = 0; i < length; i += 4) {
 
 			data[i + 0] = r;
 

@@ -60,7 +60,7 @@ public class RGBIgnoreAlphaImageDataFilter extends RGBImageDataFilter implements
      * Returns an {@link ImageData} that is transformed based on the passed in RGB color, setting alpha to 255
      */
     @Override
-    public ImageData filter(ImageData source)
+    public ImageData filter(ImageData source, boolean copy)
     {
         if (null == source)
         {
@@ -68,8 +68,10 @@ public class RGBIgnoreAlphaImageDataFilter extends RGBImageDataFilter implements
         }
         final int length = ((source.getWidth() * source.getHeight()) * PIXEL_SZ);
 
-        source = source.copy();
-
+        if (copy)
+        {
+            source = source.copy();
+        }
         final CanvasPixelArray data = source.getData();
 
         if (null == data)

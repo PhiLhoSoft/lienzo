@@ -43,7 +43,7 @@ public class ColorLuminosityImageDataFilter extends RGBImageDataFilter
     }
 
     @Override
-    public ImageData filter(ImageData source)
+    public ImageData filter(ImageData source, boolean copy)
     {
         if (null == source)
         {
@@ -51,8 +51,10 @@ public class ColorLuminosityImageDataFilter extends RGBImageDataFilter
         }
         final int length = ((source.getWidth() * source.getHeight()) * PIXEL_SZ);
 
-        source = source.copy();
-
+        if (copy)
+        {
+            source = source.copy();
+        }
         final CanvasPixelArray data = source.getData();
 
         if (null == data)

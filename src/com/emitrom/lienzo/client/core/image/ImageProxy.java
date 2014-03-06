@@ -170,7 +170,7 @@ public class ImageProxy
 
                 Color rgb = Color.fromColorString(m_picture.getColorKey());
 
-                context.putImageData(new RGBIgnoreAlphaImageDataFilter(rgb.getR(), rgb.getG(), rgb.getB()).filter(imageData), 0, 0);
+                context.putImageData(new RGBIgnoreAlphaImageDataFilter(rgb.getR(), rgb.getG(), rgb.getB()).filter(imageData, true), 0, 0);
 
                 // Load the resulting image from the temporary canvas into the selection Image
 

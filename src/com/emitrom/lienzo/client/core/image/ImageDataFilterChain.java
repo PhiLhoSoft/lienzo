@@ -42,21 +42,23 @@ public class ImageDataFilterChain implements ImageDataFilter
     }
 
     @Override
-    public ImageData filter(ImageData source)
+    public ImageData filter(ImageData source, boolean copy)
     {
         if (null == source)
         {
             return null;
         }
-        source = source.copy();
-
+        if (copy)
+        {
+            source = source.copy();
+        }
         for (int i = 0; i < m_filters.size(); i++)
         {
             ImageDataFilter filter = m_filters.get(i);
 
             if (null != filter)
             {
-                ImageData imdata = filter.filter(source);
+                ImageData imdata = filter.filter(source, false);
 
                 if (null != imdata)
                 {

@@ -35,5 +35,5 @@ public interface ImageDataFilter
 
     public static int PIXEL_SZ = 4;
 
-    public ImageData filter(ImageData source);
+    public ImageData filter(ImageData source, boolean copy);
 }

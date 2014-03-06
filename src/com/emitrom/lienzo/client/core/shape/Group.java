@@ -741,13 +741,22 @@ public class Group extends ContainerNode<IPrimitive<?>, Group> implements IPrimi
                 {
                     if (filter.matches(node))
                     {
-                        find.add(node);
+                        if (false == find.contains(node))
+                        {
+                            find.add(node);
+                        }
                     }
                     IContainer<?> cont = node.asContainer();
 
                     if (null != cont)
                     {
-                        find.addAll(cont.search(filter));
+                        for (Node<?> look : cont.search(filter))
+                        {
+                            if (false == find.contains(look))
+                            {
+                                find.add(look);
+                            }
+                        }
                     }
                 }
             }

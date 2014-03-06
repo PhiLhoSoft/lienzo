@@ -172,13 +172,13 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
             {
                 ImageDataPixelColor rgba = selection.getContext().getImageDataPixelColor(x, y); // x,y is adjusted to canvas coordinates in event dispatch
 
-                //Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") is " + rgba.toBrowserRGB());
+                // Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") is " + rgba.toBrowserRGB());
 
                 if (rgba != null)
                 {
                     if (rgba.getA() != 255)
                     {
-                        //Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") alpha != 255 " + rgba.getA());
+                        // Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") alpha != 255 " + rgba.getA());
 
                         return null;
                     }
@@ -802,13 +802,22 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
                 {
                     if (filter.matches(node))
                     {
-                        find.add(node);
+                        if (false == find.contains(node))
+                        {
+                            find.add(node);
+                        }
                     }
                     IContainer<?> cont = node.asContainer();
 
                     if (null != cont)
                     {
-                        find.addAll(cont.search(filter));
+                        for (Node<?> look : cont.search(filter))
+                        {
+                            if (false == find.contains(look))
+                            {
+                                find.add(look);
+                            }
+                        }
                     }
                 }
             }

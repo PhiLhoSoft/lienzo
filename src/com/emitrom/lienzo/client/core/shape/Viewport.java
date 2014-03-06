@@ -521,8 +521,13 @@ public class Viewport extends ContainerNode<Scene, Viewport> implements IJSONSer
         {
             find.add(this);
         }
-        find.addAll(m_main.search(filter));
-
+        for (Node<?> look : m_main.search(filter))
+        {
+            if (false == find.contains(look))
+            {
+                find.add(look);
+            }
+        }
         return find;
     }
 

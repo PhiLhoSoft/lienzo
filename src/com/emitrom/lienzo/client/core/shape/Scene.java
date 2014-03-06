@@ -740,9 +740,18 @@ public class Scene extends ContainerNode<Layer, Scene> implements IJSONSerializa
             {
                 if (filter.matches(layer))
                 {
-                    find.add(layer);
+                    if (false == find.contains(layer))
+                    {
+                        find.add(layer);
+                    }
                 }
-                find.addAll(layer.search(filter));
+                for (Node<?> look : layer.search(filter))
+                {
+                    if (false == find.contains(look))
+                    {
+                        find.add(look);
+                    }
+                }
             }
         }
         return find;

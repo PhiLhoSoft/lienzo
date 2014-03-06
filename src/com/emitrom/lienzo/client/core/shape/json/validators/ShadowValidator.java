@@ -30,5 +30,7 @@ public class ShadowValidator extends ObjectValidator
         addAttribute("blur", NumberValidator.INSTANCE, false);
 
         addAttribute("offset", Point2DValidator.INSTANCE, false);
+
+        addAttribute("onfill", BooleanValidator.INSTANCE, false);
     }
 }

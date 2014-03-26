@@ -19,10 +19,12 @@ package com.emitrom.lienzo.client.core.shape;
 
 import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
+import com.emitrom.lienzo.client.core.animation.LayerRedrawManager;
 import com.emitrom.lienzo.client.core.image.ImageProxy;
 import com.emitrom.lienzo.client.core.image.PictureLoadedHandler;
 import com.emitrom.lienzo.client.core.image.PictureLoader;
 import com.emitrom.lienzo.client.core.shape.json.IFactory;
+import com.emitrom.lienzo.client.core.shape.json.PostProcessNodeFactory;
 import com.emitrom.lienzo.client.core.shape.json.ResourceResolver;
 import com.emitrom.lienzo.client.core.shape.json.ShapeFactory;
 import com.emitrom.lienzo.client.core.shape.json.validators.ValidationContext;
@@ -557,7 +559,7 @@ public class Picture extends Shape<Picture>
         if (context.isSelection())
         {
             context.setGlobalAlpha(1);
-            
+
             m_proxy.drawSelectionImage(context);
 
             context.restore();
@@ -565,7 +567,7 @@ public class Picture extends Shape<Picture>
         else
         {
             context.setGlobalAlpha(alpha);
-            
+
             doApplyShadow(context, attr);
 
             m_proxy.drawImage(context);
@@ -810,7 +812,7 @@ public class Picture extends Shape<Picture>
         return new PictureFactory();
     }
 
-    public static class PictureFactory extends ShapeFactory<Picture>
+    public static class PictureFactory extends ShapeFactory<Picture> implements PostProcessNodeFactory
     {
         public PictureFactory()
         {
@@ -843,6 +845,40 @@ public class Picture extends Shape<Picture>
             ResourceResolver resolver = ResourceResolver.getInstance();
 
             return new Picture(node, resolver);
+        }
+
+        @Override
+        public void process(final IJSONSerializable<?> node)
+        {
+            if (false == (node instanceof Picture))
+            {
+                return;
+            }
+            final Picture self = (Picture) node;
+
+            if (self.isLoaded())
+            {
+                return;
+            }
+            else
+            {
+                self.onLoad(new PictureLoadedHandler()
+                {
+                    @Override
+                    public void onPictureLoaded(Picture picture)
+                    {
+                        Layer layer;
+
+                        if ((layer = picture.getLayer()) != null)
+                        {
+                            if (layer.getParent() != null)
+                            {
+                                LayerRedrawManager.get().schedule(layer);
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 }

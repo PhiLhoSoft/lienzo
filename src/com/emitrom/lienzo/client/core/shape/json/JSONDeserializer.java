@@ -214,10 +214,23 @@ public final class JSONDeserializer
             if (ctx.isValidate())
             {
                 // we don't need to validate during a copy operation!
+
                 validateAttributes(json, factory, type, ctx);
             }
+            if (factory instanceof PostProcessNodeFactory)
+            {
+                IJSONSerializable<?> node = factory.create(json, ctx);
 
-            return factory.create(json, ctx);
+                if (null != node)
+                {
+                    ((PostProcessNodeFactory) factory).process(node);
+                }
+                return node;
+            }
+            else
+            {
+                return factory.create(json, ctx);
+            }
         }
     }
 

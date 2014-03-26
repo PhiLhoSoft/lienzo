@@ -36,7 +36,6 @@ import com.emitrom.lienzo.client.core.types.NativeInternalType;
 import com.emitrom.lienzo.client.core.types.OnLayerAfterDraw;
 import com.emitrom.lienzo.client.core.types.OnLayerBeforeDraw;
 import com.emitrom.lienzo.client.core.types.Transform;
-import com.emitrom.lienzo.client.core.util.Console;
 import com.emitrom.lienzo.shared.core.types.DataURLType;
 import com.emitrom.lienzo.shared.core.types.LayerClearMode;
 import com.emitrom.lienzo.shared.core.types.NodeType;
@@ -172,14 +171,10 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
             {
                 ImageDataPixelColor rgba = selection.getContext().getImageDataPixelColor(x, y); // x,y is adjusted to canvas coordinates in event dispatch
 
-                // Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") is " + rgba.toBrowserRGB());
-
                 if (rgba != null)
                 {
                     if (rgba.getA() != 255)
                     {
-                        // Console.log("NOW FIND SHAPE AT POINT (" + x + "," + y + ") alpha != 255 " + rgba.getA());
-
                         return null;
                     }
                     String ckey = rgba.toBrowserRGB();
@@ -990,7 +985,7 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
         @Override
         public boolean isValidForContainer(IContainer<?> g, IJSONSerializable<?> node)
         {
-            return g.isValidForContainer(node);
+            return (node instanceof IPrimitive<?>);
         }
     }
 }

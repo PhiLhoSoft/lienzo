@@ -40,7 +40,7 @@ SNAPSHOT:
 <dependency>
   <groupId>com.emitrom</groupId>
   <artifactId>lienzo-core</artifactId>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.2.2-SNAPSHOT</version>
 </dependency>﻿
 ```
 

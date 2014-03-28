@@ -256,15 +256,19 @@ public class Color implements IColor
             return new Color(0, 0, 0, 0);
         }
 
-        ColorName colName = ColorName.lookup(str);
-        if (colName != null) return colName.getColor();
-
         try
         {
             if (str.startsWith("#"))
             {
                 String r, g, b;
-                if (str.length() == 4)
+
+                if (str.length() == 7)
+                {
+                    r = str.substring(1, 3);
+                    g = str.substring(3, 5);
+                    b = str.substring(5, 7);
+                }
+                else if (str.length() == 4)
                 {
                     r = str.substring(1, 2);
                     g = str.substring(2, 3);
@@ -274,17 +278,16 @@ public class Color implements IColor
                     g = g + g;
                     b = b + b;
                 }
-                else if (str.length() == 8)
-                {
-                    r = str.substring(1, 3);
-                    g = str.substring(3, 5);
-                    b = str.substring(5, 7);
-                }
                 else return null; // error - invalid length
 
                 return new Color(fixRGB(Integer.valueOf(r, 16)), fixRGB(Integer.valueOf(g, 16)), fixRGB(Integer.valueOf(b, 16)));
             }
+            else
+            {
+                ColorName colName = ColorName.lookup(str);
 
+                if (colName != null) return colName.getColor();
+            }
             // Remove whitespace
             if (str.contains(" ")) str = str.replaceAll(" ", "");
 

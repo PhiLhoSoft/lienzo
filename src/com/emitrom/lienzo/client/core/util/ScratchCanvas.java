@@ -20,6 +20,7 @@ package com.emitrom.lienzo.client.core.util;
 import com.emitrom.lienzo.client.core.Context2D;
 import com.emitrom.lienzo.client.core.LienzoGlobals;
 import com.emitrom.lienzo.client.core.NativeContext2D;
+import com.emitrom.lienzo.client.core.image.BlobImageReadyCallback;
 import com.emitrom.lienzo.shared.core.types.DataURLType;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
@@ -110,6 +111,43 @@ public final class ScratchCanvas
             return "data:,";
         }
     }
+
+    public final boolean isBlobAPISupported()
+    {
+        return LienzoGlobals.getInstance().isBlobAPIEnabled() && (null != m_element) && isBlobAPISupported0(m_element);
+    }
+
+    public final void getImageFromBlob(BlobImageReadyCallback callback)
+    {
+        if (false == isBlobAPISupported())
+        {
+            throw new IllegalArgumentException("Blob Images are not supported");
+        }
+        getImageFromBlob0(m_element, callback);
+    }
+
+    private static native final void getImageFromBlob0(CanvasElement element, BlobImageReadyCallback callback)
+    /*-{
+		var blobber = function(blob) {
+			url = $wnd.URL.createObjectURL(blob);
+
+			var image = new $wnd.Image();
+
+			image.onload = function() {
+
+				$wnd.URL.revokeObjectURL(url);
+
+				callback.@com.emitrom.lienzo.client.core.image.BlobImageReadyCallback::onBlobImageReady(Lcom/emitrom/lienzo/client/core/types/ImageLoader$ImageJSO;)(image);
+			}
+			image.src = url;
+		};
+		element.toBlob(blobber);
+    }-*/;
+
+    private static native final boolean isBlobAPISupported0(CanvasElement element)
+    /*-{
+		return !!element.toBlob;
+    }-*/;
 
     private static native final String toDataURL(CanvasElement element)
     /*-{

@@ -31,7 +31,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  *  </li>
  * </ui>
  */
-public class RGBIgnoreAlphaImageDataFilter extends RGBImageDataFilter implements ImageDataFilter
+public class RGBIgnoreAlphaImageDataFilter extends AbstractBaseRGBImageDataFilter<RGBIgnoreAlphaImageDataFilter>
 {
     public RGBIgnoreAlphaImageDataFilter()
     {
@@ -47,13 +47,10 @@ public class RGBIgnoreAlphaImageDataFilter extends RGBImageDataFilter implements
     {
         super(color);
     }
-
-    @Override
-    public RGBIgnoreAlphaImageDataFilter setNative(boolean isnative)
+    
+    public RGBIgnoreAlphaImageDataFilter(String color)
     {
-        super.setNative(isnative);
-
-        return this;
+        super(color);
     }
 
     /**
@@ -66,7 +63,7 @@ public class RGBIgnoreAlphaImageDataFilter extends RGBImageDataFilter implements
         {
             return null;
         }
-        final int length = ((source.getWidth() * source.getHeight()) * PIXEL_SZ);
+        final int length = getLength(source);
 
         if (copy)
         {

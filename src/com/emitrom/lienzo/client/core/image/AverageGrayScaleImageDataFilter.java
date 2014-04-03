@@ -19,11 +19,12 @@ package com.emitrom.lienzo.client.core.image;
 
 import com.emitrom.lienzo.client.core.types.ImageData;
 import com.google.gwt.canvas.dom.client.CanvasPixelArray;
+import com.google.gwt.core.client.JavaScriptObject;
 
 /**
  * A class that allows for easy creation of Gray Scale Filters.
  */
-public class AverageGrayScaleImageDataFilter implements ImageDataFilter
+public class AverageGrayScaleImageDataFilter extends AbstractBaseImageDataFilter<AverageGrayScaleImageDataFilter>
 {
     public static final AverageGrayScaleImageDataFilter INSTANCE = new AverageGrayScaleImageDataFilter();
 
@@ -34,7 +35,7 @@ public class AverageGrayScaleImageDataFilter implements ImageDataFilter
         {
             return null;
         }
-        final int length = ((source.getWidth() * source.getHeight()) * PIXEL_SZ);
+        final int length = getLength(source);
 
         if (copy)
         {
@@ -46,16 +47,39 @@ public class AverageGrayScaleImageDataFilter implements ImageDataFilter
         {
             return source;
         }
-        for (int i = 0; i < length; i += PIXEL_SZ)
+        if (isNative())
         {
-            int v = (int) ((((double) (data.get(i + R_OFFSET) + data.get(i + G_OFFSET) + data.get(i + B_OFFSET))) / 3.0) + 0.5);
+            filter0(data, length);
+        }
+        else
+        {
+            for (int i = 0; i < length; i += PIXEL_SZ)
+            {
+                int v = (int) ((((double) (data.get(i + R_OFFSET) + data.get(i + G_OFFSET) + data.get(i + B_OFFSET))) / 3.0) + 0.5);
 
-            data.set(i + R_OFFSET, v);
+                data.set(i + R_OFFSET, v);
 
-            data.set(i + G_OFFSET, v);
+                data.set(i + G_OFFSET, v);
 
-            data.set(i + B_OFFSET, v);
+                data.set(i + B_OFFSET, v);
+            }
         }
         return source;
     }
+
+    private final native void filter0(JavaScriptObject pixa, int length)
+    /*-{
+		var data = pixa;
+
+		for (var i = 0; i < length; i += 4) {
+
+			var v = (((data[i + 0] + data[i + 1] + data[i + 2]) / 3.0) + 0.5) | 0;
+
+			data[i + 0] = v;
+
+			data[i + 1] = v;
+
+			data[i + 2] = v;
+		}
+    }-*/;
 }

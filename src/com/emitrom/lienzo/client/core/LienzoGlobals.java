@@ -52,6 +52,8 @@ public final class LienzoGlobals
 
     private boolean                    m_nativeLineDashSupport  = false;
 
+    private boolean                    m_enableBlobIfSupported  = true;
+
     private boolean                    m_nativeLineDashExamine  = false;
 
     private final boolean              m_canvasSupported        = Canvas.isSupported();
@@ -65,6 +67,16 @@ public final class LienzoGlobals
     public static final LienzoGlobals getInstance()
     {
         return s_instance;
+    }
+
+    public final boolean isBlobAPIEnabled()
+    {
+        return m_enableBlobIfSupported;
+    }
+
+    public final void setBlobAPIEnabled(boolean enabled)
+    {
+        m_enableBlobIfSupported = enabled;
     }
 
     public final void setDefaultFillShapeForSelection(boolean fill)

@@ -174,20 +174,38 @@ public class ImageProxy
 
                 // Load the resulting image from the temporary canvas into the selection Image
 
-                String dataURL = scratch.toDataURL();
-
-                new ImageLoader(dataURL)
+                if (scratch.isBlobAPISupported())
                 {
-                    @Override
-                    public void onLoaded(ImageLoader image)
+                    scratch.getImageFromBlob(new BlobImageReadyCallback()
                     {
-                        m_selectionImageJSO = image.getJSO();
+                        @Override
+                        public void onBlobImageReady(ImageJSO image)
+                        {
+                            m_selectionImageJSO = image;
 
-                        Console.log("loaded selection image " + url + " time=" + (System.currentTimeMillis() - start));
+                            Console.log("loaded blob image " + url + " time=" + (System.currentTimeMillis() - start));
 
-                        doneLoading();
-                    }
-                };
+                            doneLoading();
+                        }
+                    });
+                }
+                else
+                {
+                    String dataURL = scratch.toDataURL();
+
+                    new ImageLoader(dataURL)
+                    {
+                        @Override
+                        public void onLoaded(ImageLoader image)
+                        {
+                            m_selectionImageJSO = image.getJSO();
+
+                            Console.log("loaded data URL image " + url + " time=" + (System.currentTimeMillis() - start));
+
+                            doneLoading();
+                        }
+                    };
+                }
             }
         };
     }

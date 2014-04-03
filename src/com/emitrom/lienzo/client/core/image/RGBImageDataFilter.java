@@ -31,16 +31,8 @@ import com.google.gwt.core.client.JavaScriptObject;
  *  </li>
  * </ui>
  */
-public class RGBImageDataFilter implements ImageDataFilter
+public class RGBImageDataFilter extends AbstractBaseRGBImageDataFilter<RGBImageDataFilter>
 {
-    private int     m_r;
-
-    private int     m_g;
-
-    private int     m_b;
-
-    private boolean m_isnative = true;
-
     public RGBImageDataFilter()
     {
 
@@ -48,86 +40,17 @@ public class RGBImageDataFilter implements ImageDataFilter
 
     public RGBImageDataFilter(int r, int g, int b)
     {
-        m_r = r;
-
-        m_g = g;
-
-        m_b = b;
+        super(r, g, b);
     }
 
-    public RGBImageDataFilter(IColor col)
+    public RGBImageDataFilter(IColor color)
     {
-        m_r = col.getR();
-
-        m_g = col.getG();
-
-        m_b = col.getB();
+        super(color);
     }
-
-    /**
-     * @return Red (R) component of the RGB color
-     */
-    public int getR()
+    
+    public RGBImageDataFilter(String color)
     {
-        return m_r;
-    }
-
-    /**
-     * @param r Red (R) component of the RGB color
-     */
-    public RGBImageDataFilter setR(int r)
-    {
-        m_r = r;
-
-        return this;
-    }
-
-    /**
-     * @return Green (G) component of the RGB color
-     */
-    public int getG()
-    {
-        return m_g;
-    }
-
-    /**
-     * @param g Green (G) component of the RGB color
-     */
-    public RGBImageDataFilter setG(int g)
-    {
-        m_g = g;
-
-        return this;
-    }
-
-    /**
-     * @return Blue (B) component of the RGB color
-     */
-    public int getB()
-    {
-        return m_b;
-    }
-
-    /**
-     * @param Blue (B) component of the RGB color
-     */
-    public RGBImageDataFilter setB(int b)
-    {
-        m_b = b;
-
-        return this;
-    }
-
-    public boolean isNative()
-    {
-        return m_isnative;
-    }
-
-    public RGBImageDataFilter setNative(boolean isnative)
-    {
-        m_isnative = isnative;
-
-        return this;
+        super(color);
     }
 
     /**
@@ -140,7 +63,7 @@ public class RGBImageDataFilter implements ImageDataFilter
         {
             return null;
         }
-        final int length = ((source.getWidth() * source.getHeight()) * PIXEL_SZ);
+        final int length = getLength(source);
 
         if (copy)
         {

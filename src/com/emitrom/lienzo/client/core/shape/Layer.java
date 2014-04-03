@@ -23,6 +23,7 @@ import com.emitrom.lienzo.client.core.Attribute;
 import com.emitrom.lienzo.client.core.Context2D;
 import com.emitrom.lienzo.client.core.LienzoGlobals;
 import com.emitrom.lienzo.client.core.NativeContext2D;
+import com.emitrom.lienzo.client.core.image.BlobImageReadyCallback;
 import com.emitrom.lienzo.client.core.shape.json.ContainerNodeFactory;
 import com.emitrom.lienzo.client.core.shape.json.IFactory;
 import com.emitrom.lienzo.client.core.shape.json.JSONDeserializer;
@@ -819,6 +820,43 @@ public class Layer extends ContainerNode<IPrimitive<?>, Layer>
         }
         return find;
     }
+
+    public final boolean isBlobAPISupported()
+    {
+        return LienzoGlobals.getInstance().isBlobAPIEnabled() && (null != m_element) && isBlobAPISupported0(m_element);
+    }
+    
+    public final void getImageFromBlob(BlobImageReadyCallback callback)
+    {
+        if (false == isBlobAPISupported())
+        {
+            throw new IllegalArgumentException("Blob Images are not supported");
+        }
+        getImageFromBlob0(m_element, callback);
+    }
+
+    private static native final void getImageFromBlob0(CanvasElement element, BlobImageReadyCallback callback)
+    /*-{
+		var blobber = function(blob) {
+			url = $wnd.URL.createObjectURL(blob);
+
+			var image = new $wnd.Image();
+
+			image.onload = function() {
+
+				$wnd.URL.revokeObjectURL(url);
+
+				callback.@com.emitrom.lienzo.client.core.image.BlobImageReadyCallback::onBlobImageReady(Lcom/emitrom/lienzo/client/core/types/ImageLoader$ImageJSO;)(image);
+			}
+			image.src = url;
+		};
+		element.toBlob(blobber);
+    }-*/;
+
+    private static native final boolean isBlobAPISupported0(CanvasElement element)
+    /*-{
+		return !!element.toBlob;
+    }-*/;
 
     /**
      * Returns the content of this Layer as a PNG image that can be used as a source for another canvas or an HTML element.

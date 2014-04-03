@@ -364,17 +364,17 @@ public final class NativeContext2D extends JavaScriptObject
 		return this.isPointInPath(x, y);
     }-*/;
 
-    public final native ImageData getImageData(int x, int y, int width, int height)
+    public final native ImageData getImageData(double x, double y, double width, double height)
     /*-{
 		return this.getImageData(x, y, width, height);
     }-*/;
 
-    public final native void putImageData(ImageData imageData, int x, int y)
+    public final native void putImageData(ImageData imageData, double x, double y)
     /*-{
 		this.putImageData(imageData, x, y);
     }-*/;
 
-    public final native void putImageData(ImageData imageData, int x, int y, int dirtyX, int dirtyY, int dirtyWidth, int dirtyHeight)
+    public final native void putImageData(ImageData imageData, double x, double y, double dirtyX, double dirtyY, double dirtyWidth, double dirtyHeight)
     /*-{
 		this.putImageData(imageData, x, y, dirtyX, dirtyY, dirtyWidth,
 				dirtyHeight);
